@@ -3,4 +3,5 @@
     <string name="image">image</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="no_news">News not available</string>
+    <string name="overlay">overlay</string>
 </resources>
