@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Newsy</string>
+    <string name="image">image</string>
+    <string name="no_internet">No Internet Connection</string>
+    <string name="no_news">News not available</string>
+</resources>
