@@ -3,16 +3,17 @@ package com.example.deepamgoel.newsy;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,34 +31,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private Adapter adapter;
     private ProgressBar progressBar;
     private TextView emptyStateTextView;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView newsListView = findViewById(R.id.list);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        recyclerView = findViewById(R.id.list);
         emptyStateTextView = findViewById(R.id.empty_view);
         progressBar = findViewById(R.id.progress_bar);
 
-        newsListView.setEmptyView(emptyStateTextView);
-
         adapter = new Adapter(this, new ArrayList<News>());
-        newsListView.setAdapter(adapter);
-
-        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                News news = adapter.getItem(position);
-                Uri uri = Uri.parse(news.getWebUrl().toString());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
         if (networkInfo == null || !networkInfo.isConnected()) {
             // Hiding progress bar
             progressBar.setVisibility(View.GONE);
@@ -66,6 +64,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             emptyStateTextView.setText(R.string.no_internet);
         } else
             getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
+
+        refreshLayout = findViewById(R.id.swipe);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     @Override
@@ -78,10 +90,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Hiding progress bar
         progressBar.setVisibility(View.GONE);
 
-        // Set empty state text to display "No earthquakes found."
-        emptyStateTextView.setText(R.string.no_news);
-
-        // Clear the adapter of previous earthquake data
+        if (news.isEmpty()) {
+            // Set empty state text to display "No news found."
+            emptyStateTextView.setText(R.string.no_news);
+        }
+        // Clear the adapter of previous news data
+        recyclerView.removeAllViews();
         adapter.clear();
 
         if (news != null && !news.isEmpty()) {
