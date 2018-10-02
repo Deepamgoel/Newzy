@@ -118,7 +118,7 @@ class QueryUtils {
 
                     JSONObject fields = news.getJSONObject("fields");
                     String headline = fields.getString("headline");
-                    URL url = createUrl(fields.getString("shortUrl"));
+                    URL url = createUrl(news.getString("webUrl"));
                     URL imageUrl = createUrl(fields.getString("thumbnail"));
                     String dateTime = news.getString("webPublicationDate");
                     JSONArray tags = news.getJSONArray("tags");

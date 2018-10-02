@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="@dimen/eight_dp"
-        app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@color/cardview_dark_background">
+        app:cardBackgroundColor="@color/cardview_dark_background"
+        app:cardCornerRadius="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,10 +39,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/headline"
-                android:layout_marginEnd="@dimen/eight_dp"
-                android:layout_marginLeft="@dimen/eight_dp"
-                android:layout_marginRight="@dimen/eight_dp"
                 android:layout_marginStart="@dimen/eight_dp"
+                android:layout_marginLeft="@dimen/eight_dp"
+                android:layout_marginEnd="@dimen/eight_dp"
+                android:layout_marginRight="@dimen/eight_dp"
                 android:maxLines="1"
                 android:textColor="@color/less_white"
                 android:textSize="@dimen/fourteen_sp"
@@ -53,12 +54,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/date"
-                android:layout_marginBottom="@dimen/four_dp"
-                android:layout_marginEnd="@dimen/eight_dp"
-                android:layout_marginLeft="@dimen/eight_dp"
-                android:layout_marginRight="@dimen/eight_dp"
                 android:layout_marginStart="@dimen/eight_dp"
+                android:layout_marginLeft="@dimen/eight_dp"
                 android:layout_marginTop="@dimen/four_dp"
+                android:layout_marginEnd="@dimen/eight_dp"
+                android:layout_marginRight="@dimen/eight_dp"
+                android:layout_marginBottom="@dimen/four_dp"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textColor="@android:color/white"
@@ -71,10 +72,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/four_dp"
+                android:layout_marginStart="@dimen/eight_dp"
                 android:layout_marginLeft="@dimen/eight_dp"
                 android:layout_marginRight="@dimen/eight_dp"
-                android:layout_marginStart="@dimen/eight_dp"
+                android:layout_marginBottom="@dimen/four_dp"
                 android:textColor="@color/less_white"
                 android:textSize="@dimen/twelve_sp"
                 android:typeface="serif"
@@ -83,4 +84,4 @@
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-</FrameLayout>
+</LinearLayout>

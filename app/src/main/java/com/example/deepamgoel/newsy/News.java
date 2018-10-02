@@ -19,23 +19,23 @@ class News {
         this.publishedDate = publishedDate;
     }
 
-    public String getHeadline() {
+    String getHeadline() {
         return headline;
     }
 
-    public Bitmap getImageBitmap() {
+    Bitmap getImageBitmap() {
         return imageBitmap;
     }
 
-    public URL getWebUrl() {
+    URL getWebUrl() {
         return webUrl;
     }
 
-    public String getAuthor() {
+    String getAuthor() {
         return author;
     }
 
-    public String getPublishedDate() {
+    String getPublishedDate() {
         return publishedDate;
     }
 }

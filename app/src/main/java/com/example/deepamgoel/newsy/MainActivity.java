@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,13 +28,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int NEWS_LOADER_ID = 1;
 
     private static final String REQUESTED_URL =
-            "https://content.guardianapis.com/search?q=Technology&format=json&order-by=newest&page-size=20&from-date=2018-09-01&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
+            "https://content.guardianapis.com/search?q=Technology&section=technology&format=json&order-by=newest&page-size=20&from-date=2018-09-01&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
 
     private Adapter adapter;
     private ProgressBar progressBar;
     private TextView emptyStateTextView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
+    private boolean isList = false;
+    private List<News> list = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +45,38 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.app_name);
 
         recyclerView = findViewById(R.id.list);
         emptyStateTextView = findViewById(R.id.empty_view);
         progressBar = findViewById(R.id.progress_bar);
 
-        adapter = new Adapter(this, new ArrayList<News>());
+        adapter = new Adapter(this, new ArrayList<News>(), isList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        if (isConnected())
+            getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
+
+        refreshLayout = findViewById(R.id.swipe);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                getLoaderManager().restartLoader(NEWS_LOADER_ID, null, MainActivity.this);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Do something after 100ms
+                        refreshLayout.setRefreshing(false);
+                    }
+                }, 1500);
+            }
+        });
+    }
+
+    private boolean isConnected() {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;
@@ -62,22 +89,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             // Set empty state text to "No Internet Connection"
             emptyStateTextView.setText(R.string.no_internet);
-        } else
-            getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
+            return false;
+        } else return true;
+    }
 
-        refreshLayout = findViewById(R.id.swipe);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.layout_type:
+                isList = !isList;
+                item.setIcon(isList ? R.drawable.ic_view_list_black_24dp :
+                        R.drawable.ic_view_stream_black_24dp);
+                adapter = new Adapter(this, new ArrayList<News>(), isList);
+                recyclerView.setAdapter(adapter);
+                if (list != null) {
+                    adapter.clear();
+                    adapter.addAll(list);
+                } else
+                    getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -95,11 +134,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             emptyStateTextView.setText(R.string.no_news);
         }
         // Clear the adapter of previous news data
-        recyclerView.removeAllViews();
         adapter.clear();
 
-        if (news != null && !news.isEmpty()) {
+        if (!news.isEmpty()) {
             adapter.addAll(news);
+            list = news;
         }
     }
 

@@ -2,7 +2,6 @@ package com.example.deepamgoel.newsy;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,17 +19,20 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private Context context;
     private ArrayList<News> list;
+    private boolean isList;
 
-    Adapter(@NonNull Context context, ArrayList<News> list) {
+    Adapter(@NonNull Context context, ArrayList<News> list, boolean isList) {
         this.context = context;
         this.list = list;
+        this.isList = isList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.news_item, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(
+                isList ? R.layout.news_item_list : R.layout.news_item_card, parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,11 +43,11 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.author.setText(news.getAuthor());
         holder.date.setText(news.getPublishedDate());
         holder.image.setImageBitmap(news.getImageBitmap());
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(news.getWebUrl().toString());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", news.getWebUrl().toString());
                 context.startActivity(intent);
             }
         });
@@ -56,19 +59,18 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     void clear() {
-//        list.clear();
-//        notifyItemRangeRemoved(0,list.size());
+        list.clear();
+        notifyDataSetChanged();
     }
 
     void addAll(List<News> news) {
-        list.clear();
         list = (ArrayList<News>) news;
         notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
+        LinearLayout parent;
         ImageView image;
         TextView headline;
         TextView author;
@@ -76,7 +78,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         ViewHolder(View view) {
             super(view);
-            cardView = view.findViewById(R.id.card);
+            parent = view.findViewById(R.id.parent);
             image = view.findViewById(R.id.thumbnail);
             headline = view.findViewById(R.id.headline);
             author = view.findViewById(R.id.author);
