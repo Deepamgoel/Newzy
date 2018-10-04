@@ -197,4 +197,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             cache = data;
         }
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        refreshLayout.setRefreshing(true);
+        getLoaderManager().restartLoader(NEWS_LOADER_ID, null, MainActivity.this);
+    }
 }
