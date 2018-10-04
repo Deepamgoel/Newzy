@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    tools:targetApi="m">
+
+    <TextView
+        android:id="@+id/preview"
+        style="@style/Dialog"
+        android:drawableStart="@drawable/ic_open_in_new_black_24dp"
+        android:drawableLeft="@drawable/ic_open_in_new_black_24dp"
+        android:text="@string/preview" />
+
+    <TextView
+        android:id="@+id/share"
+        style="@style/Dialog"
+        android:drawableStart="@drawable/ic_share_black_24dp"
+        android:drawableLeft="@drawable/ic_share_black_24dp"
+        android:text="@string/share" />
+
+    <TextView
+        android:id="@+id/bookmark"
+        style="@style/Dialog"
+        android:drawableStart="@drawable/ic_bookmark_border_black_24dp"
+        android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
+        android:text="@string/bookmark" />
+
+</LinearLayout>

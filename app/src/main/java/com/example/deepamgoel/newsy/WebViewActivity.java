@@ -30,7 +30,6 @@ public class WebViewActivity extends AppCompatActivity {
         WebView webView = findViewById(R.id.web_view);
 
         webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
 
         webView.loadUrl(url);

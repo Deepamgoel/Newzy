@@ -3,11 +3,15 @@ package com.example.deepamgoel.newsy;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int NEWS_LOADER_ID = 1;
 
     private static final String REQUESTED_URL =
-            "https://content.guardianapis.com/search?q=Technology&section=technology&format=json&order-by=newest&page-size=20&from-date=2018-09-01&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
+            "https://content.guardianapis.com/search?q=Technology&section=technology&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
 
     private Adapter adapter;
     private ProgressBar progressBar;
@@ -64,14 +68,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onRefresh() {
                 adapter.clear();
                 getLoaderManager().restartLoader(NEWS_LOADER_ID, null, MainActivity.this);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Do something after 100ms
-                        refreshLayout.setRefreshing(false);
-                    }
-                }, 1500);
             }
         });
     }
@@ -115,19 +111,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 } else
                     getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
                 break;
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        return new NewsAsyncTaskLoader(this, REQUESTED_URL);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String pageSize = preferences.getString(getString(R.string.setting_page_size_key),
+                getString(R.string.settings_max_page_default_value));
+
+        String orderBy = preferences.getString(getString(R.string.setting_order_by_key),
+                getString(R.string.settings_order_by_newest_value));
+
+        Uri baseUri = Uri.parse(REQUESTED_URL);
+
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("page-size", pageSize);
+
+        return new NewsAsyncTaskLoader(this, uriBuilder.toString());
     }
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
         // Hiding progress bar
         progressBar.setVisibility(View.GONE);
+        // Stopping refreshing
+        refreshLayout.setRefreshing(false);
 
         if (news.isEmpty()) {
             // Set empty state text to display "No news found."

@@ -7,4 +7,6 @@
     <dimen name="twenty_four_sp">24sp</dimen>
     <dimen name="twenty_two_sp">22sp</dimen>
     <dimen name="eighteen_sp">18sp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
 </resources>

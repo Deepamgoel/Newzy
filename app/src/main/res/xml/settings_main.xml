@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings">
+
+    <EditTextPreference
+        android:defaultValue="@string/settings_max_page_default_value"
+        android:inputType="numberDecimal"
+        android:key="max_pages"
+        android:selectAllOnFocus="true"
+        android:title="@string/setting_page_size_label" />
+
+    <ListPreference
+        android:defaultValue="@string/settings_order_by_newest_value"
+        android:entries="@array/setting_order_by_labels"
+        android:entryValues="@array/setting_order_by_values"
+        android:key="@string/setting_order_by_key"
+        android:title="@string/setting_order_by_label" />
+
+</PreferenceScreen>

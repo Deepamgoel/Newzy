@@ -5,4 +5,24 @@
     <string name="no_news">News not available</string>
     <string name="overlay">overlay</string>
     <string name="layout_type">Layout Type</string>
+    <string name="settings">Settings</string>
+    <string name="more">more</string>
+    <string name="preview">Preview</string>
+    <string name="share">Share</string>
+    <string name="bookmark">Bookmark</string>
+
+    <string name="setting_order_by_key" translatable="false">order_by</string>
+    <string name="setting_order_by_label">Order By</string>
+
+    <string name="setting_page_size_key" translatable="false">page_size</string>
+    <string name="setting_page_size_label">Page Size</string>
+
+    <string name="settings_order_by_newest_label">Most Recent</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
+
+    <string name="settings_order_by_relevance_label">Relevance</string>
+    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+
+    <string name="settings_max_page_default_value">20</string>
+
 </resources>
