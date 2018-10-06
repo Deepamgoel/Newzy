@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Newsy</string>
     <string name="image">image</string>
-    <string name="no_internet">No Internet Connection</string>
+    <string name="no_internet">Slow or no internet connection.\nPlease check your Internet Settings</string>
     <string name="no_news">News not available</string>
     <string name="overlay">overlay</string>
     <string name="layout_type">Layout Type</string>
@@ -10,6 +10,7 @@
     <string name="preview">Preview</string>
     <string name="share">Share</string>
     <string name="bookmark">Bookmark</string>
+    <string name="news_bookmarked">News Bookmarked</string>
 
     <string name="setting_order_by_key" translatable="false">order_by</string>
     <string name="setting_order_by_label">Order By</string>
@@ -24,5 +25,9 @@
     <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
 
     <string name="settings_max_page_default_value">20</string>
+
+    <string name="query_order_by" translatable="false">order-by</string>
+    <string name="query_page_size" translatable="false">page-size</string>
+    <string name="retry">Retry</string>
 
 </resources>

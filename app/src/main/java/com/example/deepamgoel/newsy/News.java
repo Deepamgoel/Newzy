@@ -1,19 +1,17 @@
 package com.example.deepamgoel.newsy;
 
-import android.graphics.Bitmap;
-
 import java.net.URL;
 
 class News {
     private String headline;
     private URL webUrl;
-    private Bitmap imageBitmap;
+    private URL imageUrl;
     private String author;
     private String publishedDate;
 
-    News(String headline, Bitmap imageBitmap, URL webUrl, String author, String publishedDate) {
+    News(String headline, URL imageUrl, URL webUrl, String author, String publishedDate) {
         this.headline = headline;
-        this.imageBitmap = imageBitmap;
+        this.imageUrl = imageUrl;
         this.webUrl = webUrl;
         this.author = author;
         this.publishedDate = publishedDate;
@@ -23,8 +21,8 @@ class News {
         return headline;
     }
 
-    Bitmap getImageBitmap() {
-        return imageBitmap;
+    URL getImageUrl() {
+        return imageUrl;
     }
 
     URL getWebUrl() {

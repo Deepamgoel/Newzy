@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="eight_dp">8dp</dimen>
+
     <dimen name="four_dp">4dp</dimen>
+    <dimen name="eight_dp">8dp</dimen>
+    <dimen name="ninety_six_dp">96dp</dimen>
+    <dimen name="two_hundred_dp">200dp</dimen>
+
     <dimen name="twelve_sp">12sp</dimen>
     <dimen name="fourteen_sp">14sp</dimen>
-    <dimen name="twenty_four_sp">24sp</dimen>
-    <dimen name="twenty_two_sp">22sp</dimen>
     <dimen name="eighteen_sp">18sp</dimen>
-    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="twenty_two_sp">22sp</dimen>
+    <dimen name="twenty_four_sp">24sp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
+
 </resources>

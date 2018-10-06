@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="@dimen/ninety_six_dp"
+            android:layout_height="@dimen/ninety_six_dp"
             android:contentDescription="@string/image"
             android:scaleType="fitXY"
             tools:src="@drawable/ic_launcher_background" />
@@ -33,36 +33,19 @@
 
         <TextView
             android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/eight_dp"
-            android:layout_marginLeft="@dimen/eight_dp"
-            android:layout_marginEnd="@dimen/eight_dp"
-            android:layout_marginRight="@dimen/eight_dp"
-            android:maxLines="1"
+            style="@style/authorTextViewStyle"
             android:textColor="@color/gray"
-            android:textSize="@dimen/fourteen_sp"
-            android:typeface="serif"
             tools:text="Rupert Jones | The Guardian" />
 
         <TextView
             android:id="@+id/headline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/eight_dp"
-            android:layout_marginLeft="@dimen/eight_dp"
-            android:layout_marginTop="@dimen/four_dp"
-            android:layout_marginEnd="@dimen/eight_dp"
-            android:layout_marginRight="@dimen/eight_dp"
-            android:layout_marginBottom="@dimen/four_dp"
-            android:ellipsize="end"
-            android:maxLines="3"
+            style="@style/headlineTextViewStyle"
             android:textColor="@android:color/black"
             android:textSize="@dimen/eighteen_sp"
-            android:typeface="serif"
             tools:text="Ashley faces potential revolt at Sports Direct annual meeting" />
 
         <RelativeLayout
+            android:id="@+id/date_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/eight_dp"
@@ -72,32 +55,21 @@
 
             <TextView
                 android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/dateTextViewStyle"
                 android:layout_alignStart="@id/more"
                 android:layout_alignLeft="@id/more"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/twelve_sp"
-                android:typeface="serif"
                 tools:text="2018-09-02" />
 
             <ImageButton
                 android:id="@+id/more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
+                style="@style/moreImageButtonStyle"
+                android:contentDescription="@string/more"
                 android:src="@drawable/ic_more_vert_black_24dp"
-                android:tint="@color/gray"
-                android:contentDescription="@string/more" />
+                android:tint="@color/gray" />
+
         </RelativeLayout>
 
     </LinearLayout>
 
 </LinearLayout>
-

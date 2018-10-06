@@ -1,7 +1,5 @@
 package com.example.deepamgoel.newsy;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -28,7 +26,8 @@ import static com.example.deepamgoel.newsy.MainActivity.LOG_TAG;
 
 class QueryUtils {
 
-    public static List<News> fetchNewsData(String requestUrl) {
+
+    static List<News> fetchNewsData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -123,9 +122,6 @@ class QueryUtils {
                     String dateTime = news.getString("webPublicationDate");
                     JSONArray tags = news.getJSONArray("tags");
 
-                    //Downloading image from imageUrl
-                    Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-
                     // Combining author and publication
                     String author = "";
                     String SEPARATOR = " | ";
@@ -145,7 +141,7 @@ class QueryUtils {
                     String formattedDate = new SimpleDateFormat("MMM dd, yyyy",
                             Locale.getDefault()).format(date);
 
-                    News newsObject = new News(headline, image, url, author, formattedDate);
+                    News newsObject = new News(headline, imageUrl, url, author, formattedDate);
                     newsList.add(newsObject);
                 }
             } else
@@ -154,8 +150,6 @@ class QueryUtils {
         } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
         } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         return newsList;

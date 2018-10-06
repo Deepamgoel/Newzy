@@ -14,8 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
@@ -44,7 +49,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.headline.setText(news.getHeadline());
         holder.author.setText(news.getAuthor());
         holder.date.setText(news.getPublishedDate());
-        holder.image.setImageBitmap(news.getImageBitmap());
+        Glide.with(context).load(news.getImageUrl()).into(holder.image);
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,13 +58,15 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
+
         holder.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = inflater != null ? inflater.inflate(R.layout.bottom_sheet_dialog,
-                        null) : null;
-
+                View view = null;
+                if (inflater != null) {
+                    view = inflater.inflate(R.layout.bottom_sheet_dialog, null);
+                }
                 final BottomSheetDialog dialog = new BottomSheetDialog(context);
                 dialog.setContentView(view);
                 dialog.show();
@@ -96,7 +103,16 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                         dialog.dismiss();
                     }
                 });
+
+                bookmark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, R.string.news_bookmarked, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
             }
+
         });
 
     }
@@ -118,21 +134,22 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.parent)
         LinearLayout parent;
+        @BindView(R.id.thumbnail)
         ImageView image;
+        @BindView(R.id.headline)
         TextView headline;
+        @BindView(R.id.author)
         TextView author;
+        @BindView(R.id.date)
         TextView date;
+        @BindView(R.id.more)
         ImageButton more;
 
         ViewHolder(View view) {
             super(view);
-            parent = view.findViewById(R.id.parent);
-            image = view.findViewById(R.id.thumbnail);
-            headline = view.findViewById(R.id.headline);
-            author = view.findViewById(R.id.author);
-            date = view.findViewById(R.id.date);
-            more = view.findViewById(R.id.more);
+            ButterKnife.bind(this, view);
         }
     }
 }
