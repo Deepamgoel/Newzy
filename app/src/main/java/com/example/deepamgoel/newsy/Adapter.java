@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,10 +24,10 @@ import butterknife.ButterKnife;
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<News> list;
+    private ArrayList<Model> list;
     private boolean isList;
 
-    Adapter(@NonNull Context context, ArrayList<News> list, boolean isList) {
+    Adapter(@NonNull Context context, ArrayList<Model> list, boolean isList) {
         this.context = context;
         this.list = list;
         this.isList = isList;
@@ -45,7 +44,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final News news = list.get(position);
+        final Model news = list.get(position);
         holder.headline.setText(news.getHeadline());
         holder.author.setText(news.getAuthor());
         holder.date.setText(news.getPublishedDate());
@@ -54,7 +53,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", news.getWebUrl().toString());
+                intent.putExtra("url", news.getArticleUrl());
                 context.startActivity(intent);
             }
         });
@@ -77,7 +76,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.setAction(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_TEXT, news.getWebUrl());
+                        intent.putExtra(Intent.EXTRA_TEXT, news.getArticleUrl());
                         intent.setType("text/plain");
                         context.startActivity(intent);
                         dialog.dismiss();
@@ -89,7 +88,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, WebViewActivity.class);
-                        intent.putExtra("url", news.getWebUrl().toString());
+                        intent.putExtra("url", news.getArticleUrl());
                         context.startActivity(intent);
                         dialog.dismiss();
                     }
@@ -99,7 +98,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 bookmark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "News Bookmarked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Model Bookmarked", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 });
@@ -120,16 +119,6 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return list.size();
-    }
-
-    void clear() {
-        list.clear();
-        notifyDataSetChanged();
-    }
-
-    void addAll(List<News> news) {
-        list = (ArrayList<News>) news;
-        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

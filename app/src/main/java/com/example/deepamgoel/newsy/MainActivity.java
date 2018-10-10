@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,12 +30,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Model>> {
 
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int NEWS_LOADER_ID = 1;
     private static final String REQUESTED_URL =
-            "https://content.guardianapis.com/search?q=Technology&section=technology&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
+            "https://content.guardianapis.com/search?q=&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_view)
@@ -49,8 +51,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ProgressBar progressBar;
 
     private Adapter adapter;
+    private DividerItemDecoration divider;
     private boolean isList = false;
-    private List<News> newsList = null;
+    private ArrayList<Model> newsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
 
-        adapter = new Adapter(this, new ArrayList<News>(), isList);
+        adapter = new Adapter(this, newsList, isList);
         recyclerView.setAdapter(adapter);
+        divider = new DividerItemDecoration(
+                this, DividerItemDecoration.VERTICAL);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (isConnected())
@@ -117,25 +122,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 isList = !isList;
                 item.setIcon(isList ? R.drawable.ic_view_list_black_24dp :
                         R.drawable.ic_view_stream_black_24dp);
-                adapter = new Adapter(this, new ArrayList<News>(), isList);
+                adapter = new Adapter(this, newsList, isList);
                 recyclerView.setAdapter(adapter);
-                if (newsList != null) {
-                    adapter.clear();
-                    adapter.addAll(newsList);
-                } else
+
+                if (isList)
+                    recyclerView.addItemDecoration(divider);
+                else
+                    recyclerView.removeItemDecoration(divider);
+
+                if (newsList == null) {
                     getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
+                }
                 break;
+
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
-
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public Loader<List<News>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Model>> onCreateLoader(int id, Bundle args) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String pageSize = preferences.getString(getString(R.string.setting_page_size_key),
                 getString(R.string.settings_max_page_default_value));
@@ -152,31 +161,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
+    public void onLoadFinished(Loader<List<Model>> loader, List<Model> list) {
         // Hiding progress bar
         progressBar.setVisibility(View.GONE);
         // Stopping refreshing
         refreshLayout.setRefreshing(false);
 
-        if (news.isEmpty()) {
+        if (list.isEmpty()) {
             //Making Empty View Visible
             emptyView.setVisibility(View.VISIBLE);
             // Set empty state text to display "No news found."
             emptyStateTextView.setText(R.string.no_news);
         }
-        // Clear the adapter of previous news data
-        adapter.clear();
 
-        if (!news.isEmpty()) {
-            adapter.addAll(news);
-            newsList = news;
+        if (!list.isEmpty()) {
+            newsList.addAll(list);
+            adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<News>> loader) {
-        adapter.clear();
-        newsList = null;
+    public void onLoaderReset(Loader<List<Model>> loader) {
+        newsList.clear();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -196,40 +203,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (isConnected())
             getLoaderManager().restartLoader(NEWS_LOADER_ID, null, MainActivity.this);
 
-    }
-
-    private static class NewsAsyncTaskLoader extends AsyncTaskLoader<List<News>> {
-
-        String url;
-        List<News> cache;
-
-        NewsAsyncTaskLoader(Context context, String requestedUrl) {
-            super(context);
-            this.url = requestedUrl;
-        }
-
-        @Override
-        public List<News> loadInBackground() {
-            if (url == null) {
-                return null;
-            }
-
-            return QueryUtils.fetchNewsData(url);
-        }
-
-        @Override
-        protected void onStartLoading() {
-            super.onStartLoading();
-            if (cache != null)
-                deliverResult(cache);
-            else
-                forceLoad();
-        }
-
-        @Override
-        public void deliverResult(List<News> data) {
-            super.deliverResult(data);
-            cache = data;
-        }
     }
 }
