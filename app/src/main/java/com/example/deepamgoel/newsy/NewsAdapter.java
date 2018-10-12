@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Model> list;
     private boolean isList;
 
-    Adapter(@NonNull Context context, ArrayList<Model> list, boolean isList) {
+    NewsAdapter(@NonNull Context context, ArrayList<Model> list, boolean isList) {
         this.context = context;
         this.list = list;
         this.isList = isList;

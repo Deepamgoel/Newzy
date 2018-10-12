@@ -1,5 +1,8 @@
 package com.example.deepamgoel.newsy;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 class QueryUtils {
 
@@ -53,7 +58,7 @@ class QueryUtils {
                     String url = news.getString("webUrl");
                     String imageUrl = fields.getString("thumbnail");
                     String dateTime = news.getString("webPublicationDate");
-                    String section = news.getString("section");
+                    String section = news.getString("sectionName");
                     JSONArray tags = news.getJSONArray("tags");
 
                     // Combining author and publication
@@ -76,9 +81,19 @@ class QueryUtils {
             } else
                 return null;
         } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the JSON results", e);
         }
         return newsList;
+    }
+
+    static boolean isConnected(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     private static String dateFormatter(String dateTime) {
@@ -97,5 +112,4 @@ class QueryUtils {
         }
         return formattedDate;
     }
-
 }

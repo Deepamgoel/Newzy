@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import static com.example.deepamgoel.newsy.MainActivity.LOG_TAG;
+import static android.support.constraint.Constraints.TAG;
 
 
 class HttpHandler {
@@ -31,7 +31,7 @@ class HttpHandler {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error Response Code: " + urlConnection.getResponseCode());
+                Log.e(TAG, "Error Response Code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
             e.printStackTrace();

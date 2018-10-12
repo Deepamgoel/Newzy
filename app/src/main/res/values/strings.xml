@@ -10,6 +10,7 @@
     <string name="preview">Preview</string>
     <string name="share">Share</string>
     <string name="bookmark">Bookmark</string>
+    <string name="retry">Retry</string>
     <string name="news_bookmarked">News Bookmarked</string>
 
     <string name="setting_order_by_key" translatable="false">order_by</string>
@@ -28,6 +29,6 @@
 
     <string name="query_order_by" translatable="false">order-by</string>
     <string name="query_page_size" translatable="false">page-size</string>
-    <string name="retry">Retry</string>
+    <string name="section" translatable="false">section</string>
 
 </resources>

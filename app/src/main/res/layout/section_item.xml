@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/eight_dp">
+
+    <TextView
+        android:id="@+id/section_name"
+        style="@style/headlineTextViewStyle"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/eighteen_sp"
+        tools:text="Section" />
+
+    <Button
+        android:id="@+id/more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/section_name"
+        android:layout_alignRight="@id/section_name"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:text="@string/more"
+        android:textSize="@dimen/fourteen_sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_inner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/section_name"
+        android:layout_margin="@dimen/eight_dp">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>
