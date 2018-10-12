@@ -6,13 +6,19 @@ class Model {
     private String mImageUrl;
     private String mAuthor;
     private String mPublishedDate;
+    private String section;
 
-    Model(String mHeadline, String mImageUrl, String mArticleUrl, String mAuthor, String mPublishedDate) {
+    Model(String mHeadline, String mImageUrl, String mArticleUrl, String mAuthor, String mPublishedDate, String section) {
         this.mHeadline = mHeadline;
         this.mImageUrl = mImageUrl;
         this.mArticleUrl = mArticleUrl;
         this.mAuthor = mAuthor;
         this.mPublishedDate = mPublishedDate;
+        this.section = section;
+    }
+
+    String getSection() {
+        return section;
     }
 
     String getHeadline() {

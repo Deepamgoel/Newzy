@@ -1,8 +1,6 @@
 package com.example.deepamgoel.newsy;
 
 import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int NEWS_LOADER_ID = 1;
     private static final String REQUESTED_URL =
-            "https://content.guardianapis.com/search?q=&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&api-key=751d026c-5315-4412-824f-90852ee18451";
+            "https://content.guardianapis.com/search?q=&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&page-size=5&api-key=751d026c-5315-4412-824f-90852ee18451";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

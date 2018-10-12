@@ -28,9 +28,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public void onBackPressed() {
+        super.onBackPressed();
+        onSupportNavigateUp();
+        finish();
     }
 
     public static class settingsPreferences extends PreferenceFragment implements Preference.OnPreferenceChangeListener {

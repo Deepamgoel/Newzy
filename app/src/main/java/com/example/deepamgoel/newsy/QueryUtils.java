@@ -53,6 +53,7 @@ class QueryUtils {
                     String url = news.getString("webUrl");
                     String imageUrl = fields.getString("thumbnail");
                     String dateTime = news.getString("webPublicationDate");
+                    String section = news.getString("section");
                     JSONArray tags = news.getJSONArray("tags");
 
                     // Combining author and publication
@@ -69,7 +70,7 @@ class QueryUtils {
 
                     //Formatting date
                     String formattedDate = dateFormatter(dateTime);
-                    Model newsObject = new Model(headline, imageUrl, url, author, formattedDate);
+                    Model newsObject = new Model(headline, imageUrl, url, author, formattedDate, section);
                     newsList.add(newsObject);
                 }
             } else

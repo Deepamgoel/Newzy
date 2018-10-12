@@ -42,8 +42,9 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public void onBackPressed() {
+        super.onBackPressed();
+        onSupportNavigateUp();
+        finish();
     }
 }
