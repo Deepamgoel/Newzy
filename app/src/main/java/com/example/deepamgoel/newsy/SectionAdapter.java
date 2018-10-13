@@ -20,7 +20,7 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
     private Context context;
     private ArrayList<String> list;
 
-    public SectionAdapter(Context context, ArrayList<String> list) {
+    SectionAdapter(Context context, ArrayList<String> list) {
         this.context = context;
         this.list = list;
     }
@@ -34,15 +34,9 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.sectionName.setText(list.get(position));
-        holder.moreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, NewsActivity.class);
-                intent.putExtra(context.getString(R.string.section), list.get(position).toLowerCase());
-                context.startActivity(intent);
-            }
-        });
+        String section = list.get(position);
+        holder.sectionName.setText(String.format("%s%s",
+                section.substring(0, 1).toUpperCase(), section.substring(1)));
     }
 
     @Override
@@ -55,12 +49,20 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
         TextView sectionName;
         @BindView(R.id.more_button)
         Button moreButton;
-//        @BindView(R.id.recycler_view_section)
-//        RecyclerView recyclerView;
+        @BindView(R.id.recycler_view_inner)
+        RecyclerView recyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            moreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, NewsActivity.class);
+                    intent.putExtra(context.getString(R.string.section), list.get(getAdapterPosition()).toLowerCase());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

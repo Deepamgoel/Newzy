@@ -59,7 +59,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         SECTION = getIntent().getStringExtra(getString(R.string.section));
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(SECTION);
+        getSupportActionBar().setTitle(String.format("%s%s",
+                SECTION.substring(0, 1).toUpperCase(), SECTION.substring(1)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         newsAdapter = new NewsAdapter(this, newsList, isList);
