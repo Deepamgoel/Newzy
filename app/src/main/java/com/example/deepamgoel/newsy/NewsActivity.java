@@ -70,8 +70,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (QueryUtils.isConnected(this)) {
-            getLoaderManager().initLoader(NEWS_LOADER_ID, null, NewsActivity.this);
             setConnected(true);
+            getLoaderManager().initLoader(NEWS_LOADER_ID, null, NewsActivity.this);
         } else
             setConnected(false);
 

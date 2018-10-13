@@ -1,6 +1,9 @@
 package com.example.deepamgoel.newsy;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity /*implements LoaderManager.LoaderCallbacks<List<Model>>*/ {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Model>> {
 
     static final int NEWS_LOADER_ID = 1;
     static final String REQUESTED_URL =
@@ -40,7 +44,6 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
 
     private SectionAdapter sectionAdapter;
     private ArrayList<String> sectionList = new ArrayList<>();
-//    private ArrayList<Model> newsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +55,17 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
         toolbar.setTitle(R.string.app_name);
 
         loadSections();
-        sectionAdapter = new SectionAdapter(this, sectionList, getLoaderManager());
+        sectionAdapter = new SectionAdapter(this, sectionList);
+        sectionAdapter.setHasStableIds(true);
         recyclerView.setAdapter(sectionAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
+            for (int childCount = 0; childCount < sectionAdapter.getItemCount(); childCount++) {
+                getLoaderManager().initLoader(childCount, null, this);
+            }
         } else
             setConnected(false);
 
@@ -107,6 +115,7 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
     public void retry(View view) {
         refreshLayout.setRefreshing(true);
         if (QueryUtils.isConnected(this)) {
+            setConnected(true);
         } else
             setConnected(false);
     }
@@ -138,6 +147,46 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
             emptyView.setVisibility(View.GONE);
             emptyStateTextView.setText("");
         }
+    }
+
+    @Override
+    public Loader<List<Model>> onCreateLoader(int id, Bundle args) {
+        String pageSize = "5";
+        String orderBy = getString(R.string.settings_order_by_newest_value);
+        String section = sectionList.get(id).toLowerCase();
+
+        Uri baseUri = Uri.parse(REQUESTED_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter(getString(R.string.section), section);
+        uriBuilder.appendQueryParameter(getString(R.string.query_order_by), orderBy);
+        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
+
+        return new NewsAsyncTaskLoader(this, uriBuilder.toString());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Model>> loader, List<Model> list) {
+        // Hiding progress bar
+        progressBar.setVisibility(View.GONE);
+        // Stopping refreshing
+        refreshLayout.setRefreshing(false);
+
+        if (list.isEmpty()) {
+            //Making Empty View Visible
+            emptyView.setVisibility(View.VISIBLE);
+            // Set empty state text to display "No news found."
+            emptyStateTextView.setText(R.string.no_news);
+        }
+
+        if (!list.isEmpty()) {
+                sectionAdapter.update(loader.getId(), (ArrayList<Model>) list);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Model>> loader) {
+//        newsList.clear();
+//        newsAdapter.notifyDataSetChanged();
     }
 
 }
