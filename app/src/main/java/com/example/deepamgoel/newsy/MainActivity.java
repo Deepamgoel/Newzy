@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.recycler_view_outer)
     RecyclerView recyclerView;
     @BindView(R.id.swipe)
     SwipeRefreshLayout refreshLayout;
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
 
     private SectionAdapter sectionAdapter;
     private ArrayList<String> sectionList = new ArrayList<>();
+//    private ArrayList<Model> newsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
         toolbar.setTitle(R.string.app_name);
 
         loadSections();
-        sectionAdapter = new SectionAdapter(this, sectionList);
+        sectionAdapter = new SectionAdapter(this, sectionList, getLoaderManager());
         recyclerView.setAdapter(sectionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
             @Override
             public void onRefresh() {
                 if (QueryUtils.isConnected(MainActivity.this)) {
-//                    sectionAdapter.notifyDataSetChanged();
                     setConnected(true);
                 } else
                     setConnected(false);
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
         refreshLayout.setRefreshing(true);
         emptyView.setVisibility(View.GONE);
         if (QueryUtils.isConnected(this)) {
-//            sectionAdapter.notifyDataSetChanged();
             setConnected(true);
         } else
             setConnected(false);
@@ -108,8 +107,6 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
     public void retry(View view) {
         refreshLayout.setRefreshing(true);
         if (QueryUtils.isConnected(this)) {
-//            sectionAdapter.notifyDataSetChanged();
-            setConnected(true);
         } else
             setConnected(false);
     }

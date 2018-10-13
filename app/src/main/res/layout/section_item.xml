@@ -22,6 +22,7 @@
         android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
         android:text="@string/more"
+        android:textColor="@color/gray"
         android:textSize="@dimen/fourteen_sp" />
 
     <android.support.v7.widget.RecyclerView
@@ -29,7 +30,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/section_name"
-        android:layout_margin="@dimen/eight_dp">
+        android:layout_margin="@dimen/eight_dp"
+        android:minHeight="100dp">
 
     </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        android:id="@+id/empty_view_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/eight_dp"
+        android:textAlignment="center"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/black" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@android:color/black"
+        tools:targetApi="lollipop" />
+
+
 </RelativeLayout>
