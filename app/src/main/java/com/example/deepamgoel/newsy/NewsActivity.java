@@ -32,15 +32,15 @@ import static com.example.deepamgoel.newsy.MainActivity.REQUESTED_URL;
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Model>> {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recycler_view_section)
+    @BindView(R.id.recycler_view_news)
     RecyclerView recyclerView;
-    @BindView(R.id.swipe)
+    @BindView(R.id.swipe_news)
     SwipeRefreshLayout refreshLayout;
-    @BindView(R.id.empty_view)
+    @BindView(R.id.empty_view_news)
     RelativeLayout emptyView;
-    @BindView(R.id.empty_view_text_view)
+    @BindView(R.id.empty_text_view_news)
     TextView emptyStateTextView;
-    @BindView(R.id.progress_bar)
+    @BindView(R.id.progress_bar_news)
     ProgressBar progressBar;
 
     private NewsAdapter newsAdapter;

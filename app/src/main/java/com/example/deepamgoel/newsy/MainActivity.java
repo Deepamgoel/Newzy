@@ -1,9 +1,6 @@
 package com.example.deepamgoel.newsy;
 
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,12 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Model>> {
+public class MainActivity extends AppCompatActivity /*implements LoaderManager.LoaderCallbacks<List<Model>>*/ {
 
     static final int NEWS_LOADER_ID = 1;
     static final String REQUESTED_URL =
@@ -31,15 +27,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recycler_view_outer)
+    @BindView(R.id.recycler_view_main)
     RecyclerView recyclerView;
-    @BindView(R.id.swipe)
+    @BindView(R.id.swipe_main)
     SwipeRefreshLayout refreshLayout;
-    @BindView(R.id.empty_view)
+    @BindView(R.id.empty_view_main)
     RelativeLayout emptyView;
-    @BindView(R.id.empty_view_text_view)
+    @BindView(R.id.empty_text_view_main)
     TextView emptyStateTextView;
-    @BindView(R.id.progress_bar)
+    @BindView(R.id.progress_bar_main)
     ProgressBar progressBar;
 
     private SectionAdapter sectionAdapter;
@@ -55,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         toolbar.setTitle(R.string.app_name);
 
         loadSections();
-        sectionAdapter = new SectionAdapter(this, sectionList);
+        sectionAdapter = new SectionAdapter(this, sectionList, getLoaderManager());
         sectionAdapter.setHasStableIds(true);
         recyclerView.setAdapter(sectionAdapter);
         recyclerView.setHasFixedSize(true);
@@ -63,15 +59,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
-            for (int childCount = 0; childCount < sectionAdapter.getItemCount(); childCount++) {
-                getLoaderManager().initLoader(childCount, null, this);
-            }
         } else
             setConnected(false);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refreshLayout.setRefreshing(true);
                 if (QueryUtils.isConnected(MainActivity.this)) {
                     setConnected(true);
                 } else
@@ -108,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         emptyView.setVisibility(View.GONE);
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
+            // Refresh Adapter
+            sectionAdapter.refresh();
         } else
             setConnected(false);
     }
@@ -133,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         progressBar.setVisibility(View.GONE);
         // Stop refreshing
         refreshLayout.setRefreshing(false);
+
         if (!isConnected) {
             // Hide RecyclerView
             recyclerView.setVisibility(View.GONE);
@@ -148,45 +145,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             emptyStateTextView.setText("");
         }
     }
-
-    @Override
-    public Loader<List<Model>> onCreateLoader(int id, Bundle args) {
-        String pageSize = "5";
-        String orderBy = getString(R.string.settings_order_by_newest_value);
-        String section = sectionList.get(id).toLowerCase();
-
-        Uri baseUri = Uri.parse(REQUESTED_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(getString(R.string.section), section);
-        uriBuilder.appendQueryParameter(getString(R.string.query_order_by), orderBy);
-        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
-
-        return new NewsAsyncTaskLoader(this, uriBuilder.toString());
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Model>> loader, List<Model> list) {
-        // Hiding progress bar
-        progressBar.setVisibility(View.GONE);
-        // Stopping refreshing
-        refreshLayout.setRefreshing(false);
-
-        if (list.isEmpty()) {
-            //Making Empty View Visible
-            emptyView.setVisibility(View.VISIBLE);
-            // Set empty state text to display "No news found."
-            emptyStateTextView.setText(R.string.no_news);
-        }
-
-        if (!list.isEmpty()) {
-                sectionAdapter.update(loader.getId(), (ArrayList<Model>) list);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Model>> loader) {
-//        newsList.clear();
-//        newsAdapter.notifyDataSetChanged();
-    }
-
 }

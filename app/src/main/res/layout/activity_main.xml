@@ -23,25 +23,25 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe"
+            android:id="@+id/swipe_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_outer"
+                android:id="@+id/recycler_view_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <RelativeLayout
-            android:id="@+id/empty_view"
+            android:id="@+id/empty_view_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
 
             <TextView
-                android:id="@+id/empty_view_text_view"
+                android:id="@+id/empty_text_view_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -51,10 +51,10 @@
                 android:textColor="@android:color/black" />
 
             <Button
-                android:id="@+id/empty_view_Button"
+                android:id="@+id/empty_view_button_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/empty_view_text_view"
+                android:layout_below="@id/empty_text_view_main"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/eight_dp"
                 android:onClick="retry"
@@ -63,7 +63,7 @@
         </RelativeLayout>
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progress_bar_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
