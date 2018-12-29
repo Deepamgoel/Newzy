@@ -116,12 +116,16 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (newsList == null) {
                     getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
                 }
-                break;
+                return true;
 
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
-                break;
+                return true;
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -186,7 +190,6 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        onSupportNavigateUp();
         finish();
     }
 
