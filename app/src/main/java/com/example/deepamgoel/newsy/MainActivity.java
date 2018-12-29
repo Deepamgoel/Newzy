@@ -1,6 +1,9 @@
 package com.example.deepamgoel.newsy;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +20,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<List<Model>> {
+
 
     static final int NEWS_LOADER_ID = 1;
     static final String REQUESTED_URL =
@@ -40,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     private SectionAdapter sectionAdapter;
-    private ArrayList<String> sectionList = new ArrayList<>();
+    private List<String> sectionList = new ArrayList<>();
+    private Map<String, List<Model>> sectionNewsMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
 
         loadSections();
-        sectionAdapter = new SectionAdapter(this, sectionList, getLoaderManager());
+        sectionAdapter = new SectionAdapter(this, sectionList, sectionNewsMap);
         sectionAdapter.setHasStableIds(true);
         recyclerView.setAdapter(sectionAdapter);
         recyclerView.setHasFixedSize(true);
@@ -62,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
+            for (int i = 0; i < sectionList.size(); i++) {
+                getLoaderManager().initLoader(i, null, this);
+            }
         } else
             setConnected(false);
 
@@ -71,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 refreshLayout.setRefreshing(true);
                 if (QueryUtils.isConnected(MainActivity.this)) {
                     setConnected(true);
+                    loadSectionNews();
                 } else
                     setConnected(false);
             }
@@ -104,18 +118,48 @@ public class MainActivity extends AppCompatActivity {
         emptyView.setVisibility(View.GONE);
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
-            // Refresh Adapter
-            sectionAdapter.refresh();
+            loadSectionNews();
         } else
             setConnected(false);
+    }
+
+    @Override
+    public Loader<List<Model>> onCreateLoader(int id, Bundle args) {
+        Log.d("TAG", "onCreateLoader: Section " + sectionList.get(id));
+
+        String pageSize = "5";
+        String orderBy = getString(R.string.settings_order_by_newest_value);
+        String section = sectionList.get(id).toLowerCase();
+
+        Uri baseUri = Uri.parse(REQUESTED_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter(getString(R.string.section), section);
+        uriBuilder.appendQueryParameter(getString(R.string.query_order_by), orderBy);
+        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
+
+        return new NewsAsyncTaskLoader(this, uriBuilder.toString());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Model>> loader, List<Model> list) {
+
+        if (!list.isEmpty()) {
+            sectionNewsMap.put(sectionList.get(loader.getId()), list);
+            sectionAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Model>> loader) {
+        sectionNewsMap.get(sectionList.get(loader.getId())).clear();
+        sectionAdapter.notifyDataSetChanged();
     }
 
     public void retry(View view) {
         refreshLayout.setRefreshing(true);
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
-            // Refresh Adapter
-            sectionAdapter.refresh();
+            loadSectionNews();
         } else
             setConnected(false);
     }
@@ -126,6 +170,12 @@ public class MainActivity extends AppCompatActivity {
         sectionList.add("Sport");
         sectionList.add("Film");
         sectionList.add("Technology");
+    }
+
+    private void loadSectionNews() {
+        for (int i = 0; i < sectionList.size(); i++) {
+            getLoaderManager().initLoader(i, null, this);
+        }
     }
 
     private void setConnected(boolean isConnected) {

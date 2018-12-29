@@ -54,7 +54,7 @@
                 android:id="@+id/empty_view_button_news"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/empty_text_view_main"
+                android:layout_below="@id/empty_text_view_news"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/eight_dp"
                 android:onClick="retry"
