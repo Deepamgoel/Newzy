@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity /*implements LoaderManager.LoaderCallbacks<List<Model>>*/ {
+public class MainActivity extends AppCompatActivity {
 
     static final int NEWS_LOADER_ID = 1;
     static final String REQUESTED_URL =
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
         recyclerView.setAdapter(sectionAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(divider);
 
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
@@ -77,6 +80,8 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem item = menu.findItem(R.id.layout_type);
+        item.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -84,9 +89,6 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.layout_type:
-                break;
-
             case R.id.settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity /*implements LoaderManager.L
         refreshLayout.setRefreshing(true);
         if (QueryUtils.isConnected(this)) {
             setConnected(true);
+            // Refresh Adapter
+            sectionAdapter.refresh();
         } else
             setConnected(false);
     }

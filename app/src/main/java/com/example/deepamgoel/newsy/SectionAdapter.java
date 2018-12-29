@@ -25,7 +25,8 @@ import butterknife.ButterKnife;
 import static com.example.deepamgoel.newsy.MainActivity.REQUESTED_URL;
 
 
-class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<List<Model>> {
+class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder>
+        implements LoaderManager.LoaderCallbacks<List<Model>> {
 
 
     private Context context;
@@ -54,20 +55,25 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> imp
         holder.sectionName.setText(String.format("%s%s",
                 section.substring(0, 1).toUpperCase(), section.substring(1)));
 
-        holder.recyclerView.setAdapter(new NewsAdapter(context, holder.newsList, true));
-        holder.recyclerView.setLayoutManager(new LinearLayoutManager(
-                context, LinearLayoutManager.HORIZONTAL, false));
+        NewsAdapter innerAdapter = new NewsAdapter(context, holder.newsList, true);
+        holder.recyclerView.setAdapter(innerAdapter);
+        holder.recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                context, LinearLayoutManager.HORIZONTAL, false);
+        holder.recyclerView.setLayoutManager(layoutManager);
 
         if (QueryUtils.isConnected(context)) {
             Log.d("TAG", "onBindView: " + section);
             loaderManager.initLoader(holder.getLayoutPosition(), null, this);
-
         }
     }
 
     @Override
     public int getItemCount() {
         return sectionList.size();
+    }
+
+    void refresh() {
     }
 
     @Override
@@ -111,9 +117,6 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> imp
             holder.recyclerView.getAdapter().notifyDataSetChanged();
         } else
             Log.d("TAG", "onLoaderReset: Null Holder");
-    }
-
-    void refresh() {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
