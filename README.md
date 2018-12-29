@@ -1,4 +1,4 @@
 # Newsy
-Basic new app fetching data from The Guardian API
+Basic news app fetching data from [The Guardian API](https://open-platform.theguardian.com/)
 
 ## To be updated soon!
