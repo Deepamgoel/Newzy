@@ -11,7 +11,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     private SectionAdapter sectionAdapter;
     private List<String> sectionList = new ArrayList<>();
-    private Map<String, List<Model>> sectionNewsMap = new HashMap<>();
+    private Map<String, ArrayList<Model>> sectionNewsMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         loadSections();
         sectionAdapter = new SectionAdapter(this, sectionList, sectionNewsMap);
-        sectionAdapter.setHasStableIds(true);
         recyclerView.setAdapter(sectionAdapter);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(divider);
@@ -125,7 +122,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<List<Model>> onCreateLoader(int id, Bundle args) {
-        Log.d("TAG", "onCreateLoader: Section " + sectionList.get(id));
 
         String pageSize = "5";
         String orderBy = getString(R.string.settings_order_by_newest_value);
@@ -144,7 +140,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<Model>> loader, List<Model> list) {
 
         if (!list.isEmpty()) {
-            sectionNewsMap.put(sectionList.get(loader.getId()), list);
+            sectionNewsMap.put(sectionList.get(loader.getId()), (ArrayList<Model>) list);
             sectionAdapter.notifyDataSetChanged();
         }
     }

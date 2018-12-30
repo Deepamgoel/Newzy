@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,15 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
             holder.newsList = sectionListMap.get(sectionList.get(position));
             NewsAdapter innerAdapter = new NewsAdapter(context, holder.newsList, true);
             holder.recyclerView.setAdapter(innerAdapter);
-            holder.recyclerView.setHasFixedSize(true);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(
-                    context, LinearLayoutManager.HORIZONTAL, false);
-            holder.recyclerView.setLayoutManager(layoutManager);
+
+            LinePageIndicator indicator = new LinePageIndicator();
+//            holder.recyclerView.addItemDecoration(indicator);
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -81,6 +86,15 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
                     context.startActivity(intent);
                 }
             });
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(
+                    context, LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+
+            PagerSnapHelper snapHelper = new PagerSnapHelper();
+            recyclerView.setOnFlingListener(null);
+            snapHelper.attachToRecyclerView(recyclerView);
+
         }
     }
 }
