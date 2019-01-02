@@ -25,18 +25,22 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
     private Context context;
     private List<String> sectionList;
     private Map<String, ArrayList<Model>> sectionListMap;
+    private RecyclerView.RecycledViewPool viewPool;
 
     SectionAdapter(Context context, List<String> SectionList, Map<String, ArrayList<Model>> sectionListMap) {
         this.context = context;
         this.sectionList = SectionList;
         this.sectionListMap = sectionListMap;
+        viewPool = new RecyclerView.RecycledViewPool();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_item, parent, false);
-        return new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
+        holder.recyclerView.setRecycledViewPool(viewPool);
+        return holder;
     }
 
     @Override

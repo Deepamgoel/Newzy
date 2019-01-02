@@ -163,6 +163,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         if (!list.isEmpty()) {
+            newsList.clear();
             newsList.addAll(list);
             newsAdapter.notifyDataSetChanged();
         }
