@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy;
+package com.example.deepamgoel.newsy.activity;
 
 import android.app.LoaderManager;
 import android.content.Intent;
@@ -7,12 +7,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,14 +14,27 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.deepamgoel.newsy.R;
+import com.example.deepamgoel.newsy.adapter.NewsAdapter;
+import com.example.deepamgoel.newsy.model.Model;
+import com.example.deepamgoel.newsy.utils.NewsAsyncTaskLoader;
+import com.example.deepamgoel.newsy.utils.QueryUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.deepamgoel.newsy.MainActivity.NEWS_LOADER_ID;
-import static com.example.deepamgoel.newsy.MainActivity.REQUESTED_URL;
+import static com.example.deepamgoel.newsy.activity.MainActivity.NEWS_LOADER_ID;
+import static com.example.deepamgoel.newsy.activity.MainActivity.REQUESTED_URL;
 
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Model>> {
     @BindView(R.id.toolbar)

@@ -1,16 +1,22 @@
-package com.example.deepamgoel.newsy;
+package com.example.deepamgoel.newsy.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.deepamgoel.newsy.R;
+import com.example.deepamgoel.newsy.activity.NewsActivity;
+import com.example.deepamgoel.newsy.model.Model;
+import com.example.deepamgoel.newsy.utils.LinePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +25,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
+public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
 
 
     private Context context;
@@ -27,7 +33,7 @@ class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHolder> {
     private Map<String, ArrayList<Model>> sectionListMap;
     private RecyclerView.RecycledViewPool viewPool;
 
-    SectionAdapter(Context context, List<String> SectionList, Map<String, ArrayList<Model>> sectionListMap) {
+    public SectionAdapter(Context context, List<String> SectionList, Map<String, ArrayList<Model>> sectionListMap) {
         this.context = context;
         this.sectionList = SectionList;
         this.sectionListMap = sectionListMap;

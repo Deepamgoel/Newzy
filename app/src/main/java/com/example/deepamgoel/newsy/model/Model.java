@@ -1,6 +1,6 @@
-package com.example.deepamgoel.newsy;
+package com.example.deepamgoel.newsy.model;
 
-class Model {
+public class Model {
     private String mHeadline;
     private String mArticleUrl;
     private String mImageUrl;
@@ -8,7 +8,7 @@ class Model {
     private String mPublishedDate;
     private String section;
 
-    Model(String mHeadline, String mImageUrl, String mArticleUrl, String mAuthor, String mPublishedDate, String section) {
+    public Model(String mHeadline, String mImageUrl, String mArticleUrl, String mAuthor, String mPublishedDate, String section) {
         this.mHeadline = mHeadline;
         this.mImageUrl = mImageUrl;
         this.mArticleUrl = mArticleUrl;
@@ -17,27 +17,27 @@ class Model {
         this.section = section;
     }
 
-    String getSection() {
+    public String getSection() {
         return section;
     }
 
-    String getHeadline() {
+    public String getHeadline() {
         return mHeadline;
     }
 
-    String getImageUrl() {
+    public String getImageUrl() {
         return mImageUrl;
     }
 
-    String getArticleUrl() {
+    public String getArticleUrl() {
         return mArticleUrl;
     }
 
-    String getAuthor() {
+    public String getAuthor() {
         return mAuthor;
     }
 
-    String getPublishedDate() {
+    public String getPublishedDate() {
         return mPublishedDate;
     }
 }

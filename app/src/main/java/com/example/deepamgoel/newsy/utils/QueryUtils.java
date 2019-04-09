@@ -1,10 +1,12 @@
-package com.example.deepamgoel.newsy;
+package com.example.deepamgoel.newsy.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.example.deepamgoel.newsy.model.Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +23,7 @@ import java.util.Locale;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-class QueryUtils {
+public class QueryUtils {
 
     private QueryUtils() {
     }
@@ -86,7 +88,7 @@ class QueryUtils {
         return newsList;
     }
 
-    static boolean isConnected(Context context) {
+    public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = null;

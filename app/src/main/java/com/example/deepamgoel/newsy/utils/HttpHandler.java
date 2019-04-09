@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy;
+package com.example.deepamgoel.newsy.utils;
 
 import android.util.Log;
 
@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import static android.support.constraint.Constraints.TAG;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 class HttpHandler {
@@ -31,6 +31,7 @@ class HttpHandler {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
+
                 Log.e(TAG, "Error Response Code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {

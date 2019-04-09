@@ -1,32 +1,27 @@
-package com.example.deepamgoel.newsy;
+package com.example.deepamgoel.newsy.utils;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class LinePageIndicator extends RecyclerView.ItemDecoration {
 
-    private int colorActive = 0xFF000000;
-    private int colorInactive = 0xFF999999;
-
     private static final float DP = Resources.getSystem().getDisplayMetrics().density;
-
     /**
      * Height of the space the indicator takes up at the bottom of the view.
      */
     private final int mIndicatorHeight = (int) (DP * 16);
-
     /**
      * Indicator stroke width.
      */
     private final float mIndicatorStrokeWidth = DP * 2;
-
     /**
      * Indicator width.
      */
@@ -35,15 +30,15 @@ public class LinePageIndicator extends RecyclerView.ItemDecoration {
      * Padding between indicators.
      */
     private final float mIndicatorItemPadding = DP * 4;
-
     /**
      * Some more natural animation interpolation
      */
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-
     private final Paint mPaint = new Paint();
+    private int colorActive = 0xFF000000;
+    private int colorInactive = 0xFF999999;
 
-    LinePageIndicator() {
+    public LinePageIndicator() {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(mIndicatorStrokeWidth);
         mPaint.setStyle(Paint.Style.STROKE);
