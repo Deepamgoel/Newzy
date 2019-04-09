@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.deepamgoel.newsy.BuildConfig;
 import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.adapter.SectionAdapter;
 import com.example.deepamgoel.newsy.model.Model;
@@ -37,9 +38,10 @@ public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Model>> {
 
 
-    static final int NEWS_LOADER_ID = 1;
-    static final String REQUESTED_URL =
-            "https://content.guardianapis.com/search?q=&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&page-size=5&api-key=751d026c-5315-4412-824f-90852ee18451";
+    public static final int NEWS_LOADER_ID = 1;
+    private static final String guardianApiKey = BuildConfig.GuardianApiKey;
+    public static final String REQUESTED_URL =
+            "https://content.guardianapis.com/search?q=&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&page-size=5&api-key=" + guardianApiKey;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

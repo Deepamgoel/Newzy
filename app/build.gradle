@@ -11,6 +11,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            buildConfigField 'String', "NewsApiKey", Newsy_NewsApiKey
+            resValue 'string', "NewsApiKey", Newsy_NewsApiKey
+            buildConfigField 'String', "GuardianApiKey", Newsy_GuardianApiKey
+            resValue 'string', "GuardianApiKey", Newsy_GuardianApiKey
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
