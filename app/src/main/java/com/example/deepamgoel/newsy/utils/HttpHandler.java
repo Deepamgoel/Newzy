@@ -31,7 +31,6 @@ class HttpHandler {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-
                 Log.e(TAG, "Error Response Code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {

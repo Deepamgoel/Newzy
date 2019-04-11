@@ -31,4 +31,23 @@
     <string name="query_page_size" translatable="false">page-size</string>
     <string name="section" translatable="false">section</string>
 
+    <string name="category_general">World</string>
+    <string name="category_business">Business</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_science">Science</string>
+    <string name="category_health">Health</string>
+    <string name="date_today">today</string>
+
+    <array name="category_array">
+        <item>@string/category_general</item>
+        <item>@string/category_business</item>
+        <item>@string/category_technology</item>
+        <item>@string/category_entertainment</item>
+        <item>@string/category_sports</item>
+        <item>@string/category_science</item>
+        <item>@string/category_health</item>
+    </array>
+
 </resources>

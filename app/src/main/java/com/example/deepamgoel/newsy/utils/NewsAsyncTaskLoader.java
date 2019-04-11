@@ -1,7 +1,8 @@
 package com.example.deepamgoel.newsy.utils;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.example.deepamgoel.newsy.model.Model;
 

@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/two_hundred_dp"
         android:layout_margin="@dimen/eight_dp"
-        app:cardBackgroundColor="@color/cardview_dark_background"
         app:cardCornerRadius="@dimen/eight_dp">
 
         <RelativeLayout
@@ -32,14 +31,14 @@
                 android:alpha="0.5"
                 android:contentDescription="@string/image"
                 android:scaleType="fitXY"
-                tools:src="@drawable/ic_launcher_background" />
+                tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView
                 android:id="@+id/author"
                 style="@style/authorTextViewStyle"
                 android:layout_above="@id/headline"
                 android:textColor="@color/less_white"
-                tools:text="Rupert Jones | The Guardian" />
+                tools:text="@tools:sample/full_names" />
 
             <TextView
                 android:id="@+id/headline"
@@ -47,7 +46,7 @@
                 android:layout_above="@id/date_holder"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_four_sp"
-                tools:text="Ashley faces potential revolt at Sports Direct annual meeting" />
+                tools:text="@tools:sample/lorem/random" />
 
             <RelativeLayout
                 android:id="@+id/date_holder"
@@ -65,7 +64,7 @@
                     android:layout_alignStart="@id/more"
                     android:layout_alignLeft="@id/more"
                     android:textColor="@color/less_white"
-                    tools:text="2018-09-02" />
+                    tools:text="@tools:sample/date/ddmmyy" />
 
                 <ImageButton
                     android:id="@+id/more"
