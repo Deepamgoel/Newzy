@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 import com.example.deepamgoel.newsy.R;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,16 +28,15 @@ public class SettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.settings);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -52,10 +53,10 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
-            Preference pageSize = findPreference(getString(R.string.setting_page_size_key));
-            Preference orderBy = findPreference(getString(R.string.setting_order_by_key));
-            bindPreferenceSummaryToValue(pageSize);
+            Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
+            Preference defaultView = findPreference(getString(R.string.settings_default_view_key));
             bindPreferenceSummaryToValue(orderBy);
+            bindPreferenceSummaryToValue(defaultView);
         }
 
         private void bindPreferenceSummaryToValue(Preference preference) {

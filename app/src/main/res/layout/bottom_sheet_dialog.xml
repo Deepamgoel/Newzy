@@ -13,20 +13,20 @@
         style="@style/Dialog"
         android:drawableStart="@drawable/ic_open_in_new_black_24dp"
         android:drawableLeft="@drawable/ic_open_in_new_black_24dp"
-        android:text="@string/preview" />
+        android:text="@string/label_preview" />
 
     <TextView
         android:id="@+id/share"
         style="@style/Dialog"
         android:drawableStart="@drawable/ic_share_black_24dp"
         android:drawableLeft="@drawable/ic_share_black_24dp"
-        android:text="@string/share" />
+        android:text="@string/label_share" />
 
     <TextView
         android:id="@+id/bookmark"
         style="@style/Dialog"
         android:drawableStart="@drawable/ic_bookmark_border_black_24dp"
         android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
-        android:text="@string/bookmark" />
+        android:text="@string/label_bookmark" />
 
 </LinearLayout>

@@ -26,9 +26,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    private static final int LAYOUT_TYPE_LIST = R.layout.news_item_list;
+    private static final int LAYOUT_TYPE_CARD = R.layout.news_item_card;
 
     private Context context;
     private List<Model> list;
+    private int layoutType = LAYOUT_TYPE_LIST;
 
     public RecyclerViewAdapter(Context context, List<Model> list) {
         this.context = context;
@@ -39,8 +42,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.news_item_list, parent, false);
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        String layout = preferences.getString(context.getString(R.string.settings_default_view_key), context.getString(R.string.settings_default_view_list_value));
+
+        View view = inflater.inflate(viewType, parent, false);
         return new ViewHolder(view);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return layoutType;
     }
 
     @Override
@@ -88,7 +99,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             TextView bookmark = view.findViewById(R.id.bookmark);
             bookmark.setOnClickListener(v3 -> {
-                Toast.makeText(context, R.string.news_bookmarked, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.msg_news_bookmarked, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             });
         });

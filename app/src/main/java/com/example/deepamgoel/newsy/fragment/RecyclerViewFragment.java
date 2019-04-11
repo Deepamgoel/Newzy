@@ -49,8 +49,10 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
     private int index;
     private String category;
+    private LinearLayoutManager layoutManager;
     private RecyclerViewAdapter recyclerViewAdapter;
     private List<Model> newsList = new ArrayList<>();
 
@@ -93,8 +95,9 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewAdapter = new RecyclerViewAdapter(getContext(), newsList);
+        layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
 
@@ -113,15 +116,14 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     @Override
     public Loader<List<Model>> onCreateLoader(int id, @Nullable Bundle args) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
-        String orderBy = preferences.getString(getString(R.string.setting_order_by_key), getString(R.string.settings_order_by_newest_value));
+        String orderBy = preferences.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_newest_value));
         String section = category.toLowerCase();
 
         Uri baseUri = Uri.parse(REQUESTED_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(getString(R.string.section), section);
+        uriBuilder.appendQueryParameter(getString(R.string.query_section), section);
         uriBuilder.appendQueryParameter(getString(R.string.query_order_by), orderBy);
-        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
+        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), "20");
 
         return new NewsAsyncTaskLoader(getContext(), uriBuilder.toString());
     }
@@ -137,7 +139,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
             recyclerViewAdapter.notifyDataSetChanged();
         } else {
             emptyViewRelativeLayout.setVisibility(View.VISIBLE);
-            emptyViewTextView.setText(R.string.no_news);
+            emptyViewTextView.setText(R.string.msg_no_news);
         }
     }
 
@@ -155,6 +157,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
 
     private void refresh() {
         refreshLayout.setRefreshing(true);
+        layoutManager.scrollToPosition(layoutManager.findFirstVisibleItemPosition());
         getLoaderManager().destroyLoader(index);
         if (QueryUtils.isConnected(Objects.requireNonNull(getContext()))) {
             getLoaderManager().restartLoader(index, null, this);
@@ -171,7 +174,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
             refreshLayout.setRefreshing(false);
             recyclerView.setVisibility(View.INVISIBLE);
             emptyViewRelativeLayout.setVisibility(View.VISIBLE);
-            emptyViewTextView.setText(R.string.no_internet);
+            emptyViewTextView.setText(R.string.msg_no_internet);
         }
     }
 }

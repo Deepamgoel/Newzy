@@ -9,4 +9,14 @@
         <item>@string/settings_order_by_newest_value</item>
         <item>@string/settings_order_by_relevance_value</item>
     </array>
+
+    <array name="setting_default_view_labels">
+        <item>@string/settings_default_view_list_label</item>
+        <item>@string/settings_default_view_card_label</item>
+    </array>
+
+    <array name="setting_default_view_values">
+        <item>@string/settings_default_view_list_value</item>
+        <item>@string/settings_default_view_card_value</item>
+    </array>
 </resources>

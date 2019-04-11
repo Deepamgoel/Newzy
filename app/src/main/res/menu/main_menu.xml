@@ -8,14 +8,8 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/layout_type"
-        android:icon="@drawable/ic_view_stream_black_24dp"
-        android:title=""
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/settings"
-        android:icon="@drawable/ic_tune_black_24dp"
+        android:icon="@drawable/ic_more_vert_black_24dp"
         android:title=""
         app:showAsAction="ifRoom" />
 
