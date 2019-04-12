@@ -1,6 +1,8 @@
 package com.example.deepamgoel.newsy.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +44,20 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sectionList = Arrays.asList(getResources().getStringArray(R.array.category_array));
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sectionList.set(0, preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value)));
+
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         setUpPage();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        tabLayout.getTabAt(0).setText(preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value)));
     }
 
     private void setUpPage() {

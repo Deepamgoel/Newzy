@@ -18,10 +18,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String guardianApiKey = BuildConfig.GuardianApiKey;
     public static final String newsApiKey = BuildConfig.NewsApiKey;
-    public static final String REQUESTED_URL =
-            "https://content.guardianapis.com/search?q=&format=json&show-fields=headline,thumbnail,short-url&show-tags=contributor,publication&page-size=5&api-key=" + guardianApiKey;
     public static final String REQUESTED_URL_V2 = "https://newsapi.org/v2/top-headlines?";
 
     @BindView(R.id.toolbar)

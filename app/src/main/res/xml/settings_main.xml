@@ -2,14 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/title_settings">
 
-    <ListPreference
-        android:defaultValue="@string/settings_order_by_newest_value"
-        android:entries="@array/setting_order_by_labels"
-        android:entryValues="@array/setting_order_by_values"
-        android:icon="@drawable/ic_filter_list_black_24dp"
-        android:key="@string/settings_order_by_key"
-        android:title="@string/settings_order_by_label" />
+    <!--    <ListPreference-->
+    <!--        android:defaultValue="@string/settings_order_by_newest_value"-->
+    <!--        android:entries="@array/setting_order_by_labels"-->
+    <!--        android:entryValues="@array/setting_order_by_values"-->
+    <!--        android:icon="@drawable/ic_filter_list_black_24dp"-->
+    <!--        android:key="@string/settings_order_by_key"-->
+    <!--        android:title="@string/settings_order_by_label" />-->
 
+    <EditTextPreference
+        android:defaultValue="@string/settings_max_page_default_value"
+        android:icon="@drawable/ic_format_list_numbered_black_24dp"
+        android:inputType="numberDecimal"
+        android:key="@string/setting_page_size_key"
+        android:selectAllOnFocus="true"
+        android:title="@string/setting_page_size_label" />
 
     <ListPreference
         android:defaultValue="@string/settings_default_view_list_value"
@@ -19,4 +26,11 @@
         android:key="@string/settings_default_view_key"
         android:title="@string/settings_default_view_label" />
 
+    <ListPreference
+        android:defaultValue="@string/settings_country_india_value"
+        android:entries="@array/setting_country_labels"
+        android:entryValues="@array/setting_country_values"
+        android:icon="@drawable/ic_language_black_24dp"
+        android:key="@string/settings_country_key"
+        android:title="@string/settings_country_label" />
 </PreferenceScreen>

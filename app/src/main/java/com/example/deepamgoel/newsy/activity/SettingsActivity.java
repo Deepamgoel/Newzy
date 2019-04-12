@@ -54,10 +54,13 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
-            Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
+            Preference country = findPreference(getString(R.string.settings_country_key));
             Preference defaultView = findPreference(getString(R.string.settings_default_view_key));
-            bindPreferenceSummaryToValue(orderBy);
+            Preference pageSize = findPreference(getString(R.string.setting_page_size_key));
+
+            bindPreferenceSummaryToValue(country);
             bindPreferenceSummaryToValue(defaultView);
+            bindPreferenceSummaryToValue(pageSize);
         }
 
         private void bindPreferenceSummaryToValue(Preference preference) {
@@ -65,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
             SharedPreferences preferences = PreferenceManager.
                     getDefaultSharedPreferences(preference.getContext());
             String preferenceString = preferences.getString(preference.getKey(), "");
-            onPreferenceChange(preference, preferenceString);
+            onPreferenceChange(preference, Objects.requireNonNull(preferenceString));
         }
 
         @Override
