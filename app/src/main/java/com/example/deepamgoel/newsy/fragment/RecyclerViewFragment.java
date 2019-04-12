@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.example.deepamgoel.newsy.activity.MainActivity.REQUESTED_URL;
+import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.example.deepamgoel.newsy.activity.MainActivity.REQUESTED_URL_V2;
+import static com.example.deepamgoel.newsy.activity.MainActivity.newsApiKey;
 
 public class RecyclerViewFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Model>> {
     private static final String ARG_SECTION = "section";
@@ -116,15 +119,17 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     @Override
     public Loader<List<Model>> onCreateLoader(int id, @Nullable Bundle args) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String orderBy = Objects.requireNonNull(preferences.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_newest_value))).toLowerCase();
-        String section = category.toLowerCase();
+        // TODO: 12-04-2019 Implement countries query
+        String country = "in";
+        String category = this.category.toLowerCase();
 
-        Uri baseUri = Uri.parse(REQUESTED_URL);
+        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(getString(R.string.query_section), section);
-        uriBuilder.appendQueryParameter(getString(R.string.query_order_by), orderBy);
-        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), "20");
+        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
+        uriBuilder.appendQueryParameter(getString(R.string.query_category), category);
+        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
 
+        Log.d(TAG, "onCreateLoader: uri " + uriBuilder.toString());
         return new NewsAsyncTaskLoader(getContext(), uriBuilder.toString());
     }
 

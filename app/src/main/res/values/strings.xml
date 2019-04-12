@@ -25,9 +25,12 @@
     <!--KEY description-->
 
     <!--START query parameter key-->
-    <string name="query_section" translatable="false">section</string>
-    <string name="query_order_by" translatable="false">order-by</string>
-    <string name="query_page_size" translatable="false">page-size</string>
+<!--    <string name="query_section" translatable="false">source</string>-->
+<!--    <string name="query_order_by" translatable="false">order-by</string>-->
+<!--    <string name="query_page_size" translatable="false">page-size</string>-->
+    <string name="query_country" translatable="false">country</string>
+    <string name="query_category" translatable="false">category</string>
+    <string name="query_api_key" translatable="false">apiKey</string>
     <!--END query parameter key-->
 
     <!--START setting order-by-->

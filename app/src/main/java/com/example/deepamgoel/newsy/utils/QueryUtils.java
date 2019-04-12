@@ -49,37 +49,34 @@ public class QueryUtils {
 
         try {
             JSONObject baseJsonObject = new JSONObject(jsonResponse);
-            JSONObject response = baseJsonObject.getJSONObject("response");
-            String status = response.getString("status");
+            String status = baseJsonObject.getString("status");
 
             if (status.equals("ok")) {
-                JSONArray results = response.getJSONArray("results");
-                for (int i = 0; i < results.length(); i++) {
-                    JSONObject news = results.getJSONObject(i);
+                int totalResults = baseJsonObject.getInt("totalResults");
+                JSONArray articles = baseJsonObject.getJSONArray("articles");
+                for (int i = 0; i < totalResults; i++) {
+                    JSONObject article = articles.getJSONObject(i);
 
-                    JSONObject fields = news.getJSONObject("fields");
-                    String headline = fields.getString("headline");
-                    String url = news.getString("webUrl");
-                    String imageUrl = fields.getString("thumbnail");
-                    String dateTime = news.getString("webPublicationDate");
-                    String section = news.getString("sectionName");
-                    JSONArray tags = news.getJSONArray("tags");
+                    JSONObject source = article.getJSONObject("source");
+                    String sourceName = source.getString("name");
+
+                    String author = article.getString("author");
+                    String title = article.getString("title");
+                    String url = article.getString("url");
+                    String urlToImage = article.getString("urlToImage");
+                    String publishedDate = article.getString("publishedAt");
 
                     // Combining author and publication
-                    String author = "";
-                    String SEPARATOR = " | ";
-                    if (!tags.isNull(0)) {
-                        JSONObject contributor = tags.getJSONObject(0);
-                        author = contributor.getString("webTitle");
+                    if (author.equals("null")) {
+                        author = "";
                     }
-                    if (!tags.isNull(1)) {
-                        JSONObject publication = tags.getJSONObject(1);
-                        author = author + SEPARATOR + publication.getString("webTitle");
+                    if (sourceName.equals("null")) {
+                        sourceName = "";
                     }
 
                     //Formatting date
-                    String formattedDate = dateFormatter(dateTime);
-                    Model newsObject = new Model(headline, imageUrl, url, author, formattedDate, section);
+                    String formattedDate = dateFormatter(publishedDate);
+                    Model newsObject = new Model(title, urlToImage, url, author, formattedDate,sourceName);
                     newsList.add(newsObject);
                 }
             } else
@@ -100,7 +97,7 @@ public class QueryUtils {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    private static String dateFormatter(String dateTime) {
+    private static String dateFormatter(String publishedDate) {
         SimpleDateFormat defaultFormat = new SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         SimpleDateFormat requiredFormat = new SimpleDateFormat("MMM dd, yyyy",
@@ -108,9 +105,9 @@ public class QueryUtils {
 
         String formattedDate = "";
         try {
-            Date date = defaultFormat.parse(dateTime);
+            Date date = defaultFormat.parse(publishedDate);
             formattedDate = requiredFormat.format(date);
-            long dateInMillis = defaultFormat.parse(dateTime).getTime();
+            long dateInMillis = defaultFormat.parse(publishedDate).getTime();
             long systemDateInMillis = Calendar.getInstance().getTimeInMillis();
             long differenceInMillis = systemDateInMillis - dateInMillis;
             long differenceInMinute = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis);

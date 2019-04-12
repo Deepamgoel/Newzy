@@ -67,13 +67,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Model news = list.get(position);
-        holder.headline.setText(news.getHeadline());
-        holder.author.setText(news.getAuthor());
+        holder.source.setText(news.getSource());
+        holder.title.setText(news.getTitle());
+        Glide.with(context).load(news.getUrlToImage()).into(holder.image);
         holder.date.setText(news.getPublishedDate());
-        Glide.with(context).load(news.getImageUrl()).into(holder.image);
         holder.parent.setOnClickListener(v -> {
             Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra("url", news.getArticleUrl());
+            intent.putExtra("url", news.getUrl());
             context.startActivity(intent);
         });
         holder.more.setOnClickListener(v -> {
@@ -88,7 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             share.setOnClickListener(v1 -> {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, news.getArticleUrl());
+                intent.putExtra(Intent.EXTRA_TEXT, news.getUrl());
                 intent.setType("text/plain");
                 context.startActivity(intent);
                 dialog.dismiss();
@@ -97,7 +97,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             TextView preview = view.findViewById(R.id.preview);
             preview.setOnClickListener(v2 -> {
                 Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", news.getArticleUrl());
+                intent.putExtra("url", news.getUrl());
                 context.startActivity(intent);
                 dialog.dismiss();
             });
@@ -114,12 +114,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @BindView(R.id.parent)
         LinearLayout parent;
-        @BindView(R.id.thumbnail)
+        @BindView(R.id.source)
+        TextView source;
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.image)
         ImageView image;
-        @BindView(R.id.headline)
-        TextView headline;
-        @BindView(R.id.author)
-        TextView author;
         @BindView(R.id.date)
         TextView date;
         @BindView(R.id.more)
