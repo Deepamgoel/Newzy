@@ -116,7 +116,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     @Override
     public Loader<List<Model>> onCreateLoader(int id, @Nullable Bundle args) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String orderBy = preferences.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_newest_value));
+        String orderBy = Objects.requireNonNull(preferences.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_newest_value))).toLowerCase();
         String section = category.toLowerCase();
 
         Uri baseUri = Uri.parse(REQUESTED_URL);

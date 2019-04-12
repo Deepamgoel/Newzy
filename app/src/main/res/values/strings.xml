@@ -35,8 +35,8 @@
     <string name="settings_order_by_newest_label">Most recent</string>
     <string name="settings_order_by_relevance_label">Relevance</string>
     <string name="settings_order_by_key" translatable="false">order_by</string>
-    <string name="settings_order_by_newest_value" translatable="false">newest</string>
-    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+    <string name="settings_order_by_newest_value" translatable="false">Newest</string>
+    <string name="settings_order_by_relevance_value" translatable="false">Relevance</string>
     <!--END setting order-by-->
 
     <!--START setting default view-->
@@ -44,8 +44,8 @@
     <string name="settings_default_view_card_label">Card</string>
     <string name="settings_default_view_list_label">List</string>
     <string name="settings_default_view_key" translatable="false">default_view</string>
-    <string name="settings_default_view_card_value" translatable="false">card</string>
-    <string name="settings_default_view_list_value" translatable="false">list</string>
+    <string name="settings_default_view_card_value" translatable="false">Card</string>
+    <string name="settings_default_view_list_value" translatable="false">List</string>
     <!--END setting default view-->
 
     <!--START news category-->

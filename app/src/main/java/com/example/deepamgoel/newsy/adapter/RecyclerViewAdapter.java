@@ -2,6 +2,8 @@ package com.example.deepamgoel.newsy.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.example.deepamgoel.newsy.model.Model;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +34,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private Context context;
     private List<Model> list;
-    private int layoutType = LAYOUT_TYPE_LIST;
 
     public RecyclerViewAdapter(Context context, List<Model> list) {
         this.context = context;
@@ -42,8 +44,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//        String layout = preferences.getString(context.getString(R.string.settings_default_view_key), context.getString(R.string.settings_default_view_list_value));
 
         View view = inflater.inflate(viewType, parent, false);
         return new ViewHolder(view);
@@ -51,7 +51,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemViewType(int position) {
-        return layoutType;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String layout = preferences.getString(context.getString(R.string.settings_default_view_key), context.getString(R.string.settings_default_view_list_value));
+        if (Objects.requireNonNull(layout).equals(context.getString(R.string.settings_default_view_list_value)))
+            return LAYOUT_TYPE_LIST;
+        else
+            return LAYOUT_TYPE_CARD;
     }
 
     @Override
