@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.frameLayout_main, new HomeFragment())
                 .commit();
+        // TODO: 12-04-2019 Pagination, Volley/Retofit, Searching
     }
 
     @Override

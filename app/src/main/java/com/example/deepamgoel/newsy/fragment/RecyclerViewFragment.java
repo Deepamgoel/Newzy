@@ -1,6 +1,5 @@
 package com.example.deepamgoel.newsy.fragment;
 
-
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,8 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +23,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.adapter.RecyclerViewAdapter;
 import com.example.deepamgoel.newsy.model.Model;
-import com.example.deepamgoel.newsy.utils.NewsAsyncTaskLoader;
+import com.example.deepamgoel.newsy.utils.NewsVewModelFactory;
+import com.example.deepamgoel.newsy.utils.NewsViewModel;
 import com.example.deepamgoel.newsy.utils.QueryUtils;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import butterknife.OnClick;
 import static com.example.deepamgoel.newsy.activity.MainActivity.REQUESTED_URL_V2;
 import static com.example.deepamgoel.newsy.activity.MainActivity.newsApiKey;
 
-public class RecyclerViewFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Model>> {
+public class RecyclerViewFragment extends Fragment {
     private static final String ARG_SECTION = "section";
     private static final String ARG_INDEX = "index";
 
@@ -53,8 +53,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
 
     private int index;
     private String category;
-    private LinearLayoutManager layoutManager;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private NewsViewModel viewModel;
     private List<Model> newsList = new ArrayList<>();
 
     private RecyclerViewFragment() {
@@ -95,61 +94,26 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerViewAdapter = new RecyclerViewAdapter(getContext(), newsList);
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new RecyclerViewAdapter(getContext(), newsList));
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
 
+        ViewModelProvider viewModelProvider =
+                ViewModelProviders.of(this,
+                        new NewsVewModelFactory(Objects.requireNonNull(
+                                getActivity()).getApplication(), getUri()));
+        viewModel = viewModelProvider.get(NewsViewModel.class);
+
         if (QueryUtils.isConnected(getContext())) {
             refreshLayout.setRefreshing(true);
-            getLoaderManager().initLoader(index, null, this);
+            viewModel.getData().observe(this, this::updateData);
             setConnected(true);
         } else
             setConnected(false);
 
+
         refreshLayout.setOnRefreshListener(this::refresh);
-    }
-
-    @NonNull
-    @Override
-    public Loader<List<Model>> onCreateLoader(int id, @Nullable Bundle args) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
-        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
-        String category = this.category.toLowerCase();
-
-        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
-        if (id != 0)
-            uriBuilder.appendQueryParameter(getString(R.string.query_category), category);
-        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
-        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
-
-        return new NewsAsyncTaskLoader(getContext(), uriBuilder.toString());
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<List<Model>> loader, List<Model> data) {
-        refreshLayout.setRefreshing(false);
-
-        if (!data.isEmpty()) {
-            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
-            newsList.clear();
-            newsList.addAll(data);
-            recyclerViewAdapter.notifyDataSetChanged();
-        } else {
-            emptyViewRelativeLayout.setVisibility(View.VISIBLE);
-            emptyViewTextView.setText(R.string.msg_no_news);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<List<Model>> loader) {
-        newsList.clear();
-        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -158,13 +122,42 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
         refresh();
     }
 
+    private String getUri() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
+        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
+        String category = this.category.toLowerCase();
+
+        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
+        if (index != 0)
+            uriBuilder.appendQueryParameter(getString(R.string.query_category), category);
+        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
+        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
+        return uriBuilder.toString();
+    }
+
+    private void updateData(List<Model> data) {
+        refreshLayout.setRefreshing(false);
+        if (!data.isEmpty()) {
+            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
+            newsList.clear();
+            newsList.addAll(data);
+            Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+        } else {
+            emptyViewRelativeLayout.setVisibility(View.VISIBLE);
+            emptyViewTextView.setText(R.string.msg_no_news);
+        }
+
+    }
+
     private void refresh() {
         refreshLayout.setRefreshing(true);
-        layoutManager.scrollToPosition(layoutManager.findFirstVisibleItemPosition());
-        getLoaderManager().destroyLoader(index);
+        viewModel.getData().removeObservers(Objects.requireNonNull(getActivity()));
         if (QueryUtils.isConnected(Objects.requireNonNull(getContext()))) {
-            getLoaderManager().restartLoader(index, null, this);
             setConnected(true);
+            viewModel.getData().observe(this, this::updateData);
         } else
             setConnected(false);
     }
