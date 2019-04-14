@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -94,83 +93,58 @@ public class RecyclerViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new RecyclerViewAdapter(getContext(), newsList));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
 
-        ViewModelProvider viewModelProvider =
-                ViewModelProviders.of(this,
-                        new NewsVewModelFactory(Objects.requireNonNull(
-                                getActivity()).getApplication(), getUri()));
-        viewModel = viewModelProvider.get(NewsViewModel.class);
-
-        if (QueryUtils.isConnected(getContext())) {
-            refreshLayout.setRefreshing(true);
-            viewModel.getData().observe(this, this::updateData);
-            setConnected(true);
-        } else
-            setConnected(false);
-
+        NewsVewModelFactory modelFactory = new NewsVewModelFactory(Objects.requireNonNull(getActivity()).getApplication(), getQueryUri(index, category));
+        viewModel = ViewModelProviders.of(this, modelFactory).get(NewsViewModel.class);
 
         refreshLayout.setOnRefreshListener(this::refresh);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         refresh();
-    }
-
-    private String getUri() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
-        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
-        String category = this.category.toLowerCase();
-
-        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
-        if (index != 0)
-            uriBuilder.appendQueryParameter(getString(R.string.query_category), category);
-        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
-        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
-        return uriBuilder.toString();
     }
 
     private void updateData(List<Model> data) {
         refreshLayout.setRefreshing(false);
         if (!data.isEmpty()) {
-            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
             newsList.clear();
             newsList.addAll(data);
             Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
         } else {
+            recyclerView.setVisibility(View.INVISIBLE);
             emptyViewRelativeLayout.setVisibility(View.VISIBLE);
             emptyViewTextView.setText(R.string.msg_no_news);
         }
-
     }
 
     private void refresh() {
-        refreshLayout.setRefreshing(true);
-        viewModel.getData().removeObservers(Objects.requireNonNull(getActivity()));
         if (QueryUtils.isConnected(Objects.requireNonNull(getContext()))) {
-            setConnected(true);
+            refreshLayout.setRefreshing(true);
             viewModel.getData().observe(this, this::updateData);
-        } else
-            setConnected(false);
-    }
-
-    private void setConnected(boolean isConnected) {
-        if (isConnected) {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
         } else {
             refreshLayout.setRefreshing(false);
             recyclerView.setVisibility(View.INVISIBLE);
             emptyViewRelativeLayout.setVisibility(View.VISIBLE);
             emptyViewTextView.setText(R.string.msg_no_internet);
         }
+    }
+
+    private String getQueryUri(int index, String category) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
+        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
+
+        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        if (index != 0)
+            uriBuilder.appendQueryParameter(getString(R.string.query_category), category.toLowerCase());
+        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
+        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
+        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
+        return uriBuilder.toString();
     }
 }
