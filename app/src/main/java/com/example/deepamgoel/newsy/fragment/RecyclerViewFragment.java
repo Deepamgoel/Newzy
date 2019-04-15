@@ -53,6 +53,7 @@ public class RecyclerViewFragment extends Fragment {
     private int index;
     private String category;
     private NewsViewModel viewModel;
+    private SharedPreferences preferences;
     private List<Model> newsList = new ArrayList<>();
 
     private RecyclerViewFragment() {
@@ -98,26 +99,39 @@ public class RecyclerViewFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
 
-        NewsVewModelFactory modelFactory = new NewsVewModelFactory(Objects.requireNonNull(getActivity()).getApplication(), getQueryUri(index, category));
+        NewsVewModelFactory modelFactory = new NewsVewModelFactory(
+                Objects.requireNonNull(getActivity()).getApplication(), getQueryUri(index, category));
         viewModel = ViewModelProviders.of(this, modelFactory).get(NewsViewModel.class);
+        refresh();
 
+        preferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            viewModel.setmUrl(getQueryUri(index,category));
+            refresh();
+            // TODO: 15-04-2019 Preference not updating
+        });
         refreshLayout.setOnRefreshListener(this::refresh);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         refresh();
     }
 
-    private void updateData(List<Model> data) {
-        refreshLayout.setRefreshing(false);
-        if (!data.isEmpty()) {
-            newsList.clear();
-            newsList.addAll(data);
-            Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
-        } else {
-            recyclerView.setVisibility(View.INVISIBLE);
-            emptyViewRelativeLayout.setVisibility(View.VISIBLE);
-            emptyViewTextView.setText(R.string.msg_no_news);
-        }
+    private String getQueryUri(int index, String category) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
+        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
+
+        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        if (index != 0)
+            uriBuilder.appendQueryParameter(getString(R.string.query_category), category.toLowerCase());
+        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
+        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
+        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
+        return uriBuilder.toString();
     }
 
     private void refresh() {
@@ -132,19 +146,18 @@ public class RecyclerViewFragment extends Fragment {
         }
     }
 
-    private String getQueryUri(int index, String category) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
-        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
-
-        Uri baseUri = Uri.parse(REQUESTED_URL_V2);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        if (index != 0)
-            uriBuilder.appendQueryParameter(getString(R.string.query_category), category.toLowerCase());
-        uriBuilder.appendQueryParameter(getString(R.string.query_country), country);
-        uriBuilder.appendQueryParameter(getString(R.string.query_page_size), pageSize);
-        uriBuilder.appendQueryParameter(getString(R.string.query_api_key), newsApiKey);
-        return uriBuilder.toString();
+    private void updateData(List<Model> data) {
+        refreshLayout.setRefreshing(false);
+        if (data != null && !data.isEmpty()) {
+            newsList.clear();
+            newsList.addAll(data);
+            Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
+        } else {
+            recyclerView.setVisibility(View.INVISIBLE);
+            emptyViewRelativeLayout.setVisibility(View.VISIBLE);
+            emptyViewTextView.setText(R.string.msg_no_news);
+        }
     }
 }

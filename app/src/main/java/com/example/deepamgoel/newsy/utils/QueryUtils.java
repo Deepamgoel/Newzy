@@ -54,7 +54,7 @@ public class QueryUtils {
             if (status.equals("ok")) {
                 int totalResults = baseJsonObject.getInt("totalResults");
                 JSONArray articles = baseJsonObject.getJSONArray("articles");
-                for (int i = 0; i < totalResults; i++) {
+                for (int i = 0; i < articles.length(); i++) {
                     JSONObject article = articles.getJSONObject(i);
 
                     JSONObject source = article.getJSONObject("source");
@@ -76,7 +76,7 @@ public class QueryUtils {
 
                     //Formatting date
                     String formattedDate = dateFormatter(publishedDate);
-                    Model newsObject = new Model(title, urlToImage, url, author, formattedDate,sourceName);
+                    Model newsObject = new Model(title, urlToImage, url, author, formattedDate, sourceName);
                     newsList.add(newsObject);
                 }
             } else

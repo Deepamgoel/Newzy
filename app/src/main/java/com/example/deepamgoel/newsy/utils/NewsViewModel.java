@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,8 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class NewsViewModel extends AndroidViewModel {
 
@@ -32,6 +29,11 @@ public class NewsViewModel extends AndroidViewModel {
 
     public LiveData<List<Model>> getData() {
         return data;
+    }
+
+    public void setmUrl(String mUrl) {
+        this.mUrl = mUrl;
+        data.loadData();
     }
 
     public class NewsLiveData extends LiveData<List<Model>> {

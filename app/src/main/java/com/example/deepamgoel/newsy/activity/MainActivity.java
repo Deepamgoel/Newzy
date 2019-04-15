@@ -17,7 +17,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-
     public static final String newsApiKey = BuildConfig.NewsApiKey;
     public static final String REQUESTED_URL_V2 = "https://newsapi.org/v2/top-headlines?";
 
