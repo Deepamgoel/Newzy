@@ -6,7 +6,9 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.deepamgoel.newsy.model.Model;
+import com.example.deepamgoel.newsy.models.Article;
+import com.example.deepamgoel.newsy.models.Source;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,67 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-public class QueryUtils {
-
-    private QueryUtils() {
-    }
-
-    static URL createUrl(String requestUrl) {
-        URL url = null;
-        try {
-            url = new URL(requestUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
-
-    static List<Model> extractNews(String jsonResponse) {
-        if (TextUtils.isEmpty(jsonResponse)) {
-            return null;
-        }
-
-        List<Model> newsList = new ArrayList<>();
-
-        try {
-            JSONObject baseJsonObject = new JSONObject(jsonResponse);
-            String status = baseJsonObject.getString("status");
-
-            if (status.equals("ok")) {
-                int totalResults = baseJsonObject.getInt("totalResults");
-                JSONArray articles = baseJsonObject.getJSONArray("articles");
-                for (int i = 0; i < articles.length(); i++) {
-                    JSONObject article = articles.getJSONObject(i);
-
-                    JSONObject source = article.getJSONObject("source");
-                    String sourceName = source.getString("name");
-
-                    String author = article.getString("author");
-                    String title = article.getString("title");
-                    String url = article.getString("url");
-                    String urlToImage = article.getString("urlToImage");
-                    String publishedDate = article.getString("publishedAt");
-
-                    // Combining author and publication
-                    if (author.equals("null")) {
-                        author = "";
-                    }
-                    if (sourceName.equals("null")) {
-                        sourceName = "";
-                    }
-
-                    //Formatting date
-                    String formattedDate = dateFormatter(publishedDate);
-                    Model newsObject = new Model(title, urlToImage, url, author, formattedDate, sourceName);
-                    newsList.add(newsObject);
-                }
-            } else
-                return null;
-        } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the JSON results", e);
-        }
-        return newsList;
-    }
+public abstract class QueryUtils {
 
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager =
@@ -97,7 +39,7 @@ public class QueryUtils {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    private static String dateFormatter(String publishedDate) {
+    public static String dateFormatter(String publishedDate) {
         SimpleDateFormat defaultFormat = new SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         SimpleDateFormat requiredFormat = new SimpleDateFormat("MMM dd, yyyy",

@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.activity;
+package com.example.deepamgoel.newsy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,17 +8,13 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.deepamgoel.newsy.BuildConfig;
 import com.example.deepamgoel.newsy.R;
-import com.example.deepamgoel.newsy.fragment.HomeFragment;
+import com.example.deepamgoel.newsy.fragments.HomeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final String newsApiKey = BuildConfig.NewsApiKey;
-    public static final String REQUESTED_URL_V2 = "https://newsapi.org/v2/top-headlines?";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -35,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.frameLayout_main, new HomeFragment())
                 .commit();
-        // TODO: 12-04-2019 Pagination, Volley/Retofit, Searching
+        // TODO: 12-04-2019 Pagination, Searching
     }
 
     @Override

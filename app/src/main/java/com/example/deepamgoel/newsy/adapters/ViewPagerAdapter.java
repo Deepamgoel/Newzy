@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.adapter;
+package com.example.deepamgoel.newsy.adapters;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

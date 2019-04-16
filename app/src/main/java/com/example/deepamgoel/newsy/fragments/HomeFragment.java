@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.fragment;
+package com.example.deepamgoel.newsy.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.deepamgoel.newsy.R;
-import com.example.deepamgoel.newsy.adapter.ViewPagerAdapter;
+import com.example.deepamgoel.newsy.adapters.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.activity;
+package com.example.deepamgoel.newsy.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
