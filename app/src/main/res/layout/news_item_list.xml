@@ -34,14 +34,11 @@
         <TextView
             android:id="@+id/source"
             style="@style/authorTextViewStyle"
-            android:textColor="@color/gray"
             tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/title"
             style="@style/headlineTextViewStyle"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/eighteen_sp"
             tools:text="@tools:sample/lorem/random" />
 
         <RelativeLayout
@@ -58,15 +55,13 @@
                 style="@style/dateTextViewStyle"
                 android:layout_alignStart="@id/more"
                 android:layout_alignLeft="@id/more"
-                android:textColor="@color/gray"
-                tools:text="@tools:sample/date/ddmmyy" />
+                tools:text="7 hours ago" />
 
             <ImageButton
                 android:id="@+id/more"
                 style="@style/moreImageButtonStyle"
                 android:contentDescription="@string/desc_more"
-                android:src="@drawable/ic_more_vert_black_24dp"
-                android:tint="@color/gray" />
+                android:src="@drawable/ic_more_vert_black_24dp" />
 
         </RelativeLayout>
 

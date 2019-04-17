@@ -1,6 +1,8 @@
 package com.example.deepamgoel.newsy.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -101,13 +103,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         dialog.show();
 
         TextView preview = view.findViewById(R.id.preview);
-        preview.setOnClickListener(v1 -> {
+        preview.setOnClickListener(v -> {
             WebUtils.loadUrl(context, uri);
             dialog.dismiss();
         });
 
         TextView share = view.findViewById(R.id.share);
-        share.setOnClickListener(v1 -> {
+        share.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, uri.toString());
@@ -116,9 +118,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             dialog.dismiss();
         });
 
+        TextView link = view.findViewById(R.id.get_link);
+        link.setOnClickListener(v -> {
+            ClipboardManager clipboardManager =
+                    (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText(context.getString(R.string.label_copy_link), uri.toString());
+            clipboardManager.setPrimaryClip(clip);
+            Toast.makeText(context, R.string.msg_link_copied, Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
         TextView bookmark = view.findViewById(R.id.bookmark);
-        bookmark.setOnClickListener(v1 -> {
-            // TODO: 17-04-2019
+        bookmark.setOnClickListener(v -> {
+            // TODO: 17-04-2019 implement bookmark
             Toast.makeText(context, R.string.msg_news_bookmarked, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });

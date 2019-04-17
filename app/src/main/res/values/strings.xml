@@ -8,14 +8,18 @@
     <!--START label-->
     <string name="label_preview">Preview</string>
     <string name="label_share">Share</string>
+    <string name="label_copy_link">Copy link</string>
     <string name="label_bookmark">Bookmark</string>
     <string name="label_retry">Retry</string>
     <!--END label-->
 
     <!--START message-->
-    <string name="msg_no_news">News not available</string>
+    <string name="msg_error">Some error occurred</string>
+    <string name="msg_no_news">News not available at the moment</string>
     <string name="msg_news_bookmarked">News bookmarked</string>
-    <string name="msg_no_internet">Slow or no internet connection.\nPlease check your Internet Settings</string>
+    <string name="msg_link_copied">Link copied to clipboard</string>
+    <string name="msg_no_internet_1">No internet</string>
+    <string name="msg_no_internet_2">Slow or no internet connection.\nPlease check your Internet Connection</string>
     <!--END message-->
 
     <!--START description-->

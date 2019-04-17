@@ -11,8 +11,8 @@
     <TextView
         android:id="@+id/preview"
         style="@style/Dialog"
-        android:drawableStart="@drawable/ic_open_in_new_black_24dp"
-        android:drawableLeft="@drawable/ic_open_in_new_black_24dp"
+        android:drawableStart="@drawable/ic_preview_black_24dp"
+        android:drawableLeft="@drawable/ic_preview_black_24dp"
         android:text="@string/label_preview" />
 
     <TextView
@@ -21,6 +21,13 @@
         android:drawableStart="@drawable/ic_share_black_24dp"
         android:drawableLeft="@drawable/ic_share_black_24dp"
         android:text="@string/label_share" />
+
+    <TextView
+        android:id="@+id/get_link"
+        style="@style/Dialog"
+        android:drawableStart="@drawable/ic_link_black_24dp"
+        android:drawableLeft="@drawable/ic_link_black_24dp"
+        android:text="@string/label_copy_link" />
 
     <TextView
         android:id="@+id/bookmark"

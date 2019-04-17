@@ -7,8 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,6 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,10 +48,10 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     private static final String ARG_SECTION = "section";
     private static final String ARG_INDEX = "index";
 
-    @BindView(R.id.emptyView)
-    RelativeLayout emptyViewRelativeLayout;
     @BindView(R.id.emptyView_text)
     TextView emptyViewTextView;
+    @BindView(R.id.emptyView_button)
+    Button emptyViewButton;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView)
@@ -73,11 +73,6 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
         args.putString(ARG_SECTION, section);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @OnClick(R.id.emptyView_button)
-    void onRetry() {
-//        refresh();
     }
 
     @Override
@@ -125,7 +120,7 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
             refresh();
         });
 
-        refreshLayout.setRefreshing(true);
+        emptyViewButton.setOnClickListener(v -> refresh());
     }
 
     @Override
@@ -140,24 +135,15 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
             request(mApiService);
         } else {
             refreshLayout.setRefreshing(false);
-            if (mArticles.size() != 0) {
-                // TODO: 17-04-2019 implement caching
-                View view = Objects.requireNonNull(getActivity()).
-                        findViewById(android.R.id.content);
-                Snackbar snackbar = Snackbar.make(view
-                        , getString(R.string.msg_no_internet)
-                        , Snackbar.LENGTH_LONG);
-                snackbar.setAction(getString(R.string.label_retry), v -> {
-                    refreshLayout.setRefreshing(true);
-                    refresh();
-                    snackbar.dismiss();
-                })
-                        .setActionTextColor(getResources().getColor(R.color.colorPrimary));
-                snackbar.show();
-            } else {
+            View view = Objects.requireNonNull(getActivity()).
+                    findViewById(android.R.id.content);
+            Snackbar.make(view, getString(R.string.msg_no_internet_1), Snackbar.LENGTH_SHORT).show();
+            if (mArticles.size() == 0) {
                 recyclerView.setVisibility(View.INVISIBLE);
-                emptyViewRelativeLayout.setVisibility(View.VISIBLE);
-                emptyViewTextView.setText(R.string.msg_no_internet);
+                emptyViewButton.setVisibility(View.VISIBLE);
+                emptyViewTextView.setVisibility(View.VISIBLE);
+                emptyViewTextView.setText(R.string.msg_no_internet_2);
+                // TODO: 17-04-2019 implement caching
             }
         }
     }
@@ -182,38 +168,48 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
             );
 
         responseCall.enqueue(this);
+        refreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    @EverythingIsNonNull
+    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+        refreshLayout.setRefreshing(false);
+        if (response.isSuccessful()) {
+            ApiResponse apiResponse = response.body();
+            if (apiResponse != null)
+                updateData(apiResponse.getArticles());
+        } else {
+            Log.d(TAG, "onResponse: " + response.errorBody());
+            Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    @EverythingIsNonNull
+    public void onFailure(Call<ApiResponse> call, Throwable t) {
+        refreshLayout.setRefreshing(false);
+        Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
+        t.printStackTrace();
     }
 
     private void updateData(List<Article> data) {
+
+        // TODO: 17-04-2019 retry button
         refreshLayout.setRefreshing(false);
         if (data != null && !data.isEmpty()) {
             mArticles.clear();
             mArticles.addAll(data);
             Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
-            emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
+            emptyViewButton.setVisibility(View.INVISIBLE);
+            emptyViewTextView.setVisibility(View.INVISIBLE);
         } else {
             recyclerView.setVisibility(View.INVISIBLE);
-            emptyViewRelativeLayout.setVisibility(View.VISIBLE);
+            emptyViewButton.setVisibility(View.VISIBLE);
+            emptyViewTextView.setVisibility(View.VISIBLE);
             emptyViewTextView.setText(R.string.msg_no_news);
         }
-    }
-
-    @Override
-    @EverythingIsNonNull
-    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-        if (response.isSuccessful()) {
-            ApiResponse apiResponse = response.body();
-            if (apiResponse != null)
-                updateData(apiResponse.getArticles());
-        } else
-            Log.d(TAG, "onResponse: " + response.errorBody());
-    }
-
-    @Override
-    @EverythingIsNonNull
-    public void onFailure(Call<ApiResponse> call, Throwable t) {
-        t.printStackTrace();
     }
 
 }
