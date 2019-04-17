@@ -23,8 +23,6 @@ public class WebViewActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.web_view)
     WebView webView;
-    @BindView(R.id.url_bar)
-    TextView urlBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +35,6 @@ public class WebViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        urlBar.setVisibility(View.VISIBLE);
-        urlBar.setText(url);
 
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.setWebViewClient(new WebViewClient());

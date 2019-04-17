@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deepamgoel.newsy.R;
-import com.example.deepamgoel.newsy.activities.WebViewActivity;
 import com.example.deepamgoel.newsy.models.Article;
 import com.example.deepamgoel.newsy.utils.QueryUtils;
+import com.example.deepamgoel.newsy.utils.WebUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
@@ -73,52 +74,55 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.title.setText(article.getTitle());
         holder.date.setText(QueryUtils.dateFormatter(article.getPublishedDate()));
 
+        Uri uri = Uri.parse(article.getUrl());
+
         Picasso.get()
                 .load(article.getUrlToImage())
                 .error(android.R.color.transparent)
                 .placeholder(android.R.color.transparent)
                 .into(holder.image);
 
-        holder.parent.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra("url", article.getUrl());
+        holder.parent.setOnClickListener(v -> WebUtils.loadUrl(context, uri));
+        holder.more.setOnClickListener(v -> onClickMenu(uri));
+        holder.parent.setOnLongClickListener(v -> {
+            onClickMenu(uri);
+            return false;
+        });
+
+    }
+
+    private void onClickMenu(Uri uri) {
+        @SuppressLint("InflateParams")
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.bottom_sheet_dialog, null);
+
+        final BottomSheetDialog dialog = new BottomSheetDialog(context);
+        dialog.setContentView(view);
+        dialog.show();
+
+        TextView preview = view.findViewById(R.id.preview);
+        preview.setOnClickListener(v1 -> {
+            WebUtils.loadUrl(context, uri);
+            dialog.dismiss();
+        });
+
+        TextView share = view.findViewById(R.id.share);
+        share.setOnClickListener(v1 -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, uri.toString());
+            intent.setType("text/plain");
             context.startActivity(intent);
+            dialog.dismiss();
         });
 
-        holder.more.setOnClickListener(v -> {
-
-            @SuppressLint("InflateParams")
-            View view = LayoutInflater.from(context)
-                    .inflate(R.layout.bottom_sheet_dialog, null);
-
-            final BottomSheetDialog dialog = new BottomSheetDialog(context);
-            dialog.setContentView(view);
-            dialog.show();
-
-            TextView preview = view.findViewById(R.id.preview);
-            preview.setOnClickListener(v1 -> {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", article.getUrl());
-                context.startActivity(intent);
-                dialog.dismiss();
-            });
-
-            TextView share = view.findViewById(R.id.share);
-            share.setOnClickListener(v1 -> {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT, article.getUrl());
-                intent.setType("text/plain");
-                context.startActivity(intent);
-                dialog.dismiss();
-            });
-
-            TextView bookmark = view.findViewById(R.id.bookmark);
-            bookmark.setOnClickListener(v1 -> {
-                Toast.makeText(context, R.string.msg_news_bookmarked, Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
+        TextView bookmark = view.findViewById(R.id.bookmark);
+        bookmark.setOnClickListener(v1 -> {
+            // TODO: 17-04-2019
+            Toast.makeText(context, R.string.msg_news_bookmarked, Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
         });
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -140,5 +144,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(view);
             ButterKnife.bind(this, view);
         }
+
     }
 }

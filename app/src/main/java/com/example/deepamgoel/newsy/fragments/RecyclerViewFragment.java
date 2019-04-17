@@ -20,7 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.adapters.RecyclerViewAdapter;
-import com.example.deepamgoel.newsy.interfaces.NewsAPI;
+import com.example.deepamgoel.newsy.interfaces.NewsApiService;
 import com.example.deepamgoel.newsy.models.ApiResponse;
 import com.example.deepamgoel.newsy.models.Article;
 import com.example.deepamgoel.newsy.utils.QueryUtils;
@@ -57,11 +57,11 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    private int index;
-    private String category;
-    private NewsAPI api;
-    private SharedPreferences preferences;
-    private List<Article> newsList = new ArrayList<>();
+    private int mPageIndex;
+    private String mCategory;
+    private NewsApiService mApiService;
+    private SharedPreferences mPreferences;
+    private List<Article> mArticles = new ArrayList<>();
 
     private RecyclerViewFragment() {
     }
@@ -77,15 +77,15 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
 
     @OnClick(R.id.emptyView_button)
     void onRetry() {
-//        update();
+//        refresh();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            index = getArguments().getInt(ARG_INDEX);
-            category = getArguments().getString(ARG_SECTION);
+            mPageIndex = getArguments().getInt(ARG_INDEX);
+            mCategory = getArguments().getString(ARG_SECTION);
         }
     }
 
@@ -100,9 +100,9 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        recyclerView.setAdapter(new RecyclerViewAdapter(getContext(), newsList));
+        recyclerView.setAdapter(new RecyclerViewAdapter(getContext(), mArticles));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
@@ -112,33 +112,48 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(NewsAPI.BASE_URL)
+                .baseUrl(NewsApiService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        api = retrofit.create(NewsAPI.class);
+        mApiService = retrofit.create(NewsApiService.class);
 
-        preferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> update());
-        refreshLayout.setOnRefreshListener(this::update);
+        mPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> refresh());
+
+        refreshLayout.setOnRefreshListener(() -> {
+            refreshLayout.setRefreshing(true);
+            refresh();
+        });
+
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (api != null)
-            update();
+        if (mApiService != null)
+            refresh();
     }
 
-    private void update() {
+    private void refresh() {
         if (QueryUtils.isConnected(Objects.requireNonNull(getContext()))) {
-            refreshLayout.setRefreshing(true);
-            start(api);
+            request(mApiService);
         } else {
             refreshLayout.setRefreshing(false);
-            if (newsList.size() != 0) {
+            if (mArticles.size() != 0) {
+                // TODO: 17-04-2019 implement caching
                 View view = Objects.requireNonNull(getActivity()).
                         findViewById(android.R.id.content);
-                Snackbar.make(view, getString(R.string.msg_no_internet), Snackbar.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar.make(view
+                        , getString(R.string.msg_no_internet)
+                        , Snackbar.LENGTH_LONG);
+                snackbar.setAction(getString(R.string.label_retry), v -> {
+                    refreshLayout.setRefreshing(true);
+                    refresh();
+                    snackbar.dismiss();
+                })
+                        .setActionTextColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
             } else {
                 recyclerView.setVisibility(View.INVISIBLE);
                 emptyViewRelativeLayout.setVisibility(View.VISIBLE);
@@ -147,34 +162,33 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
         }
     }
 
-    private void start(NewsAPI api) {
-        String country = preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
-        String pageSize = preferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
+    private void request(NewsApiService apiService) {
+        String country = mPreferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
+        String pageSize = mPreferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
 
         Call<ApiResponse> responseCall;
-        if (index == 0)
-            responseCall = api.getTopHeadlinesByCountry(
+        if (mPageIndex == 0)
+            responseCall = apiService.getTopHeadlinesByCountry(
                     country,
                     pageSize,
-                    NewsAPI.API_KEY
+                    NewsApiService.API_KEY
             );
         else
-            responseCall = api.getTopHeadlinesByCategory(
-                    category.toLowerCase(),
+            responseCall = apiService.getTopHeadlinesByCategory(
+                    mCategory.toLowerCase(),
                     country,
                     pageSize,
-                    NewsAPI.API_KEY
+                    NewsApiService.API_KEY
             );
 
         responseCall.enqueue(this);
-
     }
 
     private void updateData(List<Article> data) {
         refreshLayout.setRefreshing(false);
         if (data != null && !data.isEmpty()) {
-            newsList.clear();
-            newsList.addAll(data);
+            mArticles.clear();
+            mArticles.addAll(data);
             Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
             emptyViewRelativeLayout.setVisibility(View.INVISIBLE);
@@ -190,12 +204,10 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
         if (response.isSuccessful()) {
             ApiResponse apiResponse = response.body();
-            if (apiResponse != null) {
+            if (apiResponse != null)
                 updateData(apiResponse.getArticles());
-            }
-        } else {
+        } else
             Log.d(TAG, "onResponse: " + response.errorBody());
-        }
     }
 
     @Override
@@ -203,4 +215,5 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     public void onFailure(Call<ApiResponse> call, Throwable t) {
         t.printStackTrace();
     }
+
 }

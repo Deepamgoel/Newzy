@@ -7,7 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface NewsAPI {
+public interface NewsApiService {
     String API_KEY = BuildConfig.NewsApiKey;
     String BASE_URL = "https://newsapi.org/";
 
