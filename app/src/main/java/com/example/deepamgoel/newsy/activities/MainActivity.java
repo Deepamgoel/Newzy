@@ -1,23 +1,29 @@
 package com.example.deepamgoel.newsy.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.example.deepamgoel.newsy.R;
+import com.example.deepamgoel.newsy.fragments.BookmarkFragment;
 import com.example.deepamgoel.newsy.fragments.HomeFragment;
+import com.example.deepamgoel.newsy.fragments.SearchFragment;
+import com.example.deepamgoel.newsy.fragments.SettingsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.bottom_navigation_main)
+    BottomNavigationView mBottomNavigationView;
+
+    private Fragment mHomeFragment = new HomeFragment();
+    private Fragment mSearchFragment = new SearchFragment();
+    private Fragment mBookmarkFragment = new BookmarkFragment();
+    private Fragment mSettingsFragment = new SettingsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,28 +31,37 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.app_name);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.frameLayout_main, new HomeFragment())
-                .commit();
+        loadFragment(mHomeFragment);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            Fragment fragment = null;
+            switch (menuItem.getItemId()) {
+                case R.id.action_home:
+                    fragment = mHomeFragment;
+                    break;
+                case R.id.action_search:
+                    fragment = mSearchFragment;
+                    break;
+                case R.id.action_bookmark:
+                    fragment = mBookmarkFragment;
+                    break;
+                case R.id.action_settings:
+                    fragment = mSettingsFragment;
+                    break;
+            }
+
+            return loadFragment(fragment);
+        });
         // TODO: 12-04-2019 Pagination, Searching
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout_main, fragment)
+                    .commit();
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }

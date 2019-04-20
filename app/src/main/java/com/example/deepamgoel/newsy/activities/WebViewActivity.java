@@ -2,10 +2,8 @@ package com.example.deepamgoel.newsy.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.toolbar_web_view)
     Toolbar toolbar;
     @BindView(R.id.web_view)
     WebView webView;

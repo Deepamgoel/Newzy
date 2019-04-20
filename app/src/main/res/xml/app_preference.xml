@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/title_settings">
+
+    <!--todo-->
+    <PreferenceCategory
+        android:title="General"
+        app:iconSpaceReserved="false">
+        <!--    <ListPreference-->
+        <!--        android:defaultValue="@string/settings_order_by_newest_value"-->
+        <!--        android:entries="@array/setting_order_by_labels"-->
+        <!--        android:entryValues="@array/setting_order_by_values"-->
+        <!--        android:icon="@drawable/ic_filter_list_black_24dp"-->
+        <!--        android:key="@string/settings_order_by_key"-->
+        <!--        android:title="@string/settings_order_by_label" />-->
+
+        <ListPreference
+            android:defaultValue="@string/settings_country_india_value"
+            android:entries="@array/setting_country_labels"
+            android:entryValues="@array/setting_country_values"
+            android:icon="@drawable/ic_language_black_24dp"
+            android:key="@string/settings_country_key"
+            android:title="@string/settings_country_label" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="View Options"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="@string/settings_default_view_list_value"
+            android:entries="@array/setting_default_view_labels"
+            android:entryValues="@array/setting_default_view_values"
+            android:icon="@drawable/ic_view_day_black_24dp"
+            android:key="@string/settings_default_view_key"
+            android:title="@string/settings_default_view_label" />
+
+        <EditTextPreference
+            android:defaultValue="@string/settings_max_page_default_value"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:inputType="numberDecimal"
+            android:key="@string/setting_page_size_key"
+            android:selectAllOnFocus="true"
+            android:title="@string/setting_page_size_label" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_brightness_2_black_24dp"
+            android:title="Dark theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Advanced"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_open_in_browser_black_24dp"
+            android:title="In-App Browser" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Alerts"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="Push Notifications" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="About"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_description_black_24dp"
+            android:title="Acknowledgements" />
+
+        <Preference
+            android:icon="@drawable/ic_security_black_24dp"
+            android:title="Privacy Policy" />
+
+        <Preference
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="About app" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <Preference
+            android:title="Share this App"
+            app:iconSpaceReserved="false" />
+        <Preference
+            android:title="Feedback"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

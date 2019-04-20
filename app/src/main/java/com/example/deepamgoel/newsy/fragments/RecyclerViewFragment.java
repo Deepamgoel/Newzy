@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -99,8 +100,12 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
 
         recyclerView.setAdapter(new RecyclerViewAdapter(getContext(), mArticles));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(
-                Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration divider = new DividerItemDecoration(
+                Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(
+                Objects.requireNonNull(ResourcesCompat.getDrawable(
+                        getResources(), R.drawable.divider, null)));
+        recyclerView.addItemDecoration(divider);
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -194,8 +199,6 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     }
 
     private void updateData(List<Article> data) {
-
-        // TODO: 17-04-2019 retry button
         refreshLayout.setRefreshing(false);
         if (data != null && !data.isEmpty()) {
             mArticles.clear();

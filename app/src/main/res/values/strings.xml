@@ -5,6 +5,13 @@
     <string name="title_settings">Settings</string>
     <!--END title-->
 
+    <!--START tabs-->
+    <string name="tab_home">Home</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_bookmark">Bookmark</string>
+    <string name="tab_settings">Settings</string>
+    <!--END tabs-->
+
     <!--START label-->
     <string name="label_preview">Preview</string>
     <string name="label_share">Share</string>
@@ -45,7 +52,7 @@
 <!--    &lt;!&ndash;END setting order-by&ndash;&gt;-->
 
     <!--START setting country-->
-    <string name="settings_country_label">Country</string>
+    <string name="settings_country_label">Preferred region</string>
     <string name="settings_country_key" translatable="false">country</string>
     <string name="settings_country_uae_label">UAE</string>
     <string name="settings_country_uae_value" translatable="false">ar</string>
@@ -173,7 +180,7 @@
     <!--END setting page size-->
 
     <!--START news category-->
-    <string name="category_country"/>
+    <string name="category_country" />
     <string name="category_business">Business</string>
     <string name="category_technology">Technology</string>
     <string name="category_entertainment">Entertainment</string>
