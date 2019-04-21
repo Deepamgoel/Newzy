@@ -19,11 +19,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.deepamgoel.newsy.R;
+import com.example.deepamgoel.newsy.data.Bookmark;
+import com.example.deepamgoel.newsy.data.BookmarkDatabase;
 import com.example.deepamgoel.newsy.models.Article;
-import com.example.deepamgoel.newsy.utils.QueryUtils;
-import com.example.deepamgoel.newsy.utils.WebUtils;
+import com.example.deepamgoel.newsy.utilities.Constants;
+import com.example.deepamgoel.newsy.utilities.QueryUtils;
+import com.example.deepamgoel.newsy.utilities.WebUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 
@@ -36,13 +40,16 @@ import butterknife.ButterKnife;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final int LAYOUT_TYPE_LIST = R.layout.news_item_list;
     private static final int LAYOUT_TYPE_CARD = R.layout.news_item_card;
-
+    private final BookmarkDatabase bookmarkDatabase;
     private Context context;
     private List<Article> articleList;
+
 
     public RecyclerViewAdapter(Context context, List<Article> articleList) {
         this.context = context;
         this.articleList = articleList;
+        bookmarkDatabase = Room.databaseBuilder(context.getApplicationContext(),
+                BookmarkDatabase.class, Constants.DATABASE_NAME).build();
     }
 
     @NonNull
@@ -78,22 +85,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Uri uri = Uri.parse(article.getUrl());
 
-        Picasso.get()
-                .load(article.getUrlToImage())
-                .error(android.R.color.transparent)
-                .placeholder(android.R.color.transparent)
-                .into(holder.image);
+        if (article.getUrlToImage() != null)
+            Picasso.get()
+                    .load(article.getUrlToImage())
+                    .error(android.R.color.transparent)
+                    .placeholder(android.R.color.transparent)
+                    .into(holder.image);
 
         holder.parent.setOnClickListener(v -> WebUtils.loadUrl(context, uri));
-        holder.more.setOnClickListener(v -> onClickMenu(uri));
+        holder.more.setOnClickListener(v -> onClickMore(uri, article));
         holder.parent.setOnLongClickListener(v -> {
-            onClickMenu(uri);
+            onClickMore(uri, article);
             return false;
         });
-
     }
 
-    private void onClickMenu(Uri uri) {
+    private void onClickMore(Uri uri, Article article) {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.bottom_sheet_dialog, null);
@@ -102,14 +109,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         dialog.setContentView(view);
         dialog.show();
 
-        TextView preview = view.findViewById(R.id.preview);
-        preview.setOnClickListener(v -> {
+        TextView previewTextView = view.findViewById(R.id.preview);
+        previewTextView.setOnClickListener(v -> {
             WebUtils.loadUrl(context, uri);
             dialog.dismiss();
         });
 
-        TextView share = view.findViewById(R.id.share);
-        share.setOnClickListener(v -> {
+        TextView shareTextView = view.findViewById(R.id.share);
+        shareTextView.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, uri.toString());
@@ -118,8 +125,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             dialog.dismiss();
         });
 
-        TextView link = view.findViewById(R.id.get_link);
-        link.setOnClickListener(v -> {
+        TextView linkTextView = view.findViewById(R.id.get_link);
+        linkTextView.setOnClickListener(v -> {
             ClipboardManager clipboardManager =
                     (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText(context.getString(R.string.label_copy_link), uri.toString());
@@ -128,9 +135,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             dialog.dismiss();
         });
 
-        TextView bookmark = view.findViewById(R.id.bookmark);
-        bookmark.setOnClickListener(v -> {
-            // TODO: 17-04-2019 implement bookmark
+        TextView bookmarkTextView = view.findViewById(R.id.bookmark);
+        bookmarkTextView.setOnClickListener(v -> {
+            Bookmark bookmark = new Bookmark();
+            bookmark.setUrl(uri.toString());
+            bookmarkDatabase.bookmarkDao().insertBookmark(bookmark);
             Toast.makeText(context, R.string.msg_news_bookmarked, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });

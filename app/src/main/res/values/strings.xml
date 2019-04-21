@@ -35,22 +35,6 @@
     <string name="desc_more">more</string>
     <!--KEY description-->
 
-    <!--START query parameter key-->
-    <string name="query_country" translatable="false">country</string>
-    <string name="query_category" translatable="false">category</string>
-    <string name="query_page_size" translatable="false">pageSize</string>
-    <string name="query_api_key" translatable="false">apiKey</string>
-    <!--END query parameter key-->
-
-<!--    &lt;!&ndash;START setting order-by&ndash;&gt;-->
-<!--    <string name="settings_order_by_label">Order by</string>-->
-<!--    <string name="settings_order_by_newest_label">Most recent</string>-->
-<!--    <string name="settings_order_by_relevance_label">Relevance</string>-->
-<!--    <string name="settings_order_by_key" translatable="false">order_by</string>-->
-<!--    <string name="settings_order_by_newest_value" translatable="false">Newest</string>-->
-<!--    <string name="settings_order_by_relevance_value" translatable="false">Relevance</string>-->
-<!--    &lt;!&ndash;END setting order-by&ndash;&gt;-->
-
     <!--START setting country-->
     <string name="settings_country_label">Preferred region</string>
     <string name="settings_country_key" translatable="false">country</string>

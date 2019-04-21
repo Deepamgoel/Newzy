@@ -7,40 +7,20 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:elevation="0dp">
-
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/toolbar_main"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="?attr/actionBarSize"-->
-<!--                android:background="@android:color/white"-->
-<!--                app:contentInsetStartWithNavigation="0dp"-->
-<!--                app:layout_scrollFlags="scroll|enterAlways"-->
-<!--                app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-<!--                app:title="@string/app_name"-->
-<!--                app:titleTextColor="@android:color/black" />-->
-
-        </com.google.android.material.appbar.AppBarLayout>
-
     <FrameLayout
         android:id="@+id/frame_layout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        android:layout_marginBottom="?actionBarSize" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
-        app:itemIconTint="@drawable/nav_item_color_state"
+        app:itemIconTint="@android:color/black"
         app:labelVisibilityMode="unlabeled"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

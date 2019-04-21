@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.utils;
+package com.example.deepamgoel.newsy.utilities;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,5 +13,4 @@ public abstract class WebUtils {
         builder.addDefaultShareMenuItem();
         intent.launchUrl(context, uri);
     }
-
 }

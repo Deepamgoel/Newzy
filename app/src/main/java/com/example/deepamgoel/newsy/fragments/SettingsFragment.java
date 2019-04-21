@@ -29,12 +29,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         bindPreferenceSummaryToValue(pageSize);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
-
     private void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(this);
         SharedPreferences preferences = PreferenceManager.

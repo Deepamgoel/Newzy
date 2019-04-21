@@ -35,6 +35,7 @@
         <item>@string/settings_country_italy_label</item>
         <item>@string/settings_country_japan_label</item>
         <item>@string/settings_country_latvia_label</item>
+        <item>@string/settings_country_lithuania_label</item>
         <item>@string/settings_country_malaysia_label</item>
         <item>@string/settings_country_mexico_label</item>
         <item>@string/settings_country_morocco_label</item>
@@ -91,6 +92,7 @@
         <item>@string/settings_country_italy_value</item>
         <item>@string/settings_country_japan_value</item>
         <item>@string/settings_country_latvia_value</item>
+        <item>@string/settings_country_lithuania_value</item>
         <item>@string/settings_country_malaysia_value</item>
         <item>@string/settings_country_mexico_value</item>
         <item>@string/settings_country_morocco_value</item>

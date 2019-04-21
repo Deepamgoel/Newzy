@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="four_dp">4dp</dimen>
+    <dimen name="six_dp">6dp</dimen>
     <dimen name="eight_dp">8dp</dimen>
     <dimen name="sixteen_dp">16dp</dimen>
     <dimen name="fifty_six_dp">56dp</dimen>
@@ -12,8 +13,6 @@
     <dimen name="fourteen_sp">14sp</dimen>
     <dimen name="sixteen_sp">16sp</dimen>
     <dimen name="eighteen_sp">18sp</dimen>
-    <dimen name="twenty_two_sp">22sp</dimen>
     <dimen name="twenty_four_sp">24sp</dimen>
-    <dimen name="list_item_spacing_half">8dp</dimen>
 
 </resources>

@@ -23,5 +23,4 @@ public interface NewsApiService {
             @Query("country") String country,
             @Query("pageSize") String pageSize,
             @Query("apiKey") String apiKey);
-
 }

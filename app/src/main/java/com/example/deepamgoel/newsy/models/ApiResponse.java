@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ApiResponse {
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -27,5 +28,4 @@ public class ApiResponse {
     public List<Article> getArticles() {
         return articles;
     }
-
 }

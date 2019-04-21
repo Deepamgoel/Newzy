@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.compiledSdkVersion
     defaultConfig {
         applicationId "com.example.deepamgoel.newsy"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -13,9 +13,6 @@ android {
     buildTypes {
         debug {
             buildConfigField 'String', "NewsApiKey", Newsy_NewsApiKey
-            resValue 'string', "NewsApiKey", Newsy_NewsApiKey
-            buildConfigField 'String', "GuardianApiKey", Newsy_GuardianApiKey
-            resValue 'string', "GuardianApiKey", Newsy_GuardianApiKey
         }
         release {
             minifyEnabled false
@@ -31,32 +28,42 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //AndroidX
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.preference:preference:1.1.0-alpha04'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // AndroidX
+    implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
+    implementation "androidx.preference:preference:$rootProject.preferenceVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+    implementation "androidx.legacy:legacy-support-v4:$rootProject.supportLibraryVersion"
 
-    //Material components
-    implementation 'com.google.android.material:material:1.0.0'
+    // Room
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
 
-    //Custom tabs
-    implementation 'com.android.support:customtabs:28.0.0'
+    // Material components
+    implementation "com.google.android.material:material:$rootProject.materialVersion"
 
-    //ButterKnife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    // Custom tabs
+    implementation "com.android.support:customtabs:$rootProject.customTabsVersion"
 
-    //Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    // ButterKnife
+    implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 
-    //GSON
-    implementation 'com.google.code.gson:gson:2.8.5'
+    // Picasso
+    implementation "com.squareup.picasso:picasso:$rootProject.picasoVersion"
 
-    //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    // Gson
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+
+    // Leak canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakCanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakCanaryVersion"
+
+    // junit
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.junitExtVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
 }

@@ -3,17 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/title_settings">
 
-    <!--todo-->
     <PreferenceCategory
+        android:layout="@layout/preference_category_custom"
         android:title="General"
         app:iconSpaceReserved="false">
-        <!--    <ListPreference-->
-        <!--        android:defaultValue="@string/settings_order_by_newest_value"-->
-        <!--        android:entries="@array/setting_order_by_labels"-->
-        <!--        android:entryValues="@array/setting_order_by_values"-->
-        <!--        android:icon="@drawable/ic_filter_list_black_24dp"-->
-        <!--        android:key="@string/settings_order_by_key"-->
-        <!--        android:title="@string/settings_order_by_label" />-->
 
         <ListPreference
             android:defaultValue="@string/settings_country_india_value"
@@ -22,13 +15,12 @@
             android:icon="@drawable/ic_language_black_24dp"
             android:key="@string/settings_country_key"
             android:title="@string/settings_country_label" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_category_custom"
         android:title="View Options"
         app:iconSpaceReserved="false">
-
         <ListPreference
             android:defaultValue="@string/settings_default_view_list_value"
             android:entries="@array/setting_default_view_labels"
@@ -46,34 +38,35 @@
             android:title="@string/setting_page_size_label" />
 
         <SwitchPreference
+            android:enabled="false"
             android:icon="@drawable/ic_brightness_2_black_24dp"
             android:title="Dark theme" />
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_category_custom"
         android:title="Advanced"
         app:iconSpaceReserved="false">
-
         <SwitchPreference
             android:icon="@drawable/ic_open_in_browser_black_24dp"
             android:title="In-App Browser" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:enabled="false"
+        android:layout="@layout/preference_category_custom"
         android:title="Alerts"
         app:iconSpaceReserved="false">
-
         <SwitchPreference
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="Push Notifications" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:enabled="false"
+        android:layout="@layout/preference_category_custom"
         android:title="About"
         app:iconSpaceReserved="false">
-
         <Preference
             android:icon="@drawable/ic_description_black_24dp"
             android:title="Acknowledgements" />
@@ -85,18 +78,16 @@
         <Preference
             android:icon="@drawable/ic_info_black_24dp"
             android:title="About app" />
-
     </PreferenceCategory>
 
-    <PreferenceCategory>
-
-        <Preference
-            android:title="Share this App"
-            app:iconSpaceReserved="false" />
-        <Preference
-            android:title="Feedback"
-            app:iconSpaceReserved="false" />
-
-    </PreferenceCategory>
+    <Preference
+        android:enabled="false"
+        android:title="Share this App"
+        app:allowDividerAbove="false"
+        app:iconSpaceReserved="false" />
+    <Preference
+        android:enabled="false"
+        android:title="Feedback"
+        app:iconSpaceReserved="false" />
 
 </PreferenceScreen>

@@ -11,6 +11,7 @@ import com.example.deepamgoel.newsy.fragments.HomeFragment;
 import com.example.deepamgoel.newsy.fragments.SearchFragment;
 import com.example.deepamgoel.newsy.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.leakcanary.LeakCanary;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bottom_navigation_main)
     BottomNavigationView mBottomNavigationView;
 
-    private Fragment mHomeFragment = new HomeFragment();
-    private Fragment mSearchFragment = new SearchFragment();
-    private Fragment mBookmarkFragment = new BookmarkFragment();
-    private Fragment mSettingsFragment = new SettingsFragment();
+    private final Fragment mHomeFragment = new HomeFragment();
+    private final Fragment mSearchFragment = new SearchFragment();
+    private final Fragment mBookmarkFragment = new BookmarkFragment();
+    private final Fragment mSettingsFragment = new SettingsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

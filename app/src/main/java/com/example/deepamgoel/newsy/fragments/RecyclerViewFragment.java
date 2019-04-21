@@ -25,7 +25,7 @@ import com.example.deepamgoel.newsy.adapters.RecyclerViewAdapter;
 import com.example.deepamgoel.newsy.interfaces.NewsApiService;
 import com.example.deepamgoel.newsy.models.ApiResponse;
 import com.example.deepamgoel.newsy.models.Article;
-import com.example.deepamgoel.newsy.utils.QueryUtils;
+import com.example.deepamgoel.newsy.utilities.QueryUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -98,7 +98,8 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
         super.onViewCreated(view, savedInstanceState);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        recyclerView.setAdapter(new RecyclerViewAdapter(getContext(), mArticles));
+        recyclerView.setAdapter(new RecyclerViewAdapter(
+                Objects.requireNonNull(getContext()), mArticles));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration divider = new DividerItemDecoration(
                 Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL);
@@ -214,5 +215,4 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
             emptyViewTextView.setText(R.string.msg_no_news);
         }
     }
-
 }

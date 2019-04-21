@@ -1,5 +1,6 @@
 package com.example.deepamgoel.newsy.adapters;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +19,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    @NonNull
     public Fragment getItem(int position) {
         return fragmentList.get(position);
     }
@@ -36,6 +38,5 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment, String title) {
         this.fragmentList.add(fragment);
         this.fragmentTitleList.add(title);
-
     }
 }
