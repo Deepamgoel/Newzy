@@ -1,34 +1,186 @@
 <resources>
     <string name="app_name">Newsy</string>
-    <string name="image">image</string>
-    <string name="no_internet">Slow or no internet connection.\nPlease check your Internet Settings</string>
-    <string name="no_news">News not available</string>
-    <string name="overlay">overlay</string>
-    <string name="layout_type">Layout Type</string>
-    <string name="settings">Settings</string>
-    <string name="more">more</string>
-    <string name="preview">Preview</string>
-    <string name="share">Share</string>
-    <string name="bookmark">Bookmark</string>
-    <string name="retry">Retry</string>
-    <string name="news_bookmarked">News Bookmarked</string>
 
-    <string name="setting_order_by_key" translatable="false">order_by</string>
-    <string name="setting_order_by_label">Order By</string>
+    <!--START title-->
+    <string name="title_settings">Settings</string>
+    <!--END title-->
 
+    <!--START tabs-->
+    <string name="tab_home">Home</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_bookmark">Bookmark</string>
+    <string name="tab_settings">Settings</string>
+    <!--END tabs-->
+
+    <!--START label-->
+    <string name="label_preview">Preview</string>
+    <string name="label_share">Share</string>
+    <string name="label_copy_link">Copy link</string>
+    <string name="label_bookmark">Bookmark</string>
+    <string name="label_retry">Retry</string>
+    <!--END label-->
+
+    <!--START message-->
+    <string name="msg_error">Some error occurred</string>
+    <string name="msg_no_news">News not available at the moment</string>
+    <string name="msg_news_bookmarked">News bookmarked</string>
+    <string name="msg_link_copied">Link copied to clipboard</string>
+    <string name="msg_no_internet_1">No internet</string>
+    <string name="msg_no_internet_2">Slow or no internet connection.\nPlease check your Internet Connection</string>
+    <!--END message-->
+
+    <!--START description-->
+    <string name="desc_overlay">overlay</string>
+    <string name="desc_image">image</string>
+    <string name="desc_more">more</string>
+    <!--KEY description-->
+
+    <!--START setting country-->
+    <string name="settings_country_label">Preferred region</string>
+    <string name="settings_country_key" translatable="false">country</string>
+    <string name="settings_country_uae_label">UAE</string>
+    <string name="settings_country_uae_value" translatable="false">ar</string>
+    <string name="settings_country_argentina_label">Argentina</string>
+    <string name="settings_country_argentina_value" translatable="false">ae</string>
+    <string name="settings_country_austria_label">Austria</string>
+    <string name="settings_country_austria_value" translatable="false">at</string>
+    <string name="settings_country_australia_label">Australia</string>
+    <string name="settings_country_australia_value" translatable="false">au</string>
+    <string name="settings_country_belgium_label">Belgium</string>
+    <string name="settings_country_belgium_value" translatable="false">be</string>
+    <string name="settings_country_bulgaria_label">Bulgaria</string>
+    <string name="settings_country_bulgaria_value" translatable="false">bg</string>
+    <string name="settings_country_brazil_label">Brazil</string>
+    <string name="settings_country_brazil_value" translatable="false">br</string>
+    <string name="settings_country_canada_label">Canada</string>
+    <string name="settings_country_canada_value" translatable="false">ca</string>
+    <string name="settings_country_switzerland_label">Switzerland</string>
+    <string name="settings_country_switzerland_value" translatable="false">ch</string>
+    <string name="settings_country_china_label">China</string>
+    <string name="settings_country_china_value" translatable="false">cn</string>
+    <string name="settings_country_colombia_label">Colombia</string>
+    <string name="settings_country_colombia_value" translatable="false">co</string>
+    <string name="settings_country_cuba_label">Cuba</string>
+    <string name="settings_country_cuba_value" translatable="false">cu</string>
+    <string name="settings_country_czechia_label">Czechia</string>
+    <string name="settings_country_czechia_value" translatable="false">cz</string>
+    <string name="settings_country_germany_label">Germany</string>
+    <string name="settings_country_germany_value" translatable="false">de</string>
+    <string name="settings_country_egypt_label">Egypt</string>
+    <string name="settings_country_egypt_value" translatable="false">eg</string>
+    <string name="settings_country_france_label">France</string>
+    <string name="settings_country_france_value" translatable="false">fr</string>
+    <string name="settings_country_unitedKingdom_label">United Kingdom</string>
+    <string name="settings_country_unitedKingdom_value" translatable="false">gb</string>
+    <string name="settings_country_greece_label">Greece</string>
+    <string name="settings_country_greece_value" translatable="false">gr</string>
+    <string name="settings_country_hongKong_label">Hong Kong</string>
+    <string name="settings_country_hongKong_value" translatable="false">hk</string>
+    <string name="settings_country_hungary_label">Hungary</string>
+    <string name="settings_country_hungary_value" translatable="false">hu</string>
+    <string name="settings_country_indonesia_label">Indonesia</string>
+    <string name="settings_country_indonesia_value" translatable="false">id</string>
+    <string name="settings_country_ireland_label">Ireland</string>
+    <string name="settings_country_ireland_value" translatable="false">ie</string>
+    <string name="settings_country_israel_label">Israel</string>
+    <string name="settings_country_israel_value" translatable="false">il</string>
+    <string name="settings_country_india_label">India</string>
+    <string name="settings_country_india_value" translatable="false">in</string>
+    <string name="settings_country_italy_label">Italy</string>
+    <string name="settings_country_italy_value" translatable="false">it</string>
+    <string name="settings_country_japan_label">Japan</string>
+    <string name="settings_country_japan_value" translatable="false">jp</string>
+    <string name="settings_country_southKorea_label">South Korea</string>
+    <string name="settings_country_southKorea_value" translatable="false">kr</string>
+    <string name="settings_country_lithuania_label">Lithuania</string>
+    <string name="settings_country_lithuania_value" translatable="false">lt</string>
+    <string name="settings_country_latvia_label">Latvia</string>
+    <string name="settings_country_latvia_value" translatable="false">lv</string>
+    <string name="settings_country_morocco_label">Morocco</string>
+    <string name="settings_country_morocco_value" translatable="false">ma</string>
+    <string name="settings_country_mexico_label">Mexico</string>
+    <string name="settings_country_mexico_value" translatable="false">mx</string>
+    <string name="settings_country_malaysia_label">Malaysia</string>
+    <string name="settings_country_malaysia_value" translatable="false">my</string>
+    <string name="settings_country_nigeria_label">Nigeria</string>
+    <string name="settings_country_nigeria_value" translatable="false">ng</string>
+    <string name="settings_country_netherlands_label">Netherlands</string>
+    <string name="settings_country_netherlands_value" translatable="false">nl</string>
+    <string name="settings_country_norway_label">Norway</string>
+    <string name="settings_country_norway_value" translatable="false">no</string>
+    <string name="settings_country_newZealand_label">New Zealand</string>
+    <string name="settings_country_newZealand_value" translatable="false">nz</string>
+    <string name="settings_country_philippines_label">Philippines</string>
+    <string name="settings_country_philippines_value" translatable="false">ph</string>
+    <string name="settings_country_poland_label">Poland</string>
+    <string name="settings_country_poland_value" translatable="false">pl</string>
+    <string name="settings_country_portugal_label">Portugal</string>
+    <string name="settings_country_portugal_value" translatable="false">pt</string>
+    <string name="settings_country_romania_label">Romania</string>
+    <string name="settings_country_romania_value" translatable="false">ro</string>
+    <string name="settings_country_serbia_label">Serbia</string>
+    <string name="settings_country_serbia_value" translatable="false">rs</string>
+    <string name="settings_country_russia_label">Russia</string>
+    <string name="settings_country_russia_value" translatable="false">ru</string>
+    <string name="settings_country_saudiArabia_label">Saudi Arabia</string>
+    <string name="settings_country_saudiArabia_value" translatable="false">sa</string>
+    <string name="settings_country_sweden_label">Sweden</string>
+    <string name="settings_country_sweden_value" translatable="false">se</string>
+    <string name="settings_country_singapore_label">Singapore</string>
+    <string name="settings_country_singapore_value" translatable="false">sg</string>
+    <string name="settings_country_slovenia_label">Slovenia</string>
+    <string name="settings_country_slovenia_value" translatable="false">si</string>
+    <string name="settings_country_slovakia_label">Slovakia</string>
+    <string name="settings_country_slovakia_value" translatable="false">sk</string>
+    <string name="settings_country_thailand_label">Thailand</string>
+    <string name="settings_country_thailand_value" translatable="false">th</string>
+    <string name="settings_country_turkey_label">Turkey</string>
+    <string name="settings_country_turkey_value" translatable="false">tr</string>
+    <string name="settings_country_taiwan_label">Taiwan</string>
+    <string name="settings_country_taiwan_value" translatable="false">tw</string>
+    <string name="settings_country_ukraine_label">Ukraine</string>
+    <string name="settings_country_ukraine_value" translatable="false">ua</string>
+    <string name="settings_country_usa_label">USA</string>
+    <string name="settings_country_usa_value" translatable="false">us</string>
+    <string name="settings_country_venezuela_label">Venezuela</string>
+    <string name="settings_country_venezuela_value" translatable="false">ve</string>
+    <string name="settings_country_southAfrica_label">South Africa</string>
+    <string name="settings_country_southAfrica_value" translatable="false">za</string>
+    <!--END setting country-->
+
+    <!--START setting default view-->
+    <string name="settings_default_view_label">Default view</string>
+    <string name="settings_default_view_key" translatable="false">default_view</string>
+    <string name="settings_default_view_card_label">Card</string>
+    <string name="settings_default_view_card_value" translatable="false">Card</string>
+    <string name="settings_default_view_list_label">List</string>
+    <string name="settings_default_view_list_value" translatable="false">List</string>
+    <!--END setting default view-->
+
+    <!--START setting page size-->
     <string name="setting_page_size_key" translatable="false">page_size</string>
     <string name="setting_page_size_label">Page Size</string>
-
-    <string name="settings_order_by_newest_label">Most Recent</string>
-    <string name="settings_order_by_newest_value" translatable="false">newest</string>
-
-    <string name="settings_order_by_relevance_label">Relevance</string>
-    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
-
     <string name="settings_max_page_default_value">20</string>
+    <!--END setting page size-->
 
-    <string name="query_order_by" translatable="false">order-by</string>
-    <string name="query_page_size" translatable="false">page-size</string>
-    <string name="section" translatable="false">section</string>
+    <!--START news category-->
+    <string name="category_country" />
+    <string name="category_business">Business</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_science">Science</string>
+    <string name="category_health">Health</string>
+    <!--END news category-->
+
+    <array name="category_array">
+        <item>@string/category_country</item>
+        <item>@string/category_business</item>
+        <item>@string/category_technology</item>
+        <item>@string/category_entertainment</item>
+        <item>@string/category_sports</item>
+        <item>@string/category_science</item>
+        <item>@string/category_health</item>
+    </array>
 
 </resources>

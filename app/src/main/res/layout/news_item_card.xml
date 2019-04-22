@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/two_hundred_dp"
         android:layout_margin="@dimen/eight_dp"
-        app:cardBackgroundColor="@color/cardview_dark_background"
         app:cardCornerRadius="@dimen/eight_dp">
 
         <RelativeLayout
@@ -19,35 +18,34 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/overlay"
+                android:contentDescription="@string/desc_image"
                 android:scaleType="fitXY"
-                android:src="@android:color/black" />
+                tools:src="@tools:sample/backgrounds/scenic" />
 
-            <ImageView
-                android:id="@+id/thumbnail"
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/desc_overlay"
                 android:alpha="0.5"
-                android:contentDescription="@string/image"
-                android:scaleType="fitXY"
-                tools:src="@drawable/ic_launcher_background" />
+                android:background="@android:color/black" />
 
             <TextView
-                android:id="@+id/author"
+                android:id="@+id/source"
                 style="@style/authorTextViewStyle"
-                android:layout_above="@id/headline"
+                android:layout_above="@id/title"
                 android:textColor="@color/less_white"
-                tools:text="Rupert Jones | The Guardian" />
+                tools:text="@tools:sample/full_names" />
 
             <TextView
-                android:id="@+id/headline"
+                android:id="@+id/title"
                 style="@style/headlineTextViewStyle"
                 android:layout_above="@id/date_holder"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_four_sp"
-                tools:text="Ashley faces potential revolt at Sports Direct annual meeting" />
+                tools:text="@tools:sample/lorem/random" />
 
             <RelativeLayout
                 android:id="@+id/date_holder"
@@ -65,12 +63,12 @@
                     android:layout_alignStart="@id/more"
                     android:layout_alignLeft="@id/more"
                     android:textColor="@color/less_white"
-                    tools:text="2018-09-02" />
+                    tools:text="@tools:sample/date/ddmmyy" />
 
                 <ImageButton
                     android:id="@+id/more"
                     style="@style/moreImageButtonStyle"
-                    android:contentDescription="@string/more"
+                    android:contentDescription="@string/desc_more"
                     android:src="@drawable/ic_more_vert_black_24dp"
                     android:tint="@color/less_white" />
 
