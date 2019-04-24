@@ -33,6 +33,7 @@ dependencies {
     implementation "androidx.preference:preference:$rootProject.preferenceVersion"
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
     implementation "androidx.legacy:legacy-support-v4:$rootProject.supportLibraryVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
 
     // Room
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"

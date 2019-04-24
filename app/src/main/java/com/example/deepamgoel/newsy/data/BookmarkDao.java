@@ -1,5 +1,6 @@
 package com.example.deepamgoel.newsy.data;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,11 +13,11 @@ import java.util.List;
 public interface BookmarkDao {
 
     @Query("SELECT * FROM bookmarks")
-    List<Bookmark> getBookmarks();
+    LiveData<List<Bookmark>> getAllBookmarks();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertBookmark(Bookmark bookmark);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Bookmark bookmark);
 
     @Delete
-    void deleteBookmark(Bookmark bookmark);
+    void delete(Bookmark bookmark);
 }

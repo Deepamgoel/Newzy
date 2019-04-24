@@ -148,20 +148,36 @@
     <string name="settings_country_southAfrica_value" translatable="false">za</string>
     <!--END setting country-->
 
-    <!--START setting default view-->
-    <string name="settings_default_view_label">Default view</string>
-    <string name="settings_default_view_key" translatable="false">default_view</string>
-    <string name="settings_default_view_card_label">Card</string>
-    <string name="settings_default_view_card_value" translatable="false">Card</string>
-    <string name="settings_default_view_list_label">List</string>
-    <string name="settings_default_view_list_value" translatable="false">List</string>
-    <!--END setting default view-->
-
     <!--START setting page size-->
     <string name="setting_page_size_key" translatable="false">page_size</string>
     <string name="setting_page_size_label">Page Size</string>
     <string name="settings_max_page_default_value">20</string>
     <!--END setting page size-->
+
+    <!--START setting default view-->
+    <string name="settings_default_view_key" translatable="false">default_view</string>
+    <string name="settings_default_view_label">Default view</string>
+    <string name="settings_default_view_card">Card</string>
+    <string name="settings_default_view_list">List</string>
+    <!--END setting default view-->
+
+    <!--START setting dark theme-->
+    <string name="settings_dark_theme_key" translatable="false">dark_theme</string>
+    <string name="settings_dark_theme_label">Dark theme</string>
+    <string name="settings_dark_theme_summary">For better readability at night</string>
+    <!--END setting dark theme-->
+
+    <!--START setting default browser-->
+    <string name="settings_default_browser_key" translatable="false">default_browser</string>
+    <string name="settings_default_browser_label">In-App Browser</string>
+    <string name="settings_default_browser_summary">Open external links within the app</string>
+    <!--END setting default browser-->
+
+    <!--START setting default browser-->
+    <string name="settings_notification_key" translatable="false">get_notification</string>
+    <string name="settings_notification_label">Get notification</string>
+    <string name="settings_notification_summary">Get notified about latest news</string>
+    <!--END setting default browser-->
 
     <!--START news category-->
     <string name="category_country" />

@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <array name="setting_order_by_labels">-->
-<!--        <item>@string/settings_order_by_newest_label</item>-->
-<!--        <item>@string/settings_order_by_relevance_label</item>-->
-<!--    </array>-->
-
-<!--    <array name="setting_order_by_values">-->
-<!--        <item>@string/settings_order_by_newest_value</item>-->
-<!--        <item>@string/settings_order_by_relevance_value</item>-->
-<!--    </array>-->
 
     <array name="setting_country_labels">
         <item>@string/settings_country_argentina_label</item>
@@ -124,13 +115,9 @@
         <item>@string/settings_country_venezuela_value</item>
     </array>
 
-    <array name="setting_default_view_labels">
-        <item>@string/settings_default_view_list_label</item>
-        <item>@string/settings_default_view_card_label</item>
+    <array name="setting_default_view_entries">
+        <item>@string/settings_default_view_list</item>
+        <item>@string/settings_default_view_card</item>
     </array>
 
-    <array name="setting_default_view_values">
-        <item>@string/settings_default_view_list_value</item>
-        <item>@string/settings_default_view_card_value</item>
-    </array>
 </resources>

@@ -1,8 +1,6 @@
 package com.example.deepamgoel.newsy.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,7 +29,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,8 +40,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
 
 import static android.content.ContentValues.TAG;
+import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
-public class RecyclerViewFragment extends Fragment implements Callback<ApiResponse> {
+public class NewsListFragment extends Fragment implements Callback<ApiResponse> {
     private static final String ARG_SECTION = "section";
     private static final String ARG_INDEX = "index";
 
@@ -61,14 +58,14 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     private int mPageIndex;
     private String mCategory;
     private NewsApiService mApiService;
-    private SharedPreferences mPreferences;
+    private RecyclerViewAdapter adapter;
     private List<Article> mArticles = new ArrayList<>();
 
-    private RecyclerViewFragment() {
+    private NewsListFragment() {
     }
 
-    static RecyclerViewFragment newInstance(int index, String section) {
-        RecyclerViewFragment fragment = new RecyclerViewFragment();
+    static NewsListFragment newInstance(int index, String section) {
+        NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_INDEX, index);
         args.putString(ARG_SECTION, section);
@@ -88,7 +85,7 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_news_list, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -96,16 +93,12 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        recyclerView.setAdapter(new RecyclerViewAdapter(
-                Objects.requireNonNull(getContext()), mArticles));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DividerItemDecoration divider = new DividerItemDecoration(
-                Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL);
-        divider.setDrawable(
-                Objects.requireNonNull(ResourcesCompat.getDrawable(
-                        getResources(), R.drawable.divider, null)));
+        adapter = new RecyclerViewAdapter(requireActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        DividerItemDecoration divider = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(getResources().getDrawable(R.drawable.divider));
         recyclerView.addItemDecoration(divider);
 
         Gson gson = new GsonBuilder()
@@ -119,13 +112,7 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
 
         mApiService = retrofit.create(NewsApiService.class);
 
-        mPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> refresh());
-
-        refreshLayout.setOnRefreshListener(() -> {
-            refreshLayout.setRefreshing(true);
-            refresh();
-        });
-
+        refreshLayout.setOnRefreshListener(this::refresh);
         emptyViewButton.setOnClickListener(v -> refresh());
     }
 
@@ -137,26 +124,23 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     }
 
     private void refresh() {
-        if (QueryUtils.isConnected(Objects.requireNonNull(getContext()))) {
+        if (QueryUtils.isConnected(requireActivity())) {
             request(mApiService);
         } else {
-            refreshLayout.setRefreshing(false);
-            View view = Objects.requireNonNull(getActivity()).
-                    findViewById(android.R.id.content);
-            Snackbar.make(view, getString(R.string.msg_no_internet_1), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.msg_no_internet_1), Snackbar.LENGTH_SHORT).show();
             if (mArticles.size() == 0) {
                 recyclerView.setVisibility(View.INVISIBLE);
                 emptyViewButton.setVisibility(View.VISIBLE);
                 emptyViewTextView.setVisibility(View.VISIBLE);
                 emptyViewTextView.setText(R.string.msg_no_internet_2);
-                // TODO: 17-04-2019 implement caching
             }
         }
     }
 
     private void request(NewsApiService apiService) {
-        String country = mPreferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
-        String pageSize = mPreferences.getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
+        String country = getPreferences().getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value));
+        String pageSize = getPreferences().getString(getString(R.string.setting_page_size_key), getString(R.string.settings_max_page_default_value));
 
         Call<ApiResponse> responseCall;
         if (mPageIndex == 0)
@@ -200,11 +184,10 @@ public class RecyclerViewFragment extends Fragment implements Callback<ApiRespon
     }
 
     private void updateData(List<Article> data) {
-        refreshLayout.setRefreshing(false);
         if (data != null && !data.isEmpty()) {
             mArticles.clear();
             mArticles.addAll(data);
-            Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            adapter.addArticleList(mArticles);
             recyclerView.setVisibility(View.VISIBLE);
             emptyViewButton.setVisibility(View.INVISIBLE);
             emptyViewTextView.setVisibility(View.INVISIBLE);

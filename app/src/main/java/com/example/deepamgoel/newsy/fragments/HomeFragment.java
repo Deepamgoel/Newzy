@@ -1,8 +1,6 @@
 package com.example.deepamgoel.newsy.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +19,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
 public class HomeFragment extends Fragment {
 
@@ -44,8 +44,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sectionList = Arrays.asList(getResources().getStringArray(R.array.category_array));
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sectionList.set(0, preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value)));
+        sectionList.set(0, getPreferences().getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value)));
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
@@ -56,13 +55,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        tabLayout.getTabAt(0).setText(preferences.getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value)));
+        tabLayout.getTabAt(0).setText(getPreferences().getString(getString(R.string.settings_country_key), getString(R.string.settings_country_india_value)));
     }
 
     private void setUpPage() {
         for (int i = 0; i < sectionList.size(); i++) {
-            Fragment fragment = RecyclerViewFragment.newInstance(i, sectionList.get(i));
+            Fragment fragment = NewsListFragment.newInstance(i, sectionList.get(i));
             adapter.addFragment(fragment, sectionList.get(i));
             adapter.notifyDataSetChanged();
         }

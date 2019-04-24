@@ -1,18 +1,13 @@
 package com.example.deepamgoel.newsy.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 import com.example.deepamgoel.newsy.R;
 
-import java.util.Objects;
+import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
@@ -31,10 +26,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
     private void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(this);
-        SharedPreferences preferences = PreferenceManager.
-                getDefaultSharedPreferences(preference.getContext());
-        String preferenceString = preferences.getString(preference.getKey(), "");
-        onPreferenceChange(preference, Objects.requireNonNull(preferenceString));
+        String preferenceString = getPreferences().getString(preference.getKey(), "");
+        onPreferenceChange(preference, preferenceString);
     }
 
     @Override
