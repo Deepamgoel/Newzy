@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.adapters;
+package com.example.deepamgoel.newsy.view.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.adapters;
+package com.example.deepamgoel.newsy.view.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -6,6 +6,9 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +33,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Context.VIBRATOR_SERVICE;
 import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class ArticleListRecyclerViewAdapter
+        extends RecyclerView.Adapter<ArticleListRecyclerViewAdapter.ViewHolder> {
     private Context mContext;
     private List<Article> mArticleList;
 
-    public RecyclerViewAdapter(Context context) {
+    public ArticleListRecyclerViewAdapter(Context context) {
         this.mContext = context;
     }
 
@@ -85,6 +90,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.parent.setOnClickListener(v -> WebUtils.loadUrl(mContext, uri));
             holder.more.setOnClickListener(v -> onClickMore(uri));
             holder.parent.setOnLongClickListener(v -> {
+                v.setHapticFeedbackEnabled(true);
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 onClickMore(uri);
                 return false;
             });

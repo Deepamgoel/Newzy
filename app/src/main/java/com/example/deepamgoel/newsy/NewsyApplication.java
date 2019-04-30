@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.squareup.leakcanary.LeakCanary;
-
 public class NewsyApplication extends Application {
 
     private static SharedPreferences sPreferences;
@@ -15,7 +13,7 @@ public class NewsyApplication extends Application {
         return sPreferences;
     }
 
-    public static NewsyApplication getInstance() {
+    public static NewsyApplication getAppContext() {
         return instance;
     }
 
@@ -26,10 +24,6 @@ public class NewsyApplication extends Application {
         instance = this;
         sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
     }
 
 

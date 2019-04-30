@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.activities;
+package com.example.deepamgoel.newsy.view.ui.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.deepamgoel.newsy.R;
-import com.example.deepamgoel.newsy.fragments.BookmarkFragment;
-import com.example.deepamgoel.newsy.fragments.HomeFragment;
-import com.example.deepamgoel.newsy.fragments.SearchFragment;
-import com.example.deepamgoel.newsy.fragments.SettingsFragment;
+import com.example.deepamgoel.newsy.view.ui.fragments.BookmarkFragment;
+import com.example.deepamgoel.newsy.view.ui.fragments.HomeFragment;
+import com.example.deepamgoel.newsy.view.ui.fragments.SearchFragment;
+import com.example.deepamgoel.newsy.view.ui.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import butterknife.BindView;

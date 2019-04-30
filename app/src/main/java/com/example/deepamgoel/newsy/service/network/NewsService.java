@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.interfaces;
+package com.example.deepamgoel.newsy.service.network;
 
 import com.example.deepamgoel.newsy.BuildConfig;
 import com.example.deepamgoel.newsy.models.ApiResponse;
@@ -7,18 +7,18 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface NewsApiService {
+public interface NewsService {
     String API_KEY = BuildConfig.NewsApiKey;
     String BASE_URL = "https://newsapi.org/";
 
     @GET("v2/top-headlines")
-    Call<ApiResponse> getTopHeadlinesByCountry(
+    Call<ApiResponse> getTopHeadlines(
             @Query("country") String country,
             @Query("pageSize") String pageSize,
             @Query("apiKey") String apiKey);
 
     @GET("v2/top-headlines")
-    Call<ApiResponse> getTopHeadlinesByCategory(
+    Call<ApiResponse> getTopArticlesByCategory(
             @Query("category") String category,
             @Query("country") String country,
             @Query("pageSize") String pageSize,

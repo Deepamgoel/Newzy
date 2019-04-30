@@ -180,7 +180,7 @@
     <!--END setting default browser-->
 
     <!--START news category-->
-    <string name="category_country" />
+    <string name="category_headline">Headlines</string>
     <string name="category_business">Business</string>
     <string name="category_technology">Technology</string>
     <string name="category_entertainment">Entertainment</string>
@@ -190,7 +190,7 @@
     <!--END news category-->
 
     <array name="category_array">
-        <item>@string/category_country</item>
+        <item>@string/category_headline</item>
         <item>@string/category_business</item>
         <item>@string/category_technology</item>
         <item>@string/category_entertainment</item>

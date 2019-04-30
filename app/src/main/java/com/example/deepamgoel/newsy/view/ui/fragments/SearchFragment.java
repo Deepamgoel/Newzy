@@ -1,4 +1,4 @@
-package com.example.deepamgoel.newsy.fragments;
+package com.example.deepamgoel.newsy.view.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
