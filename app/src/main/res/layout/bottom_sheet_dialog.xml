@@ -36,4 +36,11 @@
         android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
         android:text="@string/label_bookmark" />
 
+    <TextView
+        android:id="@+id/remove_bookmark"
+        style="@style/Dialog"
+        android:drawableStart="@drawable/ic_bookmark_border_black_24dp"
+        android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
+        android:text="@string/label_remove_bookmark" />
+
 </LinearLayout>

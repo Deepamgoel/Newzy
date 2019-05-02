@@ -13,20 +13,22 @@
     <!--END tabs-->
 
     <!--START label-->
-    <string name="label_preview">Preview</string>
+    <string name="label_retry">Retry</string>
     <string name="label_share">Share</string>
+    <string name="label_preview">Preview</string>
     <string name="label_copy_link">Copy link</string>
     <string name="label_bookmark">Bookmark</string>
-    <string name="label_retry">Retry</string>
+    <string name="label_remove_bookmark">Remove from bookmark</string>
     <!--END label-->
 
     <!--START message-->
-    <string name="msg_error">Some error occurred</string>
-    <string name="msg_no_news">News not available at the moment</string>
-    <string name="msg_news_bookmarked">News bookmarked</string>
-    <string name="msg_link_copied">Link copied to clipboard</string>
+    <string name="msg_error">Something went wrong!</string>
+    <string name="msg_no_news">News not available at the moment!</string>
     <string name="msg_no_internet_1">No internet</string>
-    <string name="msg_no_internet_2">Slow or no internet connection.\nPlease check your Internet Connection</string>
+    <string name="msg_news_bookmarked">News bookmarked</string>
+    <string name="msg_bookmarked_removed">Bookmarked removed</string>
+    <string name="msg_no_bookmarked">Nothing to show!</string>
+    <string name="msg_link_copied">Link copied to clipboard</string>
     <!--END message-->
 
     <!--START description-->

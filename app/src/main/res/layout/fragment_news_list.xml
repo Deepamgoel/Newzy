@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.fragments.ArticleListFragment">
+    tools:context=".ui.home.ArticleList.ArticleListFragment">
 
     <Button
         android:id="@+id/emptyView_button"
@@ -25,7 +25,7 @@
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@android:color/black"
         android:visibility="invisible"
-        tools:text="@string/msg_no_internet_2" />
+        tools:text="@string/msg_no_internet_1" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

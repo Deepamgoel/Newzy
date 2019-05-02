@@ -22,7 +22,7 @@ buildscript {
         preferenceVersion = '1.1.0-alpha04'
         recyclerViewVersion = '1.1.0-alpha04'
         retrofitVersion = '2.5.0'
-        roomVersion = '2.1.0-alpha04'
+        roomVersion = '2.1.0-alpha07'
         supportLibraryVersion = '1.0.0'
 
     }
