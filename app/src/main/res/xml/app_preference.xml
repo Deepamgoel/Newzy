@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:title="@string/title_settings">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
-        android:title="General"
+        android:title="@string/settings_category_general_label"
         app:iconSpaceReserved="false">
 
         <ListPreference
@@ -15,79 +14,96 @@
             android:icon="@drawable/ic_language_black_24dp"
             android:key="@string/settings_country_key"
             android:title="@string/settings_country_label" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
-        android:title="View Options"
+        android:title="@string/settings_category_view_options_label"
         app:iconSpaceReserved="false">
+
         <ListPreference
-            android:defaultValue="@string/settings_default_view_list_value"
-            android:entries="@array/setting_default_view_labels"
-            android:entryValues="@array/setting_default_view_values"
+            android:defaultValue="@string/settings_default_view_list"
+            android:entries="@array/setting_default_view_entries"
+            android:entryValues="@array/setting_default_view_entries"
             android:icon="@drawable/ic_view_day_black_24dp"
             android:key="@string/settings_default_view_key"
             android:title="@string/settings_default_view_label" />
 
         <EditTextPreference
             android:defaultValue="@string/settings_max_page_default_value"
+            android:dialogLayout="@layout/preference_dialog_edittext_custom"
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:inputType="numberDecimal"
             android:key="@string/setting_page_size_key"
-            android:selectAllOnFocus="true"
             android:title="@string/setting_page_size_label" />
 
         <SwitchPreference
             android:enabled="false"
             android:icon="@drawable/ic_brightness_2_black_24dp"
-            android:title="Dark theme" />
+            android:key="@string/settings_dark_theme_key"
+            android:summary="@string/settings_dark_theme_summary"
+            android:title="@string/settings_dark_theme_label" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
-        android:title="Advanced"
+        android:title="@string/settings_category_advance_settings_label"
         app:iconSpaceReserved="false">
+
         <SwitchPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_open_in_browser_black_24dp"
-            android:title="In-App Browser" />
+            android:key="@string/settings_default_browser_key"
+            android:summary="@string/settings_default_browser_summary"
+            android:title="@string/settings_default_browser_label" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:enabled="false"
         android:layout="@layout/preference_category_custom"
-        android:title="Alerts"
+        android:title="@string/settings_category_alerts_label"
         app:iconSpaceReserved="false">
+
         <SwitchPreference
             android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="Push Notifications" />
+            android:key="@string/settings_notification_key"
+            android:summary="@string/settings_notification_summary"
+            android:title="@string/settings_notification_label" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:enabled="false"
         android:layout="@layout/preference_category_custom"
-        android:title="About"
-        app:iconSpaceReserved="false">
+        android:title="@string/settings_category_about_label">
+
         <Preference
             android:icon="@drawable/ic_description_black_24dp"
-            android:title="Acknowledgements" />
+            android:key="@string/settings_acknowledgement_key"
+            android:title="@string/settings_acknowledgement_label" />
 
         <Preference
             android:icon="@drawable/ic_security_black_24dp"
-            android:title="Privacy Policy" />
+            android:key="@string/settings_privacy_policy_key"
+            android:title="@string/settings_privacy_policy_label" />
 
         <Preference
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="About app" />
+            android:key="@string/settings_about_app_key"
+            android:title="@string/settings_about_app_label" />
+
     </PreferenceCategory>
 
     <Preference
-        android:enabled="false"
-        android:title="Share this App"
+        android:key="@string/settings_share_app_key"
+        android:title="@string/settings_share_app_label"
         app:allowDividerAbove="false"
         app:iconSpaceReserved="false" />
+
     <Preference
-        android:enabled="false"
-        android:title="Feedback"
+        android:key="@string/settings_feedback_key"
+        android:title="@string/settings_feedback_label"
         app:iconSpaceReserved="false" />
 
 </PreferenceScreen>

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Newsy</string>
 
+    <!--START apk url-->
+    <string name="apk_url" />
+    <!--END apk url-->
+
     <!--START title-->
     <string name="title_settings">Settings</string>
     <!--END title-->
@@ -13,27 +17,38 @@
     <!--END tabs-->
 
     <!--START label-->
-    <string name="label_preview">Preview</string>
+    <string name="label_retry">Retry</string>
     <string name="label_share">Share</string>
+    <string name="label_preview">Preview</string>
     <string name="label_copy_link">Copy link</string>
     <string name="label_bookmark">Bookmark</string>
-    <string name="label_retry">Retry</string>
+    <string name="label_remove_bookmark">Remove from bookmark</string>
     <!--END label-->
 
     <!--START message-->
-    <string name="msg_error">Some error occurred</string>
-    <string name="msg_no_news">News not available at the moment</string>
+    <string name="msg_error">Something went wrong!</string>
+    <string name="msg_no_news">News not available at the moment!</string>
+    <string name="msg_no_internet">No internet</string>
     <string name="msg_news_bookmarked">News bookmarked</string>
+    <string name="msg_bookmarked_removed">Bookmarked removed</string>
+    <string name="msg_no_bookmark">Nothing to show!</string>
     <string name="msg_link_copied">Link copied to clipboard</string>
-    <string name="msg_no_internet_1">No internet</string>
-    <string name="msg_no_internet_2">Slow or no internet connection.\nPlease check your Internet Connection</string>
+    <string name="msg_share">Hey, check out this news app, Newsy at: %s</string>
     <!--END message-->
 
     <!--START description-->
     <string name="desc_overlay">overlay</string>
     <string name="desc_image">image</string>
     <string name="desc_more">more</string>
-    <!--KEY description-->
+    <!--END description-->
+
+    <!--START settings category-->
+    <string name="settings_category_general_label">General</string>
+    <string name="settings_category_view_options_label">View options</string>
+    <string name="settings_category_advance_settings_label">Advance Settings</string>
+    <string name="settings_category_alerts_label">Alerts</string>
+    <string name="settings_category_about_label">About</string>
+    <!--END settings category-->
 
     <!--START setting country-->
     <string name="settings_country_label">Preferred region</string>
@@ -148,23 +163,67 @@
     <string name="settings_country_southAfrica_value" translatable="false">za</string>
     <!--END setting country-->
 
-    <!--START setting default view-->
-    <string name="settings_default_view_label">Default view</string>
-    <string name="settings_default_view_key" translatable="false">default_view</string>
-    <string name="settings_default_view_card_label">Card</string>
-    <string name="settings_default_view_card_value" translatable="false">Card</string>
-    <string name="settings_default_view_list_label">List</string>
-    <string name="settings_default_view_list_value" translatable="false">List</string>
-    <!--END setting default view-->
-
     <!--START setting page size-->
     <string name="setting_page_size_key" translatable="false">page_size</string>
     <string name="setting_page_size_label">Page Size</string>
     <string name="settings_max_page_default_value">20</string>
     <!--END setting page size-->
 
+    <!--START setting default view-->
+    <string name="settings_default_view_key" translatable="false">default_view</string>
+    <string name="settings_default_view_label">Default view</string>
+    <string name="settings_default_view_card">Card</string>
+    <string name="settings_default_view_list">List</string>
+    <!--END setting default view-->
+
+    <!--START setting dark theme-->
+    <string name="settings_dark_theme_key" translatable="false">dark_theme</string>
+    <string name="settings_dark_theme_label">Dark theme</string>
+    <string name="settings_dark_theme_summary">For better readability at night</string>
+    <!--END setting dark theme-->
+
+    <!--START setting default browser-->
+    <string name="settings_default_browser_key" translatable="false">default_browser</string>
+    <string name="settings_default_browser_label">In-App Browser</string>
+    <string name="settings_default_browser_summary">Open external links within the app</string>
+    <!--END setting default browser-->
+
+    <!--START setting default browser-->
+    <string name="settings_notification_key" translatable="false">get_notification</string>
+    <string name="settings_notification_label">Get notification</string>
+    <string name="settings_notification_summary">Get notified about latest news</string>
+    <!--END setting default browser-->
+
+    <!--START setting acknowledgement-->
+    <string name="settings_acknowledgement_key" translatable="false">acknowledgements</string>
+    <string name="settings_acknowledgement_label">Acknowledgements</string>
+    <string name="settings_acknowledgement_url" formatted="false" translatable="false">"file:///android_asset/acknowledgement.html"</string>
+    <!--END setting acknowledgement-->
+
+    <!--START setting privacy policy-->
+    <string name="settings_privacy_policy_key" translatable="false">privacy_policy</string>
+    <string name="settings_privacy_policy_label">Privacy policy</string>
+    <string name="settings_privacy_policy_url" formatted="false" translatable="false">https://www.freeprivacypolicy.com/privacy/view/9e361b72cda576ae0445461d5af28c49</string>
+    <!--END setting privacy policy-->
+
+    <!--START setting about app-->
+    <string name="settings_about_app_key" translatable="false">about_app</string>
+    <string name="settings_about_app_label">About app</string>
+    <!--END setting about app-->
+
+    <!--START setting share app-->
+    <string name="settings_share_app_key" translatable="false">share_app</string>
+    <string name="settings_share_app_label">Share this app</string>
+    <!--END setting share app-->
+
+    <!--START setting feedback-->
+    <string name="settings_feedback_key" translatable="false">feedback</string>
+    <string name="settings_feedback_label">Feedback</string>
+    <string name="settings_feedback_url" formatted="false" translatable="false">https://forms.gle/JYarqpuTD4VqU86f6</string>
+    <!--END setting feedback-->
+
     <!--START news category-->
-    <string name="category_country" />
+    <string name="category_headline">Headlines</string>
     <string name="category_business">Business</string>
     <string name="category_technology">Technology</string>
     <string name="category_entertainment">Entertainment</string>
@@ -174,7 +233,7 @@
     <!--END news category-->
 
     <array name="category_array">
-        <item>@string/category_country</item>
+        <item>@string/category_headline</item>
         <item>@string/category_business</item>
         <item>@string/category_technology</item>
         <item>@string/category_entertainment</item>
