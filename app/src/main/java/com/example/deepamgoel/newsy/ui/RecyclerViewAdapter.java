@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.model.Article;
+import com.example.deepamgoel.newsy.ui.bookmark.BookmarksFragment;
 import com.example.deepamgoel.newsy.util.QueryUtils;
 import com.example.deepamgoel.newsy.util.WebUtils;
 import com.example.deepamgoel.newsy.viewmodel.BookmarksViewModel;
@@ -36,12 +38,15 @@ import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context mContext;
-    private List<Article> mArticles;
     private BookmarksViewModel mViewModel;
+    private String mParent;
 
-    public RecyclerViewAdapter(Context context, BookmarksViewModel viewModel) {
+    private List<Article> mArticles;
+
+    public RecyclerViewAdapter(Context context, BookmarksViewModel viewModel, String parent) {
         this.mContext = context;
         this.mViewModel = viewModel;
+        this.mParent = parent;
     }
 
     @NonNull
@@ -134,9 +139,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             dialog.dismiss();
         });
 
-        // TODO: 02-05-2019  
         TextView bookmarkTextView = view.findViewById(R.id.bookmark);
-        bookmarkTextView.setVisibility(View.VISIBLE);
         bookmarkTextView.setOnClickListener(v -> {
             if (mViewModel != null) {
                 mViewModel.insert(article);
@@ -146,7 +149,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
         TextView removeBookmarkTextView = view.findViewById(R.id.remove_bookmark);
-        removeBookmarkTextView.setVisibility(View.VISIBLE);
         removeBookmarkTextView.setOnClickListener(v -> {
             if (mViewModel != null) {
                 mViewModel.delete(article);
@@ -154,6 +156,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 dialog.dismiss();
             }
         });
+
+        Log.d("TAG", "onClickMore: " + mParent);
+        if (mParent.equals(BookmarksFragment.class.getSimpleName())) {
+            bookmarkTextView.setEnabled(false);
+            bookmarkTextView.setVisibility(View.GONE);
+            removeBookmarkTextView.setEnabled(true);
+            removeBookmarkTextView.setVisibility(View.VISIBLE);
+        } else {
+            removeBookmarkTextView.setEnabled(false);
+            removeBookmarkTextView.setVisibility(View.GONE);
+            bookmarkTextView.setEnabled(true);
+            bookmarkTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     public void updateAdapter(List<Article> list, BookmarksViewModel viewModel) {

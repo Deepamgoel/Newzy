@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Newsy</string>
 
+    <!--START apk url-->
+    <string name="apk_url" />
+    <!--END apk url-->
+
     <!--START title-->
     <string name="title_settings">Settings</string>
     <!--END title-->
@@ -24,18 +28,27 @@
     <!--START message-->
     <string name="msg_error">Something went wrong!</string>
     <string name="msg_no_news">News not available at the moment!</string>
-    <string name="msg_no_internet_1">No internet</string>
+    <string name="msg_no_internet">No internet</string>
     <string name="msg_news_bookmarked">News bookmarked</string>
     <string name="msg_bookmarked_removed">Bookmarked removed</string>
-    <string name="msg_no_bookmarked">Nothing to show!</string>
+    <string name="msg_no_bookmark">Nothing to show!</string>
     <string name="msg_link_copied">Link copied to clipboard</string>
+    <string name="msg_share">Hey, check out this news app, Newsy at: %s</string>
     <!--END message-->
 
     <!--START description-->
     <string name="desc_overlay">overlay</string>
     <string name="desc_image">image</string>
     <string name="desc_more">more</string>
-    <!--KEY description-->
+    <!--END description-->
+
+    <!--START settings category-->
+    <string name="settings_category_general_label">General</string>
+    <string name="settings_category_view_options_label">View options</string>
+    <string name="settings_category_advance_settings_label">Advance Settings</string>
+    <string name="settings_category_alerts_label">Alerts</string>
+    <string name="settings_category_about_label">About</string>
+    <!--END settings category-->
 
     <!--START setting country-->
     <string name="settings_country_label">Preferred region</string>
@@ -180,6 +193,34 @@
     <string name="settings_notification_label">Get notification</string>
     <string name="settings_notification_summary">Get notified about latest news</string>
     <!--END setting default browser-->
+
+    <!--START setting acknowledgement-->
+    <string name="settings_acknowledgement_key" translatable="false">acknowledgements</string>
+    <string name="settings_acknowledgement_label">Acknowledgements</string>
+    <string name="settings_acknowledgement_url" formatted="false" translatable="false">"file:///android_asset/acknowledgement.html"</string>
+    <!--END setting acknowledgement-->
+
+    <!--START setting privacy policy-->
+    <string name="settings_privacy_policy_key" translatable="false">privacy_policy</string>
+    <string name="settings_privacy_policy_label">Privacy policy</string>
+    <string name="settings_privacy_policy_url" formatted="false" translatable="false">https://www.freeprivacypolicy.com/privacy/view/9e361b72cda576ae0445461d5af28c49</string>
+    <!--END setting privacy policy-->
+
+    <!--START setting about app-->
+    <string name="settings_about_app_key" translatable="false">about_app</string>
+    <string name="settings_about_app_label">About app</string>
+    <!--END setting about app-->
+
+    <!--START setting share app-->
+    <string name="settings_share_app_key" translatable="false">share_app</string>
+    <string name="settings_share_app_label">Share this app</string>
+    <!--END setting share app-->
+
+    <!--START setting feedback-->
+    <string name="settings_feedback_key" translatable="false">feedback</string>
+    <string name="settings_feedback_label">Feedback</string>
+    <string name="settings_feedback_url" formatted="false" translatable="false">https://forms.gle/JYarqpuTD4VqU86f6</string>
+    <!--END setting feedback-->
 
     <!--START news category-->
     <string name="category_headline">Headlines</string>

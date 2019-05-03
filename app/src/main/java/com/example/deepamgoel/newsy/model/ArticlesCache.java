@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "articles_cache")
 public class ArticlesCache {
 
@@ -13,8 +15,7 @@ public class ArticlesCache {
     private String category;
     @ColumnInfo(name = "articles")
     private ArticleList articles;
-    @ColumnInfo(name = "last_fetch")
-    private long lastFetch;
+    // TODO: 03-05-2019 add timestamp for cache refresh
 
     @NonNull
     public String getCategory() {
@@ -31,13 +32,5 @@ public class ArticlesCache {
 
     public void setArticles(ArticleList articles) {
         this.articles = articles;
-    }
-
-    public long getLastFetch() {
-        return lastFetch;
-    }
-
-    public void setLastFetch(long lastFetch) {
-        this.lastFetch = lastFetch;
     }
 }

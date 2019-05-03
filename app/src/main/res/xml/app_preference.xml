@@ -4,7 +4,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
-        android:title="General"
+        android:title="@string/settings_category_general_label"
         app:iconSpaceReserved="false">
 
         <ListPreference
@@ -19,7 +19,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
-        android:title="View Options"
+        android:title="@string/settings_category_view_options_label"
         app:iconSpaceReserved="false">
 
         <ListPreference
@@ -48,7 +48,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_custom"
-        android:title="Advanced"
+        android:title="@string/settings_category_advance_settings_label"
         app:iconSpaceReserved="false">
 
         <SwitchPreference
@@ -63,7 +63,7 @@
     <PreferenceCategory
         android:enabled="false"
         android:layout="@layout/preference_category_custom"
-        android:title="Alerts"
+        android:title="@string/settings_category_alerts_label"
         app:iconSpaceReserved="false">
 
         <SwitchPreference
@@ -75,34 +75,35 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:enabled="false"
         android:layout="@layout/preference_category_custom"
-        android:title="About"
-        app:iconSpaceReserved="false">
+        android:title="@string/settings_category_about_label">
 
         <Preference
             android:icon="@drawable/ic_description_black_24dp"
-            android:title="Acknowledgements" />
+            android:key="@string/settings_acknowledgement_key"
+            android:title="@string/settings_acknowledgement_label" />
 
         <Preference
             android:icon="@drawable/ic_security_black_24dp"
-            android:title="Privacy Policy" />
+            android:key="@string/settings_privacy_policy_key"
+            android:title="@string/settings_privacy_policy_label" />
 
         <Preference
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="About app" />
+            android:key="@string/settings_about_app_key"
+            android:title="@string/settings_about_app_label" />
 
     </PreferenceCategory>
 
     <Preference
-        android:enabled="false"
-        android:title="Share this App"
+        android:key="@string/settings_share_app_key"
+        android:title="@string/settings_share_app_label"
         app:allowDividerAbove="false"
         app:iconSpaceReserved="false" />
 
     <Preference
-        android:enabled="false"
-        android:title="Feedback"
+        android:key="@string/settings_feedback_key"
+        android:title="@string/settings_feedback_label"
         app:iconSpaceReserved="false" />
 
 </PreferenceScreen>

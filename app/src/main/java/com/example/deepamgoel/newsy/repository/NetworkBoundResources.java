@@ -39,7 +39,7 @@ public abstract class NetworkBoundResources<ResultType, RequestType> {
                 else {
                     onFetchFailed();
                     result.addSource(dbSource, newData ->
-                            result.setValue(Resource.error(getAppContext().getString(R.string.msg_no_internet_1), newData)));
+                            result.setValue(Resource.error(getAppContext().getString(R.string.msg_no_internet), newData)));
                 }
             } else {
                 result.addSource(dbSource, newData -> setValue(Resource.success(newData)));

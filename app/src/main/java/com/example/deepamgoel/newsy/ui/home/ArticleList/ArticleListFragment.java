@@ -89,13 +89,20 @@ public class ArticleListFragment extends Fragment {
         this.configureRecyclerView(view.getContext());
         this.configureViewModel();
 
-        refreshLayout.setOnRefreshListener(this::refresh);
-        emptyViewButton.setOnClickListener(v -> refresh());
-        // TODO: 02-05-2019 preference refresh
+        refreshLayout.setOnRefreshListener(this::refreshData);
+        emptyViewButton.setOnClickListener(v -> refreshData());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // TODO: 03-05-2019 not idle solution to update preference changes
+        if (mArticleListViewModel != null)
+            refreshData();
     }
 
     private void configureRecyclerView(Context context) {
-        mAdapter = new RecyclerViewAdapter(context, null);
+        mAdapter = new RecyclerViewAdapter(context, null, ArticleListFragment.class.getSimpleName());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         DividerItemDecoration divider =
@@ -117,7 +124,7 @@ public class ArticleListFragment extends Fragment {
         mArticleListViewModel.getArticles().observe(this, this::observe);
     }
 
-    private void refresh() {
+    private void refreshData() {
         if (mArticleListViewModel != null)
             mArticleListViewModel.refreshArticles(mCategory).observe(this, this::observe);
     }
@@ -133,19 +140,15 @@ public class ArticleListFragment extends Fragment {
                 updateList(data);
                 break;
             case EMPTY:
-                refreshLayout.setRefreshing(false);
-                recyclerView.setVisibility(View.INVISIBLE);
-                emptyViewButton.setVisibility(View.VISIBLE);
-                emptyViewTextView.setVisibility(View.VISIBLE);
-                emptyViewTextView.setText(getString(R.string.msg_no_news));
+                emptyState();
                 break;
             case ERROR:
                 refreshLayout.setRefreshing(false);
                 String errorMsg = listResource.msg;
                 if (errorMsg != null) {
-                    if (errorMsg.equals(getString(R.string.msg_no_internet_1))) {
+                    if (errorMsg.equals(getString(R.string.msg_no_internet))) {
                         View view = requireActivity().findViewById(android.R.id.content);
-                        Snackbar.make(view, getString(R.string.msg_no_internet_1), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(view, getString(R.string.msg_no_internet), Snackbar.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
                     }
@@ -164,7 +167,15 @@ public class ArticleListFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
             emptyViewButton.setVisibility(View.INVISIBLE);
             emptyViewTextView.setVisibility(View.INVISIBLE);
-        }
+        } else emptyState();
+    }
+
+    private void emptyState() {
+        refreshLayout.setRefreshing(false);
+        recyclerView.setVisibility(View.INVISIBLE);
+        emptyViewButton.setVisibility(View.VISIBLE);
+        emptyViewTextView.setVisibility(View.VISIBLE);
+        emptyViewTextView.setText(getString(R.string.msg_no_news));
     }
 }
 

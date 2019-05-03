@@ -65,7 +65,7 @@ public class BookmarksFragment extends Fragment {
     }
 
     private void configureRecyclerView(Context context) {
-        mAdapter = new RecyclerViewAdapter(context, null);
+        mAdapter = new RecyclerViewAdapter(context, null, BookmarksFragment.class.getSimpleName());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         DividerItemDecoration divider =
@@ -91,7 +91,7 @@ public class BookmarksFragment extends Fragment {
         } else {
             recyclerView.setVisibility(View.INVISIBLE);
             emptyViewTextView.setVisibility(View.VISIBLE);
-            emptyViewTextView.setText(getString(R.string.msg_no_news));
+            emptyViewTextView.setText(getString(R.string.msg_no_bookmark));
         }
     }
 }
