@@ -16,4 +16,9 @@ public interface NewsService {
             @Query("country") String country,
             @Query("pageSize") String pageSize,
             @Query("apiKey") String apiKey);
+
+    @GET("v2/everything")
+    Call<ApiResponse> searchQuery(
+            @Query("q") String query,
+            @Query("apiKey") String apiKey);
 }

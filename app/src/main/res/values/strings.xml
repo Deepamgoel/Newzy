@@ -29,6 +29,7 @@
     <!--START message-->
     <string name="msg_error">Something went wrong!</string>
     <string name="msg_no_news">News not available at the moment!</string>
+    <string name="msg_no_result">Result no found</string>
     <string name="msg_no_internet">No internet</string>
     <string name="msg_news_bookmarked">News bookmarked</string>
     <string name="msg_bookmarked_removed">Bookmarked removed</string>
@@ -37,6 +38,10 @@
     <string name="msg_share">Hey, check out this news app, Newsy at: %s</string>
     <string name="msg_press_again">Press again to exit</string>
     <!--END message-->
+
+    <!--START hint-->
+    <string name="hint_search">Search for news</string>
+    <!--END hint-->
 
     <!--START description-->
     <string name="desc_overlay">overlay</string>

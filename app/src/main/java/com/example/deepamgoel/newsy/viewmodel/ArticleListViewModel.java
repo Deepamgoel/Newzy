@@ -3,9 +3,9 @@ package com.example.deepamgoel.newsy.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.deepamgoel.newsy.repository.ArticleListRepository;
 import com.example.deepamgoel.newsy.model.ArticleList;
 import com.example.deepamgoel.newsy.model.Resource;
+import com.example.deepamgoel.newsy.repository.ArticleListRepository;
 
 public class ArticleListViewModel extends ViewModel {
 
@@ -32,5 +32,8 @@ public class ArticleListViewModel extends ViewModel {
         return articles;
     }
 
+    public LiveData<Resource<ArticleList>> searchQyery(String query) {
+        return repository.searchQuery(query);
+    }
 
 }

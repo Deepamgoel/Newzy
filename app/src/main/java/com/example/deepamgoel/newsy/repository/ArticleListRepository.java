@@ -3,6 +3,7 @@ package com.example.deepamgoel.newsy.repository;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.data.api.ApiResponse;
@@ -14,6 +15,9 @@ import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.util.AppExecutor;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
 import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
@@ -79,4 +83,30 @@ public class ArticleListRepository {
         }.getAsLiveData();
     }
 
+    public LiveData<Resource<ArticleList>> searchQuery(String query) {
+
+        MediatorLiveData<Resource<ArticleList>> result = new MediatorLiveData<>();
+        apiService.searchQuery(query, NewsService.API_KEY)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    @EverythingIsNonNull
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            ApiResponse body = response.body();
+                            if (body != null) {
+                                ArticleList list = new ArticleList(body.getArticles());
+                                result.setValue(Resource.success(list));
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    @EverythingIsNonNull
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        result.setValue(Resource.error(t.toString(), null));
+                    }
+                });
+        return result;
+    }
 }
