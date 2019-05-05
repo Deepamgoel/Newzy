@@ -6,8 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.deepamgoel.newsy.R;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -32,6 +36,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
+        if (fragmentTitleList.get(0).equals(getAppContext().getString(R.string.category_general)))
+            return getAppContext().getString(R.string.title_headlines);
         return fragmentTitleList.get(position);
     }
 

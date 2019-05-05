@@ -7,17 +7,13 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.util.AppExecutor;
-import com.example.deepamgoel.newsy.util.QueryUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
-
-import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
 
 public abstract class NetworkBoundResources<ResultType, RequestType> {
 
@@ -34,13 +30,7 @@ public abstract class NetworkBoundResources<ResultType, RequestType> {
         result.addSource(dbSource, data -> {
             result.removeSource(dbSource);
             if (shouldFetch(data)) {
-                if (QueryUtils.isConnected(getAppContext()))
-                    fetchFromNetwork(dbSource);
-                else {
-                    onFetchFailed();
-                    result.addSource(dbSource, newData ->
-                            result.setValue(Resource.error(getAppContext().getString(R.string.msg_no_internet), newData)));
-                }
+                fetchFromNetwork(dbSource);
             } else {
                 result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
             }
@@ -79,7 +69,6 @@ public abstract class NetworkBoundResources<ResultType, RequestType> {
             @Override
             @EverythingIsNonNull
             public void onFailure(Call<RequestType> call, Throwable t) {
-                // TODO: 02-05-2019 error
                 onFetchFailed();
                 result.addSource(dbSource, newData ->
                         result.setValue(Resource.error(t.toString(), newData)));
@@ -93,7 +82,7 @@ public abstract class NetworkBoundResources<ResultType, RequestType> {
             result.setValue(newValue);
     }
 
-    protected void onFetchFailed() {
+    private void onFetchFailed() {
     }
 
     final LiveData<Resource<ResultType>> getAsLiveData() {

@@ -60,9 +60,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemViewType(int position) {
         if (getPreferences().getString(mContext.getString(R.string.settings_default_view_key), mContext.getString(R.string.settings_default_view_list)).equals(mContext.getString(R.string.settings_default_view_list)))
-            return R.layout.news_item_list;
+            return R.layout.article_layout_list;
         else
-            return R.layout.news_item_card;
+            return R.layout.article_layout_card;
     }
 
     @Override

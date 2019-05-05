@@ -24,6 +24,7 @@ import com.example.deepamgoel.newsy.model.Article;
 import com.example.deepamgoel.newsy.model.ArticleList;
 import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.ui.RecyclerViewAdapter;
+import com.example.deepamgoel.newsy.util.QueryUtils;
 import com.example.deepamgoel.newsy.viewmodel.ArticleListViewModel;
 import com.example.deepamgoel.newsy.viewmodel.ArticleListViewModelFactory;
 import com.example.deepamgoel.newsy.viewmodel.BookmarksViewModel;
@@ -36,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
+import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
 public class ArticleListFragment extends Fragment {
     private static final String ARG_SECTION = "section";
@@ -77,7 +79,7 @@ public class ArticleListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news_list, container, false);
+        View view = inflater.inflate(R.layout.article_list, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -125,8 +127,18 @@ public class ArticleListFragment extends Fragment {
     }
 
     private void refreshData() {
-        if (mArticleListViewModel != null)
-            mArticleListViewModel.refreshArticles(mCategory).observe(this, this::observe);
+        if (mArticleListViewModel != null) {
+            if (QueryUtils.isConnected(requireContext())) {
+                mArticleListViewModel.refreshArticles(mCategory).removeObservers(this);
+                mArticleListViewModel.refreshArticles(mCategory).observe(this, this::observe);
+            } else {
+                refreshLayout.setRefreshing(false);
+                View view = requireActivity().findViewById(android.R.id.content);
+                Snackbar.make(view, getString(R.string.msg_no_internet), Snackbar.LENGTH_SHORT).show();
+                if (mAdapter.getItemCount() == 0)
+                    toggleEmptyState();
+            }
+        }
     }
 
     private void observe(Resource<ArticleList> listResource) {
@@ -140,18 +152,14 @@ public class ArticleListFragment extends Fragment {
                 updateList(data);
                 break;
             case EMPTY:
-                emptyState();
+                refreshLayout.setRefreshing(false);
+                toggleEmptyState();
                 break;
             case ERROR:
                 refreshLayout.setRefreshing(false);
                 String errorMsg = listResource.msg;
                 if (errorMsg != null) {
-                    if (errorMsg.equals(getString(R.string.msg_no_internet))) {
-                        View view = requireActivity().findViewById(android.R.id.content);
-                        Snackbar.make(view, getString(R.string.msg_no_internet), Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getContext(), getString(R.string.msg_error), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "configureViewModel: " + errorMsg);
                 }
                 updateList(data);
@@ -160,18 +168,16 @@ public class ArticleListFragment extends Fragment {
     }
 
     private void updateList(ArticleList data) {
-        refreshLayout.setRefreshing(false);
         if (data != null) {
             List<Article> list = data.getArticles();
             mAdapter.updateAdapter(list, mBookmarksViewModel);
             recyclerView.setVisibility(View.VISIBLE);
             emptyViewButton.setVisibility(View.INVISIBLE);
             emptyViewTextView.setVisibility(View.INVISIBLE);
-        } else emptyState();
+        } else toggleEmptyState();
     }
 
-    private void emptyState() {
-        refreshLayout.setRefreshing(false);
+    private void toggleEmptyState() {
         recyclerView.setVisibility(View.INVISIBLE);
         emptyViewButton.setVisibility(View.VISIBLE);
         emptyViewTextView.setVisibility(View.VISIBLE);

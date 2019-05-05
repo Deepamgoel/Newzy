@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/headlineTextViewStyle"
+            style="@style/titleTextViewStyle"
             tools:text="@tools:sample/lorem/random" />
 
         <RelativeLayout

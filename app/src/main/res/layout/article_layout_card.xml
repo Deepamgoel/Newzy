@@ -28,9 +28,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/desc_overlay"
                 android:alpha="0.5"
-                android:background="@android:color/black" />
+                android:background="@android:color/black"
+                android:contentDescription="@string/desc_overlay" />
 
             <TextView
                 android:id="@+id/source"
@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/title"
-                style="@style/headlineTextViewStyle"
+                style="@style/titleTextViewStyle"
                 android:layout_above="@id/date_holder"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_four_sp"

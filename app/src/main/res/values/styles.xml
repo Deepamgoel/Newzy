@@ -22,7 +22,7 @@
         <item name="android:textColor">@color/even_less_black</item>
     </style>
 
-    <style name="headlineTextViewStyle">
+    <style name="titleTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/eight_dp</item>
@@ -32,14 +32,13 @@
         <item name="android:layout_marginTop">@dimen/four_dp</item>
         <item name="android:layout_marginBottom">@dimen/four_dp</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">3</item>
+        <item name="android:maxLines">4</item>
         <item name="android:textSize">@dimen/eighteen_sp</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:typeface">serif</item>
     </style>
 
-    <style name="authorTextViewStyle" parent="headlineTextViewStyle">
-        <item name="android:maxLines">1</item>
+    <style name="authorTextViewStyle" parent="titleTextViewStyle">
         <item name="android:textSize">@dimen/fourteen_sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>

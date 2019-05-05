@@ -13,8 +13,6 @@ import com.example.deepamgoel.newsy.model.ArticlesCache;
 import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.util.AppExecutor;
 
-import java.util.Date;
-
 import retrofit2.Call;
 
 import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
@@ -71,23 +69,12 @@ public class ArticleListRepository {
                 String country = getPreferences().getString(getAppContext().getString(R.string.settings_country_key), getAppContext().getString(R.string.settings_country_india_value));
                 String pageSize = getPreferences().getString(getAppContext().getString(R.string.setting_page_size_key), getAppContext().getString(R.string.settings_max_page_default_value));
 
-                Call<ApiResponse> responseCall;
-                if (category.equals(getAppContext().getString(R.string.category_headline))) {
-                    responseCall = apiService.getTopHeadlines(
-                            country,
-                            pageSize,
-                            NewsService.API_KEY
-                    );
-                } else {
-                    responseCall = apiService.getTopArticlesByCategory(
-                            category,
-                            country,
-                            pageSize,
-                            NewsService.API_KEY
-                    );
-                }
-
-                return responseCall;
+                return apiService.getTopArticlesByCategory(
+                        category,
+                        country,
+                        pageSize,
+                        NewsService.API_KEY
+                );
             }
         }.getAsLiveData();
     }
