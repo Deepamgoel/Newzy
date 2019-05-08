@@ -70,6 +70,7 @@ public abstract class NetworkBoundResources<ResultType, RequestType> {
             @EverythingIsNonNull
             public void onFailure(Call<RequestType> call, Throwable t) {
                 onFetchFailed();
+                result.removeSource(dbSource);
                 result.addSource(dbSource, newData ->
                         result.setValue(Resource.error(t.toString(), newData)));
             }

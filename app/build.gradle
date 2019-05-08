@@ -42,6 +42,9 @@ dependencies {
     // Material components
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
+    //EmojiCompat
+    implementation "com.android.support:support-emoji:$rootProject.supportEmoji"
+
     // Custom tabs
     implementation "com.android.support:customtabs:$rootProject.customTabsVersion"
 
@@ -63,8 +66,10 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakCanaryVersion"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakCanaryVersion"
 
-    // junit
+    // Junit
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitExtVersion"
+
+    // Espresso
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,10 +24,12 @@ import com.example.deepamgoel.newsy.model.ArticleList;
 import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.ui.RecyclerViewAdapter;
 import com.example.deepamgoel.newsy.ui.home.ArticleList.ArticleListFragment;
+import com.example.deepamgoel.newsy.util.QueryUtils;
 import com.example.deepamgoel.newsy.viewmodel.ArticleListViewModel;
 import com.example.deepamgoel.newsy.viewmodel.ArticleListViewModelFactory;
 import com.example.deepamgoel.newsy.viewmodel.BookmarksViewModel;
 import com.example.deepamgoel.newsy.viewmodel.BookmarksViewModelFactory;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     SearchView mSearchView;
     @BindView(R.id.result_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.emptyView_text_search)
+    TextView mEmptyViewTextView;
 
 
     private RecyclerViewAdapter mAdapter;
@@ -70,8 +75,14 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (mArticleListViewModel != null) {
-            mArticleListViewModel.searchQyery(query).removeObservers(this);
-            mArticleListViewModel.searchQyery(query).observe(this, this::observe);
+            if (QueryUtils.isConnected(requireContext())) {
+                mArticleListViewModel.searchQyery(query).removeObservers(this);
+                mArticleListViewModel.searchQyery(query).observe(this, this::observe);
+            } else {
+                View view = requireActivity().findViewById(android.R.id.content);
+                Snackbar.make(view, getString(R.string.msg_no_internet), Snackbar.LENGTH_SHORT).show();
+                toggleEmptyState();
+            }
         }
         return false;
     }
@@ -112,6 +123,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 break;
             case EMPTY:
                 Toast.makeText(getContext(), getString(R.string.msg_no_result), Toast.LENGTH_SHORT).show();
+                toggleEmptyState();
                 break;
             case ERROR:
                 String errorMsg = listResource.msg;
@@ -128,7 +140,15 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         if (data != null) {
             List<Article> list = data.getArticles();
             mAdapter.updateAdapter(list, mBookmarksViewModel);
-        }
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyViewTextView.setVisibility(View.INVISIBLE);
+        } else toggleEmptyState();
+    }
+
+    private void toggleEmptyState() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mEmptyViewTextView.setVisibility(View.VISIBLE);
+        mEmptyViewTextView.setText(getString(R.string.msg_no_bookmark));
     }
 
     @Override
@@ -139,6 +159,5 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         mAdapter.updateAdapter(new ArrayList<>(), null);
         mArticleListViewModel = null;
         mBookmarksViewModel = null;
-
     }
 }

@@ -37,7 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
-import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
 public class ArticleListFragment extends Fragment {
     private static final String ARG_SECTION = "section";
@@ -123,13 +122,16 @@ public class ArticleListFragment extends Fragment {
         mBookmarksViewModel = ViewModelProviders.of(this, bookmarkViewModelFactory)
                 .get(BookmarksViewModel.class);
         mArticleListViewModel.init(mCategory);
+        if (mArticleListViewModel.getArticles().hasObservers())
+            mArticleListViewModel.getArticles().removeObservers(this);
         mArticleListViewModel.getArticles().observe(this, this::observe);
     }
 
     private void refreshData() {
         if (mArticleListViewModel != null) {
             if (QueryUtils.isConnected(requireContext())) {
-                mArticleListViewModel.refreshArticles(mCategory).removeObservers(this);
+                if (mArticleListViewModel.refreshArticles(mCategory).hasObservers())
+                    mArticleListViewModel.refreshArticles(mCategory).removeObservers(this);
                 mArticleListViewModel.refreshArticles(mCategory).observe(this, this::observe);
             } else {
                 refreshLayout.setRefreshing(false);

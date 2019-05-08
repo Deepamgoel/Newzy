@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Newsy</string>
+    <string name="newzy">ΝΞWZY</string>
+    <string name="made_with_love">Made with %s in %s</string>
+    <string name="version">v1.0</string>
 
     <!--START apk url-->
     <string name="apk_url" />

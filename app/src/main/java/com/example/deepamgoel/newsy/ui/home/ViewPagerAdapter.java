@@ -36,7 +36,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        if (fragmentTitleList.get(0).equals(getAppContext().getString(R.string.category_general)))
+        if (fragmentTitleList.get(position).equals(getAppContext().getString(R.string.category_general)))
             return getAppContext().getString(R.string.title_headlines);
         return fragmentTitleList.get(position);
     }
