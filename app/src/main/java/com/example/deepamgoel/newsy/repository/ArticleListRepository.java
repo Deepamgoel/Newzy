@@ -14,6 +14,9 @@ import com.example.deepamgoel.newsy.model.ArticlesCache;
 import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.util.AppExecutor;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +26,7 @@ import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
 import static com.example.deepamgoel.newsy.NewsyApplication.getPreferences;
 
 public class ArticleListRepository {
+    private static final int DATA_TIMEOUT_IN_MINUTES = 3;
     private static ArticleListRepository repository;
 
     private final NewsService apiService;
@@ -53,11 +57,17 @@ public class ArticleListRepository {
                 ArticlesCache cache = new ArticlesCache();
                 cache.setCategory(category);
                 cache.setArticles(new ArticleList(item.getArticles()));
+                cache.setLastFetch(new Date(System.currentTimeMillis()));
                 articlesCacheDao.addToCache(cache);
             }
 
             @Override
             protected boolean shouldFetch(@Nullable ArticleList data) {
+
+                // TODO: 09-05-2019 cant fetch on main thread!
+//                boolean hasData = (articlesCacheDao.hasData(category, getMaxTimeout()) != 0);
+//                return forceRefresh || !hasData || data == null || data.getArticles().isEmpty();
+
                 return forceRefresh || data == null || data.getArticles().isEmpty();
             }
 
@@ -108,5 +118,12 @@ public class ArticleListRepository {
                     }
                 });
         return result;
+    }
+
+    private Date getMaxTimeout() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(System.currentTimeMillis()));
+        cal.add(Calendar.MINUTE, -DATA_TIMEOUT_IN_MINUTES);
+        return cal.getTime();
     }
 }

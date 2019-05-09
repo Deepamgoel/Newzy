@@ -9,6 +9,7 @@ import com.example.deepamgoel.newsy.repository.ArticleListRepository;
 
 public class ArticleListViewModel extends ViewModel {
 
+    private String category;
     private ArticleListRepository repository;
     private LiveData<Resource<ArticleList>> articles;
 
@@ -20,6 +21,7 @@ public class ArticleListViewModel extends ViewModel {
         if (articles != null) {
             return;
         }
+        this.category = category;
         articles = repository.loadArticleList(category, false);
     }
 
@@ -27,12 +29,12 @@ public class ArticleListViewModel extends ViewModel {
         return articles;
     }
 
-    public LiveData<Resource<ArticleList>> refreshArticles(String category) {
+    public LiveData<Resource<ArticleList>> refreshArticles() {
         articles = repository.loadArticleList(category, true);
         return articles;
     }
 
-    public LiveData<Resource<ArticleList>> searchQyery(String query) {
+    public LiveData<Resource<ArticleList>> searchQuery(String query) {
         return repository.searchQuery(query);
     }
 

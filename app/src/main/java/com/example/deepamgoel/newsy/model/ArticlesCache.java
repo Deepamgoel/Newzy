@@ -15,7 +15,8 @@ public class ArticlesCache {
     private String category;
     @ColumnInfo(name = "articles")
     private ArticleList articles;
-    // TODO: 03-05-2019 add timestamp for cache refresh
+    @ColumnInfo(name = "last_fetch")
+    private Date lastFetch;
 
     @NonNull
     public String getCategory() {
@@ -32,5 +33,13 @@ public class ArticlesCache {
 
     public void setArticles(ArticleList articles) {
         this.articles = articles;
+    }
+
+    public Date getLastFetch() {
+        return lastFetch;
+    }
+
+    public void setLastFetch(Date lastFetch) {
+        this.lastFetch = lastFetch;
     }
 }

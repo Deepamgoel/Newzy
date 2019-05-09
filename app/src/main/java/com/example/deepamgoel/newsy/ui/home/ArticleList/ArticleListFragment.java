@@ -130,9 +130,9 @@ public class ArticleListFragment extends Fragment {
     private void refreshData() {
         if (mArticleListViewModel != null) {
             if (QueryUtils.isConnected(requireContext())) {
-                if (mArticleListViewModel.refreshArticles(mCategory).hasObservers())
-                    mArticleListViewModel.refreshArticles(mCategory).removeObservers(this);
-                mArticleListViewModel.refreshArticles(mCategory).observe(this, this::observe);
+                if (mArticleListViewModel.refreshArticles().hasObservers())
+                    mArticleListViewModel.refreshArticles().removeObservers(this);
+                mArticleListViewModel.refreshArticles().observe(this, this::observe);
             } else {
                 refreshLayout.setRefreshing(false);
                 View view = requireActivity().findViewById(android.R.id.content);

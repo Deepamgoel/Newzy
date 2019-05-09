@@ -76,8 +76,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public boolean onQueryTextSubmit(String query) {
         if (mArticleListViewModel != null) {
             if (QueryUtils.isConnected(requireContext())) {
-                mArticleListViewModel.searchQyery(query).removeObservers(this);
-                mArticleListViewModel.searchQyery(query).observe(this, this::observe);
+                mArticleListViewModel.searchQuery(query).removeObservers(this);
+                mArticleListViewModel.searchQuery(query).observe(this, this::observe);
             } else {
                 View view = requireActivity().findViewById(android.R.id.content);
                 Snackbar.make(view, getString(R.string.msg_no_internet), Snackbar.LENGTH_SHORT).show();
