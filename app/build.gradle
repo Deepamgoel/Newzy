@@ -56,7 +56,7 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 
     // Picasso
-    implementation "com.squareup.picasso:picasso:$rootProject.picasoVersion"
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
     // Gson
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
@@ -67,7 +67,6 @@ dependencies {
 
     // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakCanaryVersion"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakCanaryVersion"
 
     // Junit
     testImplementation "junit:junit:$rootProject.junitVersion"

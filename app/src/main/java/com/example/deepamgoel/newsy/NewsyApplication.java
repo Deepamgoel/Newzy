@@ -21,6 +21,7 @@ public class NewsyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        if (BuildConfig.DEBUG)
         instance = this;
         sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
