@@ -206,13 +206,15 @@
     <!--START setting acknowledgement-->
     <string name="settings_acknowledgement_key" translatable="false">acknowledgements</string>
     <string name="settings_acknowledgement_label">Acknowledgements</string>
-    <string name="settings_acknowledgement_url" formatted="false" translatable="false">"file:///android_asset/acknowledgement.html"</string>
+    <string name="settings_acknowledgement_url" formatted="false" translatable="false">
+        "file:///android_asset/acknowledgement.html"</string>
     <!--END setting acknowledgement-->
 
     <!--START setting privacy policy-->
     <string name="settings_privacy_policy_key" translatable="false">privacy_policy</string>
     <string name="settings_privacy_policy_label">Privacy policy</string>
-    <string name="settings_privacy_policy_url" formatted="false" translatable="false">https://www.freeprivacypolicy.com/privacy/view/9e361b72cda576ae0445461d5af28c49</string>
+    <string name="settings_privacy_policy_url" formatted="false" translatable="false">
+        https://www.freeprivacypolicy.com/privacy/view/9e361b72cda576ae0445461d5af28c49</string>
     <!--END setting privacy policy-->
 
     <!--START setting about app-->
@@ -228,7 +230,8 @@
     <!--START setting feedback-->
     <string name="settings_feedback_key" translatable="false">feedback</string>
     <string name="settings_feedback_label">Feedback</string>
-    <string name="settings_feedback_url" formatted="false" translatable="false">https://forms.gle/JYarqpuTD4VqU86f6</string>
+    <string name="settings_feedback_url" formatted="false" translatable="false">
+        https://forms.gle/JYarqpuTD4VqU86f6</string>
     <!--END setting feedback-->
 
     <!--START news category-->

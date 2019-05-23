@@ -8,7 +8,7 @@ buildscript {
         targetSdkVersion = 28
 
         // App dependencies
-        appCompatVersion = '1.1.0-alpha04'
+        appCompatVersion = '1.1.0-alpha05'
         butterKnifeVersion = '10.1.0'
         customTabsVersion = '28.0.0'
         espressoVersion = '3.2.0-alpha04'
@@ -16,13 +16,13 @@ buildscript {
         junitVersion = '4.13-beta-2'
         junitExtVersion = '1.1.1-alpha04'
         leakCanaryVersion = '1.6.3'
-        lifecycleVersion = '2.1.0-alpha04'
-        materialVersion = '1.1.0-alpha05'
+        lifecycleVersion = '2.2.0-alpha01'
+        materialVersion = '1.1.0-alpha06'
         picasoVersion = '2.71828'
-        preferenceVersion = '1.1.0-alpha04'
-        recyclerViewVersion = '1.1.0-alpha04'
+        preferenceVersion = '1.1.0-alpha05'
+        recyclerViewVersion = '1.1.0-alpha05'
         retrofitVersion = '2.5.0'
-        roomVersion = '2.1.0-alpha07'
+        roomVersion = '2.1.0-beta01'
         supportLibraryVersion = '1.0.0'
         supportEmoji = '28.0.0'
     }
