@@ -21,20 +21,20 @@ Newsy_NewsApiKey="<your-api-key>"
 
 |     |     |     |
 |:---:|:---:|:---:|
-| Launch Screen |
-| ![img](Screenshots\screener_1557235179588.png) |
-| Home Screen |
-| ![img](Screenshots\screener_1557235428943.png) Card | ![img](Screenshots\screener_1557235461931.png) List |
-| Search Screen |
-| ![img](Screenshots\screener_1557235954696.png) | ![img](Screenshots\screener_1557236233734.png) | ![img](Screenshots\screener_1557235982255.png) |
-| Bookmarks Screen |
-| ![img](Screenshots\screener_1557236337663.png) | ![img](Screenshots\screener_1557236384379.png) | ![img](Screenshots\screener_1557236415373.png) |
-| Settings Screen |
-| ![img](Screenshots\screener_1557236457653.png) | ![img](Screenshots\screener_1557236487520.png) |
-| Chrome Custom Tabs |
-| ![img](Screenshots\screener_1557236630410.png) |
-| Internet State Handling |
-| ![img](Screenshots\screener_1557236849551.png) | ![img](Screenshots\screener_1557236803961.png) |
+| **Launch Screen** |
+| ![img](./Screenshots/screener_1557235179588.png) |
+| **Home Screen** |
+| ![img](./Screenshots/screener_1557235428943.png) Card | ![img](./Screenshots/screener_1557235461931.png) List |
+| **Search Screen** |
+| ![img](./Screenshots/screener_1557235954696.png) | ![img](./Screenshots/screener_1557236233734.png) | ![img](./Screenshots/screener_1557235982255.png) |
+| **Bookmarks Screen** |
+| ![img](./Screenshots/screener_1557236337663.png) | ![img](./Screenshots/screener_1557236384379.png) | ![img](./Screenshots/screener_1557236415373.png) |
+| **Settings Screen** |
+| ![img](./Screenshots/screener_1557236457653.png) | ![img](./Screenshots/screener_1557236487520.png) |
+| **Chrome Custom Tabs** |
+| ![img](./Screenshots/screener_1557236630410.png) |
+| **Internet State Handling** |
+| ![img](./Screenshots/screener_1557236849551.png) | ![img](./Screenshots/screener_1557236803961.png) |
 
 ## Features
 
