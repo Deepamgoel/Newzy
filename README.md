@@ -52,9 +52,10 @@ Newsy_NewsApiKey="<your-api-key>"
 
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [Custom Tabs](https://github.com/GoogleChrome/custom-tabs-client)
+- [Crashlytics](https://firebase.google.com/docs/crashlytics)
 - [GSON](https://github.com/google/gson)
 - [Leak Canary](https://github.com/square/leakcanary)
-- [Material Componenta](https://github.com/material-components/material-components-android)
+- [Material Components](https://github.com/material-components/material-components-android)
 - [Picasso](https://github.com/square/picasso)
 - [Retrofit](https://github.com/square/retrofit)
 

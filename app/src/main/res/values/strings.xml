@@ -15,7 +15,7 @@
     <!--START tabs-->
     <string name="tab_home">Home</string>
     <string name="tab_search">Search</string>
-    <string name="tab_bookmark">Bookmark</string>
+    <string name="tab_bookmarks">Bookmarks</string>
     <string name="tab_settings">Settings</string>
     <!--END tabs-->
 

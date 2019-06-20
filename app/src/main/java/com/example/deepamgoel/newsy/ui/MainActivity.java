@@ -19,15 +19,15 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final Fragment mHomeFragment = new HomeFragment();
-    private final Fragment mSearchFragment = new SearchFragment();
-    private final Fragment mBookmarkFragment = new BookmarksFragment();
-    private final Fragment mSettingsFragment = new SettingsFragment();
-
-    boolean doubleBackToExitPressedOnce = false;
+    private static final String HOME_TAB = "home fragment";
+    private static final String SEARCH_TAB = "search fragment";
+    private static final String BOOKMARKS_TAB = "bookmarks fragment";
+    private static final String SETTINGS_TAB = "settings fragment";
 
     @BindView(R.id.bottom_navigation_main)
     BottomNavigationView mBottomNavigationView;
+
+    private boolean backPressedTwice = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,33 +35,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        loadFragment(mHomeFragment);
+        loadFragment(new HomeFragment(), HOME_TAB);
         mBottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
-            Fragment fragment = null;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    fragment = mHomeFragment;
-                    break;
+                    return loadFragment(new HomeFragment(), HOME_TAB);
                 case R.id.action_search:
-                    fragment = mSearchFragment;
-                    break;
-                case R.id.action_bookmark:
-                    fragment = mBookmarkFragment;
-                    break;
+                    return loadFragment(new SearchFragment(), SEARCH_TAB);
+                case R.id.action_bookmarks:
+                    return loadFragment(new BookmarksFragment(), BOOKMARKS_TAB);
                 case R.id.action_settings:
-                    fragment = mSettingsFragment;
-                    break;
+                    return loadFragment(new SettingsFragment(), SETTINGS_TAB);
             }
-
-            return loadFragment(fragment);
+            return false;
         });
     }
 
-    private boolean loadFragment(Fragment fragment) {
+    private boolean loadFragment(Fragment fragment, String tag) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.frame_layout_main, fragment)
+                    .replace(R.id.frame_layout_main, fragment, tag)
                     .commit();
             return true;
         }
@@ -70,14 +64,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
+        if (fragment instanceof HomeFragment) {
+            if (backPressedTwice) {
+                super.onBackPressed();
+            } else {
+                this.backPressedTwice = true;
+                Toast.makeText(this, getString(R.string.msg_press_again), Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(() -> backPressedTwice = false, 2000);
+            }
+        } else {
+            loadFragment(new HomeFragment(), HOME_TAB);
+            mBottomNavigationView.setSelectedItemId(R.id.action_home);
         }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, getString(R.string.msg_press_again), Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
-
 
 }

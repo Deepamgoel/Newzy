@@ -15,9 +15,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_bookmark"
+        android:id="@+id/action_bookmarks"
         android:icon="@drawable/ic_tab_bookmark"
-        android:title="@string/tab_bookmark"
+        android:title="@string/tab_bookmarks"
         app:showAsAction="ifRoom" />
 
     <item
