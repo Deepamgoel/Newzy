@@ -22,7 +22,7 @@ public class NewsyApplication extends Application {
         super.onCreate();
 
         if (BuildConfig.DEBUG)
-        instance = this;
+            instance = this;
         sPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
     }

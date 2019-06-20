@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "587272933192",
+    "firebase_url": "https://newzy-e8494.firebaseio.com",
+    "project_id": "newzy-e8494",
+    "storage_bucket": "newzy-e8494.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587272933192:android:c633cc67db2d42bf",
+        "android_client_info": {
+          "package_name": "com.example.deepamgoel.newsy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587272933192-5i836f1oijgta77ntadg8dr13372er70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLglW_kUMeoL2cO1nbhwsI4tNZihZwJoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587272933192-5i836f1oijgta77ntadg8dr13372er70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

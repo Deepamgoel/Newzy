@@ -8,21 +8,23 @@ buildscript {
         targetSdkVersion = 28
 
         // App dependencies
-        appCompatVersion = '1.1.0-alpha05'
+        appCompatVersion = '1.1.0-beta01'
         butterKnifeVersion = '10.1.0'
         customTabsVersion = '28.0.0'
-        espressoVersion = '3.2.0-alpha04'
+        crashlyticsVersion = '2.10.1'
+        espressoVersion = '3.3.0-alpha01'
+        firebaseVersion = '17.0.0'
         gsonVersion = '2.8.5'
-        junitVersion = '4.13-beta-2'
-        junitExtVersion = '1.1.1-alpha04'
+        junitVersion = '4.13-beta-3'
+        junitExtVersion = '1.1.2-alpha01'
         leakCanaryVersion = '2.0-alpha-2'
         lifecycleVersion = '2.2.0-alpha01'
-        materialVersion = '1.1.0-alpha06'
+        materialVersion = '1.1.0-alpha07'
         picassoVersion = '2.71828'
-        preferenceVersion = '1.1.0-alpha05'
-        recyclerViewVersion = '1.1.0-alpha05'
-        retrofitVersion = '2.5.0'
-        roomVersion = '2.1.0-beta01'
+        preferenceVersion = '1.1.0-beta01'
+        recyclerViewVersion = '1.1.0-alpha06'
+        retrofitVersion = '2.6.0'
+        roomVersion = '2.1.0'
         supportLibraryVersion = '1.0.0'
         supportEmoji = '28.0.0'
     }
@@ -31,12 +33,17 @@ buildscript {
         google()
         jcenter()
         maven {
-            url 'https://kotlin.bintray.com/kotlinx/'
+            url 'https://maven.fabric.io/public'
         }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
 
+        // Google Services plugin
+        classpath 'com.google.gms:google-services:4.2.0'
+
+        // Crashlytics plugin
+        classpath 'io.fabric.tools:gradle:1.29.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

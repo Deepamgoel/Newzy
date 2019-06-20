@@ -7,7 +7,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.deepamgoel.newsy.NewsyApplication;
 import com.example.deepamgoel.newsy.R;
 import com.example.deepamgoel.newsy.ui.bookmark.BookmarksFragment;
 import com.example.deepamgoel.newsy.ui.home.HomeFragment;

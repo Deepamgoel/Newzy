@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.deepamgoel.newsy.model.Article;
-import com.example.deepamgoel.newsy.model.Resource;
 import com.example.deepamgoel.newsy.repository.BookmarksRepository;
 
 import java.util.List;
