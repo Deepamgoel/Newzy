@@ -6,7 +6,7 @@
 
 - Register on newsapi.org to generate an api key.
 - Locate the `.gradle` folder in your home directory. Usually it can be found at:
-  - Windows: C:\Users\<username>\.gradle
+  - Windows: C:\Users\\\<username>\\\.gradle
   - Mac: /Users/\<username>/.gradle
   - Linux: /home/\<username>/.gradle
 - Open a file called `gradle.properties` (just create it if there isn’t any).
