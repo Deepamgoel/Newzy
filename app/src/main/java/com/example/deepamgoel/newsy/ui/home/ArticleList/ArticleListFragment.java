@@ -35,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.example.deepamgoel.newsy.NewsyApplication.getAppContext;
 
@@ -52,6 +53,7 @@ public class ArticleListFragment extends Fragment {
     RecyclerView recyclerView;
 
     private String mCategory;
+    private Unbinder mUnbinder;
     private RecyclerViewAdapter mAdapter;
     private ArticleListViewModel mArticleListViewModel;
     private BookmarksViewModel mBookmarksViewModel;
@@ -79,7 +81,7 @@ public class ArticleListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.article_list, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -100,6 +102,13 @@ public class ArticleListFragment extends Fragment {
         // TODO: 03-05-2019 not idle solution to update preference changes
         if (mArticleListViewModel != null)
             refreshData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        recyclerView.setAdapter(null);
+        mUnbinder.unbind();
     }
 
     private void configureRecyclerView(Context context) {
